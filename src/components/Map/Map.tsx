@@ -48,7 +48,7 @@ const FreifahrenMap: React.FC<MapProps> = ({
 
                 mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
             >
-                
+
                {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition}/>}
                <MarkerContainer isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
 
