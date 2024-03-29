@@ -8,7 +8,6 @@ import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefi
 import { calculateDistance } from '../../functions/mapUtils';
 import './ReportForm.css';
 
-
 interface ReportFormProps {
   closeModal: () => void;
   onFormSubmit: () => void;
@@ -136,15 +135,12 @@ const ReportForm: React.FC<ReportFormProps> = ({
 			if (storedList === null || (Date.now() - storedList.timestamp) > 24 * 60 * 60 * 1000) {
 				const fetchedList = (type === 'lines') ? await getAllLinesList() : await getAllStationsList();
 				if (JSON.stringify(storedList?.list) !== JSON.stringify(fetchedList)) {
-					console.log(`Fetched ${type}List is different, updating...`);
 					list = fetchedList;
 					localStorage.setItem(`${type}List`, JSON.stringify({ list, timestamp: Date.now() }));
 				} else {
-					console.log(`Fetched ${type}List is the same, not updating...`);
 					list = storedList.list;
 				}
 			} else {
-				console.log(` Loading ${type}List`)
 				list = storedList.list;
 			}
 
@@ -200,7 +196,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		const fetchData = async () => {
 			await refreshOptions('stations');
 			await refreshOptions('lines');
-		};
+		}
 
 		fetchData();
 	}, []);
