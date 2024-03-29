@@ -1,5 +1,5 @@
 .inspector-marker {
-    animation: fade 1s infinite alternate;
+    animation: fade 1s  infinite alternate;
     background-color: red;
     border-radius: 50%;
     width: 25px;
@@ -11,3 +11,22 @@
     from { opacity: 0.7; } 
 }
 
+
+.live{
+    height:24px;
+    width:24px;
+    display:block;
+    border-radius:50%;
+    background-color: red;
+    animation:pulse 1500ms infinite;
+    
+  }
+  
+  @keyframes pulse{
+    0%{
+      box-shadow:red 0 0 0 0;
+    }
+    75%{
+      box-shadow:#ff69b400 0 0 0 16px;
+    }
+  }

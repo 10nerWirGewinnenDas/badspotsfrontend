@@ -68,7 +68,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
     }
 
     return (
-        <div>
+
             <Marker
                 key={`${line}-${index}`}
                 className='inspector-marker'
@@ -77,8 +77,8 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
                 popup={MarkerPopup}
                 style={{ opacity: opacity }}
             >
-                <span></span>
+                <span className='live' />
             </Marker>
-        </div>
+
     );
 };
