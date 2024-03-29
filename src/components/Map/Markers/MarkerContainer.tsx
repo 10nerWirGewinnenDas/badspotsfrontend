@@ -5,6 +5,7 @@ import { OpacityMarker } from './Classes/OpacityMarker/OpacityMarker';
 
 export interface MarkersProps {
 	formSubmitted: boolean;
+	isFirstOpen: boolean;
 }
 
 export type MarkerData = {
@@ -29,7 +30,7 @@ export type MarkerData = {
 	isHistoric: boolean;
 };
 
-const MarkerContainer: React.FC<MarkersProps> = ({ formSubmitted }) => {
+const MarkerContainer: React.FC<MarkersProps> = ({ formSubmitted, isFirstOpen }) => {
 	const [ticketInspectorList, setTicketInspectorList] = useState<MarkerData[]>([]);
 	const lastReceivedInspectorTimestamp = useRef<string | null>(null);
 
@@ -57,7 +58,7 @@ const MarkerContainer: React.FC<MarkersProps> = ({ formSubmitted }) => {
 		<div >
 			{ticketInspectorList.map((ticketInspector, index) => {
 					return (
-						<OpacityMarker markerData={ticketInspector} index={index} key={ticketInspector.station.id}/>
+						<OpacityMarker isFirstOpen={isFirstOpen} markerData={ticketInspector} index={index} key={ticketInspector.station.id}/>
 					);
 
 			})}

@@ -42,7 +42,7 @@ describe('OpacityMarker', () => {
       index: 0,
     };
 
-    const { rerender } = render(<OpacityMarker {...initialProps} />);
+    const { rerender } = render(<OpacityMarker isFirstOpen={false} {...initialProps} />);
 
     // Simulate props change that would cause re-render
     const newProps = {
@@ -56,7 +56,7 @@ describe('OpacityMarker', () => {
             },
         },
     };
-    rerender(<OpacityMarker {...newProps} />);
+    rerender(<OpacityMarker isFirstOpen={false} {...newProps} />);
 
     // Advance time to see if the component settles without exceeding max update depth
     advanceTime(5000);

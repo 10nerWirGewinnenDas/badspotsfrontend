@@ -14,6 +14,7 @@ interface MapProps {
 	formSubmitted: boolean;
 	userPosition: {lng: number, lat: number} | null | null;
 	setUserPosition: (position: {lng: number, lat: number} | null) => void;
+    isFirstOpen: boolean;
 }
 
 export const berlinViewPosition: {lng: number, lat: number} = {lng: 13.388, lat: 52.5162};
@@ -22,6 +23,7 @@ const FreifahrenMap: React.FC<MapProps> = ({
 	formSubmitted,
 	userPosition,
 	setUserPosition,
+    isFirstOpen
 }) => {
     const sw: LngLatLike = {lng: 12.8364646484805, lat: 52.23115511676795}
     const ne: LngLatLike = {lng: 13.88044556529124, lat: 52.77063424239867}
@@ -47,8 +49,8 @@ const FreifahrenMap: React.FC<MapProps> = ({
                 mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
             >
                 
-               {formSubmitted && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition}/>}
-               <MarkerContainer formSubmitted={formSubmitted} />
+               {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition}/>}
+               <MarkerContainer isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
 
             </Map>
         </div>

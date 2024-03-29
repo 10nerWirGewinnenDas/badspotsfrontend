@@ -8,9 +8,10 @@ import maplibregl from 'maplibre-gl';
 interface OpacityMarkerProps {
     markerData: MarkerData;
     index: number;
+    isFirstOpen: boolean;
 }
-    
-export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index }) => {
+
+export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen }) => {
 
     const [ opacity, setOpacity ] = useState(0);
     const { timestamp, station, line, direction, isHistoric } = markerData;
@@ -24,25 +25,26 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index 
 
     useEffect(() => {
         let intervalId : NodeJS.Timeout;
+        if (!isFirstOpen) {
+            if (!isHistoric) {
+                const calculateOpacity = () => {
+                const currentTime = new Date().getTime();
+                const elapsedTime = currentTime - Timestamp.getTime();
+                const newOpacity = Math.max(0, 1 - (elapsedTime / (15 * 60 * 1000)));
+                setOpacity(newOpacity);
+                if (newOpacity === 0) {
+                clearInterval(intervalId);
+                }
+            };
+                calculateOpacity(); // Initial calculation
 
-        if (!isHistoric) {
-          const calculateOpacity = () => {
-            const currentTime = new Date().getTime();
-            const elapsedTime = currentTime - Timestamp.getTime();
-            const newOpacity = Math.max(0, 1 - (elapsedTime / (20 * 1000)));
-            setOpacity(newOpacity);
-            if (newOpacity === 0) {
-              clearInterval(intervalId);
-            }
-          };
-          calculateOpacity(); // Initial calculation
-
-          intervalId = setInterval(calculateOpacity,  1 * 1000); // every 5 seconds to avoid excessive rerenders
-        } else {
-          setOpacity(1);
+                intervalId = setInterval(calculateOpacity,  1 * 1000); // every 5 seconds to avoid excessive rerenders
+                } else {
+                setOpacity(1);
+                }
+                return () => clearInterval(intervalId);
         }
-        return () => clearInterval(intervalId);
-    }, [Timestamp, isHistoric]);
+    }, [Timestamp, isHistoric, isFirstOpen]);
 
     const elapsedTimeMessage = (elapsedTime:number, isHistoric:boolean): string => {
         if (elapsedTime > 10 * 60 * 1000 || isHistoric) {
@@ -68,6 +70,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index 
     return (
         <div>
             <Marker
+                key={`${line}-${index}`}
                 className='inspector-marker'
                 latitude={station.coordinates.latitude}
                 longitude={station.coordinates.longitude}
