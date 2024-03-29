@@ -1,21 +1,17 @@
-import L, {LatLngTuple} from 'leaflet';
-import React, { useCallback, useEffect } from 'react';
-import { Marker, Popup } from 'react-leaflet';
 
-import { createLocationMarkerHTML, watchPosition} from '../../../../../functions/mapUtils';
+import React, { useCallback, useEffect } from 'react';
+
+import { watchPosition} from '../../../../../functions/mapUtils';
+import { Marker } from 'react-map-gl/maplibre';
+
+import './LocationMarker.css';
 
 interface LocationMarkerProps {
-    userPosition: LatLngTuple | null;
-    setUserPosition: (position: LatLngTuple | null) => void;
+    userPosition: {lng: number, lat: number} | null;
+    setUserPosition: (position: {lng: number, lat: number} | null) => void;
 }
 
 const LocationMarker: React.FC<LocationMarkerProps> = ({ userPosition, setUserPosition }) => {
-
-        const LocationIcon = L.divIcon({
-            className: 'custom-icon',
-            html: createLocationMarkerHTML(),
-            iconSize: [20, 20]
-        });
 
         const fetchPosition = useCallback(async () => {
             const stopWatching = await watchPosition(setUserPosition);
@@ -27,13 +23,16 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ userPosition, setUserPo
         }, [fetchPosition]);
 
     return (
-        <div>
+        <div data-testid='location-marker'>
             {userPosition && (
-                <Marker position={userPosition} icon={LocationIcon} >
-                    <Popup>
-                        Dein Standort
-                    </Popup>
-                </Marker>
+                <Marker
+                    className='location-marker'
+                    latitude={userPosition.lat}
+                    longitude={userPosition.lng}
+
+            >
+                <span></span>
+            </Marker>
             )}
         </div>
     );

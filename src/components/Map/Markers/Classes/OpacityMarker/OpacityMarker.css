@@ -1,13 +1,13 @@
 .inspector-marker {
     animation: fade 1s infinite alternate;
+    background-color: red;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
   
 @keyframes fade { 
-    from { opacity: 0.6; } 
+    from { opacity: 0.7; } 
 }
 
-.leaflet-popup-content div {
-    margin-top: 5px;
-    color: var(--place-holder-color);
-    font-size: var(--standard-font-size);
-}

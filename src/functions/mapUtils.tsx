@@ -1,34 +1,3 @@
-import L, { LatLngTuple } from 'leaflet';
-
-export const createLocationMarkerHTML = () => {
-    return `<div
-                aria-label="location marker"
-                style="
-                    background-color:black;
-                    width:25px;
-                    height:25px;
-                    border-radius:50%;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-                "></div>`;
-    };
-
-export const OpacityMarkerIcon = (opacity: number) => {
-    const icon = L.divIcon({
-        className: 'inspector-marker',
-        html: `<div 
-                aria-label="inspector marker"
-                style="
-                    background-color:rgba(255,0,0,${opacity});
-                    width:25px;
-                    height:25px;
-                    border-radius:50%;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, ${opacity});
-                "></div>`,
-        iconSize: [25, 25],
-    });
-
-    return icon;
-};
 
 export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 	const R = 6371; // Radius of the earth in km
@@ -48,9 +17,9 @@ function deg2rad(deg: number) {
 }
 
 // this streams the position of the user, meaning we have to split getPosition and watchPosition
-export const watchPosition = async (onPositionChanged: (position: LatLngTuple | null) => void): Promise<(() => void)> => {
+export const watchPosition = async (onPositionChanged: (position: {lng: number, lat: number} | null) => void): Promise<(() => void)> => {
     const watchId = navigator.geolocation.watchPosition((position) => {
-        onPositionChanged([position.coords.latitude, position.coords.longitude]);
+        onPositionChanged({lng: position.coords.longitude, lat: position.coords.latitude});
     }, () => {
         onPositionChanged(null); // Handle the case where getting position fails
     });

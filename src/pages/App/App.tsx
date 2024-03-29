@@ -10,7 +10,6 @@ import { highlightElement } from '../../functions/uiUtils';
 
 import Backdrop from '../../components/Backdrop/Backdrop';
 import './App.css';
-import { LatLngTuple } from 'leaflet';
 
 type AppUIState = {
   isReportFormOpen: boolean;
@@ -28,7 +27,7 @@ const initialAppUIState: AppUIState = {
 
 function App() {
   const [appUIState, setAppUIState] = useState<AppUIState>(initialAppUIState);
-  const [userPosition, setUserPosition] = useState<LatLngTuple | null>(null);
+  const [userPosition, setUserPosition] = useState<{lng: number, lat: number} | null>(null);
 
   const handleFormSubmit = () => {
     setAppUIState(appUIState => ({ ...appUIState, formSubmitted: !appUIState.formSubmitted }));
@@ -48,8 +47,6 @@ function App() {
           />
           <Backdrop onClick={() => highlightElement('legal-disclaimer')} />
         </>}
-        <Map formSubmitted={appUIState.formSubmitted} userPosition={userPosition} setUserPosition={setUserPosition} />
-        <UtilButton onClick={() => setAppUIState({ ...appUIState, isUtilFormOpen: !appUIState.isUtilFormOpen })} />
 
         {appUIState.isUtilFormOpen && (
           <>
@@ -57,8 +54,7 @@ function App() {
             <Backdrop onClick={() => setAppUIState({ ...appUIState, isUtilFormOpen: false })} />
           </>
         )}
-        <ReportButton onClick={() => setAppUIState({ ...appUIState, isReportFormOpen: !appUIState.isReportFormOpen })} />
-      {appUIState.isReportFormOpen && (
+         {appUIState.isReportFormOpen && (
         <>
           <ReportForm
             closeModal={() => setAppUIState({ ...appUIState, isReportFormOpen: false })}
@@ -69,6 +65,11 @@ function App() {
           <Backdrop onClick={() => setAppUIState({ ...appUIState, isReportFormOpen: false })} />
         </>
       )}
+
+        <Map formSubmitted={appUIState.formSubmitted} userPosition={userPosition} setUserPosition={setUserPosition} />
+        <UtilButton onClick={() => setAppUIState({ ...appUIState, isUtilFormOpen: !appUIState.isUtilFormOpen })} />
+        <ReportButton onClick={() => setAppUIState({ ...appUIState, isReportFormOpen: !appUIState.isReportFormOpen })} />
+
     </div>
   );
 }

@@ -1,16 +1,14 @@
 import React from 'react';
 import { render, act } from '@testing-library/react';
+import { Marker } from 'react-map-gl/maplibre';
 
 import { OpacityMarker } from '../../../../../components/Map/Markers/Classes/OpacityMarker/OpacityMarker';
 
-// Mock leaflet's marker to avoid rendering issues in Jest
-jest.mock('leaflet', () => ({
-  marker: jest.fn().mockReturnValue({
-    setIcon: jest.fn(),
-    addTo: jest.fn(),
-  }),
-  icon: jest.fn(),
+// Mock react-map-gl/maplibre's Marker to avoid rendering issues in Jest
+jest.mock('react-map-gl/maplibre', () => ({
+  Marker: jest.fn().mockReturnValue(null),
 }));
+global.URL.createObjectURL = jest.fn();
 
 // Utility function to advance time and apply pending timers
 const advanceTime = (ms: number) => act(() => jest.advanceTimersByTime(ms));

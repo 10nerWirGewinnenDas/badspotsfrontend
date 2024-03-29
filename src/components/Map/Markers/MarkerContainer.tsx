@@ -54,15 +54,11 @@ const MarkerContainer: React.FC<MarkersProps> = ({ formSubmitted }) => {
 	}, [formSubmitted, ticketInspectorList]);
 
 	return (
-		<div>
+		<div >
 			{ticketInspectorList.map((ticketInspector, index) => {
-				return (
-					<OpacityMarker
-						markerData={ticketInspector}
-						index={index}
-						key={ticketInspector.station.id}
-					/>
-				);
+					return (
+						<OpacityMarker markerData={ticketInspector} index={index} key={ticketInspector.station.id}/>
+					);
 
 			})}
 		</div>
