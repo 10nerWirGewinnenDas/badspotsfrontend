@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import App from '../../../pages/App/App';
-import { highlightElement } from '../../../functions/uiUtils';
+import { highlightElement } from '../../../utils/uiUtils';
 
 beforeAll(() => {
 	// Mocking navigator.permissions if undefined

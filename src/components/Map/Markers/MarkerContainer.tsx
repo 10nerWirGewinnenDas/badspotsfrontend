@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-import { getRecentTicketInspectorInfo } from '../../../functions/dbUtils';
+import { getRecentTicketInspectorInfo } from '@utils/dbUtils';
 import { OpacityMarker } from './Classes/OpacityMarker/OpacityMarker';
 
 export interface MarkersProps {

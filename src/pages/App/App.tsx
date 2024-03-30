@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import Map from '../../components/Map/Map';
-import ReportButton from '../../components/Buttons/ReportButton/ReportButton';
-import ReportForm from '../../components/Form/ReportForm/ReportForm';
-import LegalDisclaimer from '../../components/Modals/LegalDisclaimer/LegalDisclaimer';
-import UtilButton from '../../components/Buttons/UtilButton/UtilButton';
-import UtilModal from '../../components/Modals/UtilModal/UtilModal';
-import { highlightElement } from '../../functions/uiUtils';
+import Map from '@components/Map/Map';
+import ReportButton from '@components/Buttons/ReportButton/ReportButton';
+import ReportForm from '@components/Form/ReportForm/ReportForm';
+import LegalDisclaimer from '@components/Modals/LegalDisclaimer/LegalDisclaimer';
+import UtilButton from '@components/Buttons/UtilButton/UtilButton';
+import UtilModal from '@components/Modals/UtilModal/UtilModal';
+import { highlightElement } from '@utils/uiUtils';
 
-import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
+import Backdrop from '@components/Miscellaneous/Backdrop/Backdrop';
 import './App.css';
 
 type AppUIState = {

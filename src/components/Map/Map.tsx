@@ -1,12 +1,12 @@
 import React, { Suspense, lazy, useRef } from 'react';
-
-import './Map.css';
 import Map, {
     LngLatBoundsLike,
     LngLatLike,
     MapRef,
 } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+
+import './Map.css';
 
 const MarkerContainer = lazy(() => import('./Markers/MarkerContainer'));
 const LocationMarker = lazy(() => import('./Markers/Classes/LocationMarker/LocationMarker'));

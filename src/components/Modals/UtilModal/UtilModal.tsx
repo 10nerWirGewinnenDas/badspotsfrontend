@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
+import githubMark from '@icons/github-mark.svg';
+
 import './UtilModal.css';
-import githubMark from '../../icons/github-mark.svg';
 
 interface UtilModalProps {
     className: string
