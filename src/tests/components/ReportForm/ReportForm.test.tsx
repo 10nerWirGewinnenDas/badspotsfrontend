@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ReportForm from '../../../components/ReportForm/ReportForm';
+import ReportForm from '../../../components/Form/ReportForm/ReportForm';
 import * as dbUtils from '../../../functions/dbUtils';
 
 jest.mock('../../../functions/dbUtils', () => ({

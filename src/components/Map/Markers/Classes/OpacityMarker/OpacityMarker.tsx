@@ -48,7 +48,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
 
     const elapsedTimeMessage = (elapsedTime:number, isHistoric:boolean): string => {
         if (elapsedTime > 10 * 60 * 1000 || isHistoric) {
-            return 'Vor mehr als <strong>10 Minuten</strong> gemeldet. (Historisch)';
+            return 'Vor mehr als <strong>10 Minuten</strong> gemeldet.';
         }
         else {
             const minutes = Math.max(1, Math.floor(elapsedTime / (60 * 1000)));

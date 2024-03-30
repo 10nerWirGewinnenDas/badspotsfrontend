@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select/';
 
-import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../functions/dbUtils';
+import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../functions/dbUtils';
 import AutocompleteInputForm, { selectOption } from '../AutocompleteInputForm/AutocompleteInputForm';
-import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../functions/uiUtils';
-import { calculateDistance } from '../../functions/mapUtils';
+import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../functions/uiUtils';
+import { calculateDistance } from '../../../functions/mapUtils';
 import './ReportForm.css';
 import { LngLatLike } from 'react-map-gl';
 

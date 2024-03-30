@@ -1,4 +1,4 @@
-import { selectOption } from '../components/AutocompleteInputForm/AutocompleteInputForm';
+import { selectOption } from '../components/Form/AutocompleteInputForm/AutocompleteInputForm';
 import { MarkerData } from '../components/Map/Markers/MarkerContainer';
 
 export interface StationProperty {
