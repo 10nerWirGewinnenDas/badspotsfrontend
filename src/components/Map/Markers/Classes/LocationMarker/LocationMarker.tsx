@@ -15,7 +15,7 @@ const LocationMarker: React.FC<LocationMarkerProps> = ({ userPosition, setUserPo
         const fetchPosition = useCallback(async () => {
             const stopWatching = await watchPosition(setUserPosition);
             return () => stopWatching();
-        }, []);
+        }, [setUserPosition]);
 
         useEffect(() => {
             fetchPosition();

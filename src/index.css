@@ -117,3 +117,7 @@ p {
 .legal-text {
   padding: 25px;
 }
+
+span {
+  user-select: none;
+}

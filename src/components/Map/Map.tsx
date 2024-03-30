@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useRef } from 'react';
-import Map, {
+import {
     LngLatBoundsLike,
     LngLatLike,
     MapRef,
@@ -10,6 +10,7 @@ import './Map.css';
 
 const MarkerContainer = lazy(() => import('./Markers/MarkerContainer'));
 const LocationMarker = lazy(() => import('./Markers/Classes/LocationMarker/LocationMarker'));
+const Map = lazy(() => import('react-map-gl/maplibre'));
 
 interface MapProps {
     formSubmitted: boolean;
