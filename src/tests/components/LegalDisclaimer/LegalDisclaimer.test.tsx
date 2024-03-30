@@ -50,7 +50,7 @@ beforeAll(() => {
 });
 
 // Mocking highlightElement function
-jest.mock('../../../functions/uiUtils', () => ({
+jest.mock('../../../utils/uiUtils', () => ({
 	highlightElement: jest.fn(),
 }));
 

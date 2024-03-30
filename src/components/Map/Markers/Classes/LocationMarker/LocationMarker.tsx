@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
 
-import { watchPosition} from '@utils/mapUtils';
+import { watchPosition} from '../../../../../utils/mapUtils';
+
 
 import './LocationMarker.css';
 

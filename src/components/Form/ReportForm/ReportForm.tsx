@@ -3,10 +3,12 @@ import { ActionMeta } from 'react-select/';
 import { LngLatLike } from 'react-map-gl';
 
 import AutocompleteInputForm, { selectOption } from '../AutocompleteInputForm/AutocompleteInputForm';
-import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '@utils/dbUtils';
-import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '@utils/uiUtils';
-import { calculateDistance } from '@utils/mapUtils';
+
+import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
+import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../utils/uiUtils';
+import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
+
 
 interface ReportFormProps {
   closeModal: () => void;

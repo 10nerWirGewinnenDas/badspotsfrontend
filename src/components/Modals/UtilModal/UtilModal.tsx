@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import githubMark from '@icons/github-mark.svg';
+import githubMark from '../../../icons/github-mark.svg';
 
 import './UtilModal.css';
 

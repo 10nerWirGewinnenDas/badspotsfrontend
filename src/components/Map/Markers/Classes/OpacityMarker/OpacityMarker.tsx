@@ -2,8 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import maplibregl from 'maplibre-gl';
 import { Marker } from 'react-map-gl/maplibre';
 
-import { MarkerData } from '@components/Map/Markers/MarkerContainer';
-
+import { MarkerData } from '../../MarkerContainer';
 import './OpacityMarker.css';
 
 interface OpacityMarkerProps {
