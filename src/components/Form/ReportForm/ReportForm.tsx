@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select/';
-import { LngLatLike } from 'react-map-gl';
 
 import AutocompleteInputForm, { selectOption } from '../AutocompleteInputForm/AutocompleteInputForm';
 
@@ -13,7 +12,7 @@ interface ReportFormProps {
   closeModal: () => void;
   onFormSubmit: () => void;
   className?: string;
-  userPosition?: LngLatLike | null;
+  userPosition?: {lat: number, lng: number} | null;
 }
 
 type reportFormState = {
@@ -114,7 +113,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		const station = stationsList[stationInput.value];
 		if (!station) return false;
 
-		const distance = userPosition ? calculateDistance(userPosition as unknown as number, userPosition as unknown as number, station.coordinates.latitude, station.coordinates.longitude): 0;
+		const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude): 0;
 
 		// Checks if the user is more than 1 km away from the station
 		if (distance > 1) {
