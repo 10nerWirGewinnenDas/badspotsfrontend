@@ -9,7 +9,6 @@ import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefi
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
 
-
 interface ReportFormProps {
   closeModal: () => void;
   onFormSubmit: () => void;

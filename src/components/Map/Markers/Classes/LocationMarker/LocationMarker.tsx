@@ -3,7 +3,6 @@ import { Marker } from 'react-map-gl/maplibre';
 
 import { watchPosition} from '../../../../../utils/mapUtils';
 
-
 import './LocationMarker.css';
 
 interface LocationMarkerProps {
