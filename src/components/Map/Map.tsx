@@ -28,7 +28,7 @@ const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
     setUserPosition,
     isFirstOpen
 }) => {
-    
+
     const SouthWestBounds: LngLatLike = { lng: 12.8364646484805, lat: 52.23115511676795 }
     const NorthEastBounds: LngLatLike = { lng: 13.88044556529124, lat: 52.77063424239867 }
 
