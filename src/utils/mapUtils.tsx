@@ -26,3 +26,9 @@ export const watchPosition = async (onPositionChanged: (position: {lng: number, 
     return () => (navigator.geolocation.clearWatch(watchId));
 
 };
+
+export const formatElapsedTime = (minutes: number) => {
+	const minuteWord = minutes === 1 ? 'Minute' : 'Minuten';
+	const minuteCount = minutes === 1 ? 'einer' : minutes;
+	return `Vor <strong>${minuteCount} ${minuteWord}</strong> gemeldet.`;
+  };

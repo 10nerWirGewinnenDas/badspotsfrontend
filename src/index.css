@@ -9,6 +9,8 @@
   --standard-border-radius: 8px;
 
   --button-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --marker-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --marker-pulse-shadow: #ff69b400 0 0 0 16px;
 
   --map-z-index: -1;
   --button-z-index: 0;
@@ -18,6 +20,7 @@
   --standard-font-size: 0.9em;
   --button-font-size: 1.1em;
   --big-font-size: 1.5em;
+  
 }
 
 body {
@@ -118,6 +121,7 @@ p {
   padding: 25px;
 }
 
+/* so the user can't highlight the icons on mobile */
 span {
   user-select: none;
 }

@@ -4,6 +4,7 @@ import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
 import './OpacityMarker.css';
+import { formatElapsedTime } from 'src/utils/mapUtils';
 
 interface OpacityMarkerProps {
     markerData: MarkerData;
@@ -52,7 +53,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
         }
         else {
             const minutes = Math.max(1, Math.floor(elapsedTime / (60 * 1000)));
-            return `Vor <strong>${minutes === 1 ? 'einer' : minutes} ${minutes === 1 ? 'Minute' : 'Minuten'}</strong> gemeldet.`;
+            return formatElapsedTime(minutes);
         }
     };
 

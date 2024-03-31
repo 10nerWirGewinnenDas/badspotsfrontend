@@ -1,32 +1,32 @@
 .inspector-marker {
-    animation: fade 1s  infinite alternate;
-    background-color: red;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fade 1s  infinite alternate;
+  background-color: var(--red);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  box-shadow: var(--marker-box-shadow);
 }
-  
+
 @keyframes fade { 
-    from { opacity: 0.7; } 
+  from { opacity: 0.7; } 
 }
 
 
 .live{
-    height:24px;
-    width:24px;
-    display:block;
-    border-radius:50%;
-    background-color: red;
-    animation:pulse 1500ms infinite;
-    
-  }
+  height:24px;
+  width:24px;
+  display:block;
+  border-radius:50%;
+  background-color: var(--red);
+  animation:pulse 1500ms infinite;
   
-  @keyframes pulse{
-    0%{
-      box-shadow:red 0 0 0 0;
-    }
-    75%{
-      box-shadow:#ff69b400 0 0 0 16px;
-    }
+}
+
+@keyframes pulse{
+  0%{
+    box-shadow:var(--red) 0 0 0 0;
   }
+  75%{
+    box-shadow:var(--marker-pulse-shadow);
+  }
+}
