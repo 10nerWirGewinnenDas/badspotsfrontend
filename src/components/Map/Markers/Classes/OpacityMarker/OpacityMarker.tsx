@@ -3,8 +3,9 @@ import maplibregl from 'maplibre-gl';
 import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
+import { formatElapsedTime } from '../../../../../utils/mapUtils';
+
 import './OpacityMarker.css';
-import { formatElapsedTime } from 'src/utils/mapUtils';
 
 interface OpacityMarkerProps {
     markerData: MarkerData;
