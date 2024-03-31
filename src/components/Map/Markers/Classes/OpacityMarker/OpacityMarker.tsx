@@ -4,17 +4,20 @@ import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
 import './OpacityMarker.css';
+import { getStationDistance } from 'src/utils/dbUtils';
 
 interface OpacityMarkerProps {
     markerData: MarkerData;
     index: number;
     isFirstOpen: boolean;
+    userPosition: { lng: number; lat: number } | null;
 }
 
-export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen }) => {
+export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen, userPosition }) => {
 
     const [ opacity, setOpacity ] = useState(0);
     const { timestamp, station, line, direction, isHistoric } = markerData;
+    const [stationDistance, setStationDistance] = useState<number | null>(null);
 
     // By using useMemo, we can avoid recalculating the timestamp on every render
     const Timestamp = useMemo(() => {
@@ -56,12 +59,21 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
         }
     };
 
+    useEffect(() => {
+        const getDistance = async () => {
+            const distance = await getStationDistance(userPosition?.lat, userPosition?.lng, station.coordinates.latitude, station.coordinates.longitude);
+            setStationDistance(distance);
+        };
+        getDistance();
+    }, [userPosition, station.coordinates]);
+
     const MarkerPopup = useMemo(() => new maplibregl.Popup()
         .setHTML(`
             ${line} ${direction.name ? direction.name + ' - ' : ''} <strong>${station.name}</strong>
             <div>${elapsedTimeMessage(new Date().getTime() - Timestamp.getTime(), isHistoric)}</div>
+            ${stationDistance ? `<div>${(stationDistance > 1) ?  `<strong>${stationDistance} Stationen </strong> von dir entfernt` : 'eine Station von dir entfernt'}</div>` : ''}
                 `),
-        [line, direction.name, station.name, Timestamp, isHistoric]);
+        [line, direction.name, station.name, Timestamp, isHistoric, stationDistance]);
 
     if (opacity <= 0) {
         return null;
