@@ -3,9 +3,10 @@ import maplibregl from 'maplibre-gl';
 import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
+import { getStationDistance } from '../../../../../utils/dbUtils';
+import { getStationDistanceMessage } from '../../../../../utils/mapUtils';
+
 import './OpacityMarker.css';
-import { getStationDistance } from 'src/utils/dbUtils';
-import { getStationDistanceMessage } from 'src/utils/mapUtils';
 
 interface OpacityMarkerProps {
     markerData: MarkerData;
