@@ -4,8 +4,7 @@ import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
 import { getStationDistance } from '../../../../../utils/dbUtils';
-import { getStationDistanceMessage } from '../../../../../utils/mapUtils';
-import { formatElapsedTime } from '../../../../../utils/mapUtils';
+import { getStationDistanceMessage, elapsedTimeMessage } from '../../../../../utils/mapUtils';
 
 import './OpacityMarker.css';
 
@@ -52,16 +51,6 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
         }
     }, [Timestamp, isHistoric, isFirstOpen]);
 
-    const elapsedTimeMessage = (elapsedTime: number, isHistoric: boolean): string => {
-        if (elapsedTime > 10 * 60 * 1000 || isHistoric) {
-            return 'Vor mehr als <strong>10 Minuten</strong> gemeldet.';
-        }
-        else {
-            const minutes = Math.max(1, Math.floor(elapsedTime / (60 * 1000)));
-            return formatElapsedTime(minutes);
-        }
-    };
-
     useEffect(() => {
         const getDistance = async () => {
             const distance = await getStationDistance(userPosition?.lat, userPosition?.lng, station.coordinates.latitude, station.coordinates.longitude);
@@ -72,9 +61,12 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
 
     const MarkerPopup = useMemo(() => new maplibregl.Popup().setHTML(`
         ${line} ${direction.name ? direction.name + ' - ' : ''} <strong>${station.name}</strong>
-        <div>${elapsedTimeMessage(new Date().getTime() - Timestamp.getTime(), isHistoric)}</div>
+
         ${getStationDistanceMessage(stationDistance)}
-    `),[line, direction.name, station.name, Timestamp, isHistoric, stationDistance]);
+
+        <div>${elapsedTimeMessage(new Date().getTime() - Timestamp.getTime(), isHistoric)}</div>
+
+    `), [line, direction.name, station.name, Timestamp, isHistoric, stationDistance]);
 
     if (opacity <= 0) {
         return null;
