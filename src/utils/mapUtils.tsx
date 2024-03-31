@@ -26,3 +26,8 @@ export const watchPosition = async (onPositionChanged: (position: {lng: number, 
     return () => (navigator.geolocation.clearWatch(watchId));
 
 };
+
+export const getStationDistanceMessage = (stationDistance: number | null) => {
+  if (!stationDistance) return '';
+  return `<div><strong>${stationDistance > 1 ? `${stationDistance} Stationen` : 'eine Station'} von dir entfernt</strong></div>`;
+};

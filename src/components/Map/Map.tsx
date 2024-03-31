@@ -4,12 +4,13 @@ import {
     LngLatLike,
     MapRef,
 } from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
+
+import MarkerContainer from './Markers/MarkerContainer';
+import LocationMarker from './Markers/Classes/LocationMarker/LocationMarker';
 
 import './Map.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-const MarkerContainer = lazy(() => import('./Markers/MarkerContainer'));
-const LocationMarker = lazy(() => import('./Markers/Classes/LocationMarker/LocationMarker'));
 const Map = lazy(() => import('react-map-gl/maplibre'));
 
 interface MapProps {
