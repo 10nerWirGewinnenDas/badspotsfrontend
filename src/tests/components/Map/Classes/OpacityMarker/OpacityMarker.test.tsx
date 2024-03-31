@@ -1,16 +1,12 @@
 import React from 'react';
 import { render, act } from '@testing-library/react';
-
 import { OpacityMarker } from '../../../../../components/Map/Markers/Classes/OpacityMarker/OpacityMarker';
 
-// Mock leaflet's marker to avoid rendering issues in Jest
-jest.mock('leaflet', () => ({
-  marker: jest.fn().mockReturnValue({
-    setIcon: jest.fn(),
-    addTo: jest.fn(),
-  }),
-  icon: jest.fn(),
+// Mock react-map-gl/maplibre's Marker to avoid rendering issues in Jest
+jest.mock('react-map-gl/maplibre', () => ({
+  Marker: jest.fn().mockReturnValue(null),
 }));
+global.URL.createObjectURL = jest.fn();
 
 // Utility function to advance time and apply pending timers
 const advanceTime = (ms: number) => act(() => jest.advanceTimersByTime(ms));
@@ -44,7 +40,7 @@ describe('OpacityMarker', () => {
       index: 0,
     };
 
-    const { rerender } = render(<OpacityMarker {...initialProps} />);
+    const { rerender } = render(<OpacityMarker isFirstOpen={false} {...initialProps} />);
 
     // Simulate props change that would cause re-render
     const newProps = {
@@ -58,7 +54,7 @@ describe('OpacityMarker', () => {
             },
         },
     };
-    rerender(<OpacityMarker {...newProps} />);
+    rerender(<OpacityMarker isFirstOpen={false} {...newProps} />);
 
     // Advance time to see if the component settles without exceeding max update depth
     advanceTime(5000);

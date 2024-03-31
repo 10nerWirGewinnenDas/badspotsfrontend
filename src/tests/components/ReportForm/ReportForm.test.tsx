@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ReportForm from '../../../components/ReportForm/ReportForm';
-import * as dbUtils from '../../../functions/dbUtils';
+import ReportForm from '../../../components/Form/ReportForm/ReportForm';
+import * as dbUtils from '../../../utils/dbUtils';
 
-jest.mock('../../../functions/dbUtils', () => ({
+jest.mock('../../../utils/dbUtils', () => ({
     getAllLinesList: jest.fn().mockResolvedValue({/* mock return value for getAllLinesList */}),
     getAllStationsList: jest.fn().mockResolvedValue({/* mock return value for getAllStationsList */}),
     reportInspector: jest.fn().mockResolvedValue(undefined), // Corrected mock for reportInspector

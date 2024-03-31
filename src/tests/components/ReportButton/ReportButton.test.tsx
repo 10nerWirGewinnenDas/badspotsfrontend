@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import ReportButton from '../../../components/ReportButton/ReportButton';
+import ReportButton from '../../../components/Buttons/ReportButton/ReportButton';
 
 describe('ReportButton', () => {
   test('calls onClick prop when clicked', () => {

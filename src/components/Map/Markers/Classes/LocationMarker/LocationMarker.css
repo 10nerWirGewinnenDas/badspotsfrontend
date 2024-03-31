@@ -1,0 +1,7 @@
+.location-marker {
+    background-color: black;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    box-shadow: var(--marker-box-shadow);
+}

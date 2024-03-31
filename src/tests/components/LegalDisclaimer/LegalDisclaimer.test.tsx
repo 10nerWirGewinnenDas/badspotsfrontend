@@ -1,9 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import App from '../../../pages/App/App';
-import { highlightElement } from '../../../functions/uiUtils';
+import { highlightElement } from '../../../utils/uiUtils';
 
 beforeAll(() => {
 	// Mocking navigator.permissions if undefined
@@ -14,7 +14,9 @@ beforeAll(() => {
 		});
 	}
 	// Mocking navigator.permissions.query to return a resolved promise with { state: 'granted' }
-	navigator.permissions.query = jest.fn().mockImplementation(() => Promise.resolve({ state: 'granted' }));
+	navigator.permissions.query = jest
+		.fn()
+		.mockImplementation(() => Promise.resolve({ state: 'granted' }));
 
 	// Checking if navigator.geolocation is undefined and defining it if necessary
 	if (typeof navigator.geolocation === 'undefined') {
@@ -24,46 +26,57 @@ beforeAll(() => {
 		});
 	}
 	// Mocking navigator.geolocation.getCurrentPosition to call the success callback with a mock position
-	navigator.geolocation.getCurrentPosition = jest.fn().mockImplementation((successCallback) => {
-		const position = { // Mock position object
-			coords: {
-				latitude: 50.110924,
-				longitude: 8.682127,
-			},
-		};
-		successCallback(position);
-
-	});
+	navigator.geolocation.getCurrentPosition = jest
+		.fn()
+		.mockImplementation((successCallback) => {
+			const position = {
+				// Mock position object
+				coords: {
+					latitude: 50.110924,
+					longitude: 8.682127,
+				},
+			};
+			successCallback(position);
+		});
 
 	// Mocking navigator.geolocation.watchPosition in a similar way
-	navigator.geolocation.watchPosition = jest.fn().mockImplementation((successCallback) => {
-		const position = { // Mock position object
-			coords: {
-				latitude: 50.110924,
-				longitude: 8.682127,
-			},
-		};
-		successCallback(position);
-		// Return a mock clearWatch function
-		return () => { };
-	});
+	navigator.geolocation.watchPosition = jest
+		.fn()
+		.mockImplementation((successCallback) => {
+			const position = {
+				// Mock position object
+				coords: {
+					latitude: 50.110924,
+					longitude: 8.682127,
+				},
+			};
+			successCallback(position);
+			// Return a mock clearWatch function
+			return () => {};
+		});
 });
 
 // Mocking highlightElement function
-jest.mock('../../../functions/uiUtils', () => ({
+jest.mock('../../../utils/uiUtils', () => ({
 	highlightElement: jest.fn(),
 }));
 
 describe('LegalDisclaimer Component Tests', () => {
-	test('LegalDisclaimer opens', () => {
+	test('LegalDisclaimer opens', async () => {
 		render(<App />);
-		expect(screen.getByText(/Bitte bestätigen Sie vor dem Fortfahren/)).toBeInTheDocument();
+		await waitFor(() => {
+			expect(
+				screen.getByText(/Bitte bestätigen Sie vor dem Fortfahren/)
+			).toBeInTheDocument();
+		});
 	});
 
 	test('LegalDisclaimer closes when button is clicked', () => {
 		render(<App />);
 		fireEvent.click(screen.getByText('Ich bestätige'));
-		expect(screen.queryByText(/Bitte bestätigen Sie vor dem Fortfahren/)).not.toBeInTheDocument();
+		expect(
+			screen.queryByText(/Bitte bestätigen Sie vor dem Fortfahren/)
+		).not.toBeInTheDocument();
 	});
 
 	test('Highlight works when clicking the backdrop', () => {

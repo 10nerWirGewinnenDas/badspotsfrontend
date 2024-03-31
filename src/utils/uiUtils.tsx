@@ -1,4 +1,4 @@
-import { selectOption } from '../components/AutocompleteInputForm/AutocompleteInputForm';
+import { selectOption } from '../components/Form/AutocompleteInputForm/AutocompleteInputForm';
 
 type StationsList = {
   [key: string]: {

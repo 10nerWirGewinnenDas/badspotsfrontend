@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select/';
 
-import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../functions/dbUtils';
 import AutocompleteInputForm, { selectOption } from '../AutocompleteInputForm/AutocompleteInputForm';
-import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../functions/uiUtils';
-import { calculateDistance } from '../../functions/mapUtils';
+
+import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
+import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../utils/uiUtils';
+import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
-import { LatLngTuple } from 'leaflet';
 
 interface ReportFormProps {
   closeModal: () => void;
   onFormSubmit: () => void;
   className?: string;
-  userPosition?: LatLngTuple | null;
+  userPosition?: {lat: number, lng: number} | null;
 }
 
 type reportFormState = {
@@ -35,8 +35,8 @@ const initialState: reportFormState = {
 	lineOptions: [],
 	stationOptions: [],
 	directionOptions: [],
-	stationsList: {},
-	linesList: {},
+	stationsList: localStorage.getItem('stationsList') ? JSON.parse(localStorage.getItem('stationsList')!) : {} as StationList,
+	linesList: localStorage.getItem('linesList') ? JSON.parse(localStorage.getItem('linesList')!) : {} as LinesList,
 	isLoadingLines: true,
 	isLoadingStations: true,
 };
@@ -113,7 +113,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		const station = stationsList[stationInput.value];
 		if (!station) return false;
 
-		const distance = userPosition ? calculateDistance(userPosition[0], userPosition[1], station.coordinates.latitude, station.coordinates.longitude): 0;
+		const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude): 0;
 
 		// Checks if the user is more than 1 km away from the station
 		if (distance > 1) {
@@ -127,13 +127,29 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const refreshOptions = async (type: 'lines' | 'stations') => {
 		try {
-			setReportFormState(prevState => ({ ...prevState,
-				[type === 'lines' ? 'isLoadingLines' : 'isLoadingStations']: true }));
+			setReportFormState(prevState => ({ ...prevState, [type === 'lines' ? 'isLoadingLines' : 'isLoadingStations']: true }));
+			let list = (type === 'lines') ? {} as LinesList : {} as StationList;
 
-			const list = type === 'lines' ? await getAllLinesList() : await getAllStationsList();
+			const storedList = JSON.parse(localStorage.getItem(`${type}List`) || 'null');
+
+			if (storedList === null || (Date.now() - storedList.timestamp) > 24 * 60 * 60 * 1000) {
+				const fetchedList = (type === 'lines') ? await getAllLinesList() : await getAllStationsList();
+				if (JSON.stringify(storedList?.list) !== JSON.stringify(fetchedList)) {
+					list = fetchedList;
+					localStorage.setItem(`${type}List`, JSON.stringify({ list, timestamp: Date.now() }));
+				} else {
+					list = storedList.list;
+				}
+			} else {
+				list = storedList.list;
+			}
+
 			const options = Object.keys(list).map(key => ({ value: key, label: type === 'lines' ? key : (list[key] as StationProperty).name }));
 
-			setReportFormState(prevState => ({ ...prevState, [type === 'lines' ? 'linesList' : 'stationsList']: list, [type === 'lines' ? 'lineOptions' : 'stationOptions']: options }));
+			setReportFormState(prevState => ({
+				...prevState, [type === 'lines' ? 'linesList' : 'stationsList']: list,
+				[type === 'lines' ? 'lineOptions' : 'stationOptions']: options
+			}));
 
 		} catch (error) {
 			console.error(`Failed to fetch ${type}:`, error);
@@ -180,7 +196,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		const fetchData = async () => {
 			await refreshOptions('stations');
 			await refreshOptions('lines');
-		};
+		}
 
 		fetchData();
 	}, []);

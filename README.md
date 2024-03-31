@@ -65,3 +65,15 @@ are the markers. To display and organize the markers, ``/components/Map/Markers/
 In hindsight, the Markers directory lays a foundation for other Markers with different features/
 
 
+## Testing
+To run tests for the react dom, use ```sh npx jest```
+
+To run tests for the ``react-map-gl/maplibre`` module, please 
+```sh npm install -g testcafe ```
+
+and 
+
+```sh npx testcafe chrome src/tests/components/Map/Map.test.tsx```
+
+Note: maplibre can't be rendered through jest, that's why we use an emulating instance of chrome.
+

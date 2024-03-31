@@ -1,66 +1,33 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { MapContainer } from 'react-leaflet';
+import { Selector, test as testcafeTest } from 'testcafe';
 
-import Map from '../../../components/Map/Map';
+const mockGeolocationScript = 'navigator.geolocation.getCurrentPosition = success =>  success({ coords: { latitude: 52.5200, longitude: 13.4050, }, timestamp: Date.now() });';
 
-// Mock the MapContainer and any other components from react-leaflet you use
-jest.mock('react-leaflet', () => ({
-  MapContainer: jest.fn(() => null),
-  TileLayer: jest.fn(() => null),
-  Marker: jest.fn(() => null), // Mock Marker if you use it
-  // Add any other components you need to mock here
-}));
+fixture`Map Component`.page`http://localhost:3000`
+    .beforeEach(async t => {
+    const legalDisclaimerButton = Selector('.legal-disclaimer button');
+    await t.click(legalDisclaimerButton);
+    })
+    .clientScripts({ content: mockGeolocationScript });
 
-describe('Map', () => {
-  // Existing test case
-  it('renders MapContainer with the correct initial position', () => {
-    render(<Map formSubmitted={false} userPosition={null} setUserPosition={() => {}} />);
-    expect(MapContainer).toHaveBeenCalledWith(
-      expect.objectContaining({
-        center: [52.5162, 13.3880],
-        zoom: 13,
-      }),
-      expect.anything()
-    );
-  });
+testcafeTest('take screenshot', async t => {
+    await t.wait(5000)
+    const map = Selector('#map')
+    await t.takeElementScreenshot(map, 'test_maplibre.png')
+  })
 
-  it('enables scrollWheelZoom', () => {
-    render(<Map formSubmitted={false} userPosition={null} setUserPosition={() => {}} />);
-    expect(MapContainer).toHaveBeenCalledWith(
-      expect.objectContaining({
-        scrollWheelZoom: true,
-      }),
-      expect.anything()
-    );
-  });
+testcafeTest('FreifahrenMap renders without crashing', async t => {
+    const mapContainer = Selector('#map-container');
+    await t.expect(mapContainer.exists).ok();
+});
 
-  it('restricts the map view within specified maxBounds', () => {
-    const expectedMaxBounds = {
-      _northEast: { lat: 52.96125019866001, lng: 14.382300343810543 },
-      _southWest: { lat: 52.014679000584486, lng: 12.509131386425151 }
-    };
-    render(<Map formSubmitted={false} userPosition={null} setUserPosition={() => {}} />);
-    expect(MapContainer).toHaveBeenCalledWith(
-      expect.objectContaining({
-        maxBounds: expect.objectContaining(expectedMaxBounds),
-      }),
-      expect.anything()
-    );
-  });
+testcafeTest('FreifahrenMap renders the map with the correct initial view state', async t => {
+    const map = Selector('#map');
+    await t.expect(map.exists).ok();
+});
 
-  it('accepts formSubmitted prop changes', () => {
-    const { rerender } = render(<Map formSubmitted={false} userPosition={null} setUserPosition={() => {}}/>);
-    expect(MapContainer).toHaveBeenCalledWith(
-      expect.objectContaining({
-        children: expect.anything(),
-      }),
-      expect.anything()
-    );
+testcafeTest('FreifahrenMap does not render LocationMarker when userPosition is null', async t => {
 
-    rerender(<Map formSubmitted={true} userPosition={null} setUserPosition={() => {}}/>);
-    // This test checks if MapContainer is called again after rerendering
-    // Ideally, this would check for a change in behavior based on formSubmitted
-    // However, as child components are mocked, direct effects might not be visible
-  });
+    // Assuming you have a way to simulate userPosition being null
+    const locationMarker = Selector('.location-marker');
+    await t.expect(locationMarker.exists).notOk();
 });

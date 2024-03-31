@@ -1,48 +1,66 @@
-import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
-import { LatLngTuple, latLngBounds } from 'leaflet';
+import React, { Suspense, lazy, useRef } from 'react';
+import {
+    LngLatBoundsLike,
+    LngLatLike,
+    MapRef,
+} from 'react-map-gl/maplibre';
 
 import MarkerContainer from './Markers/MarkerContainer';
 import LocationMarker from './Markers/Classes/LocationMarker/LocationMarker';
-import './Map.css'
 
-interface MapProps {
+import './Map.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
+
+const Map = lazy(() => import('react-map-gl/maplibre'));
+
+interface FreifahrenMapProps {
     formSubmitted: boolean;
-    userPosition: LatLngTuple | null;
-    setUserPosition: (position: LatLngTuple | null) => void;
+    userPosition: { lng: number, lat: number } | null | null;
+    setUserPosition: (position: { lng: number, lat: number } | null) => void;
+    isFirstOpen: boolean;
 }
 
-export const berlinViewPosition: LatLngTuple = [52.5162, 13.3880];
+export const berlinViewPosition: { lng: number, lat: number } = { lng: 13.388, lat: 52.5162 };
 
-const Map: React.FC<MapProps> = ({ formSubmitted, userPosition, setUserPosition }) => {
+const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
+    formSubmitted,
+    userPosition,
+    setUserPosition,
+    isFirstOpen
+}) => {
 
-    const maxBounds = latLngBounds([52.96125019866001, 12.509131386425151],
-                                   [52.014679000584486, 14.382300343810543]);
+    const SouthWestBounds: LngLatLike = { lng: 12.8364646484805, lat: 52.23115511676795 }
+    const NorthEastBounds: LngLatLike = { lng: 13.88044556529124, lat: 52.77063424239867 }
 
-  return (
-        <MapContainer id='map'
-            center={berlinViewPosition}
-            zoom={13}
-            scrollWheelZoom={true}
-            maxBounds={maxBounds}
-            maxBoundsViscosity={1}
-            inertia={true}
-            bounceAtZoomLimits={false}
-            touchZoom={true}
-        >
-        <TileLayer
-            attribution= '<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a>'
-            url={`https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
-            minZoom={11}
-            maxZoom={16}
-        />
+    const maxBounds: LngLatBoundsLike = [SouthWestBounds, NorthEastBounds];
 
-        <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition}/>
+    const map = useRef<MapRef>(null);
 
-        <MarkerContainer formSubmitted={formSubmitted}/>
+    return (
+        <div id='map-container' data-testid='map-container'>
+            <Map
+                reuseMaps
+                data-testid='map'
+                ref={map}
+                id='map'
+                initialViewState={{
+                    longitude: berlinViewPosition.lng,
+                    latitude: berlinViewPosition.lat,
+                    zoom: 11,
+                }}
+                maxZoom={14}
+                minZoom={10}
+                maxBounds={maxBounds}
 
-        </MapContainer>
-  );
-}
+                mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
+            >
+                <Suspense fallback={<div>Loading...</div>}>
+                    {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
+                    <MarkerContainer isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
+                </Suspense>
+            </Map>
+        </div>
+    );
+};
 
-export default Map;
+export default FreifahrenMap;
