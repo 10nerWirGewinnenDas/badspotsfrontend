@@ -89,3 +89,17 @@ export async function reportInspector(line: selectOption, station: selectOption,
       .catch((error) => console.error('Error:', error));
 }
 
+export async function getStationDistance(userLat: number | undefined, userLon: number | undefined, inspectorLat: number, inspectorLon: number, ): Promise<number | null> {
+    if (userLat === undefined || userLon === undefined) {
+        return null;
+    }
+
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/distance?userLat=${userLat}&userLon=${userLon}&inspectorLat=${inspectorLat}&inspectorLon=${inspectorLon}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return 0;
+    }
+}
