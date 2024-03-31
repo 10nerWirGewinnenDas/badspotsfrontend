@@ -1,4 +1,3 @@
-
 export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 	const R = 6371; // Radius of the earth in km
 	const dLat = deg2rad(lat2 - lat1);
@@ -30,4 +29,10 @@ export const watchPosition = async (onPositionChanged: (position: {lng: number, 
 export const getStationDistanceMessage = (stationDistance: number | null) => {
   if (!stationDistance) return '';
   return `<div><strong>${stationDistance > 1 ? `${stationDistance} Stationen` : 'eine Station'} von dir entfernt</strong></div>`;
+};
+
+  export const formatElapsedTime = (minutes: number) => {
+	const minuteWord = minutes === 1 ? 'Minute' : 'Minuten';
+	const minuteCount = minutes === 1 ? 'einer' : minutes;
+	return `Vor <strong>${minuteCount} ${minuteWord}</strong> gemeldet.`;
 };

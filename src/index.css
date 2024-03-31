@@ -121,6 +121,7 @@ p {
   padding: 25px;
 }
 
+/* so the user can't highlight the icons on mobile */
 span {
   user-select: none;
 }
