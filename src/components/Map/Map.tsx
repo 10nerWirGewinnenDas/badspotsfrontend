@@ -57,7 +57,7 @@ const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
             >
                 <Suspense fallback={<div>Loading...</div>}>
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
-                    <MarkerContainer userPosition={userPosition} isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
+                    <MarkerContainer  isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
                 </Suspense>
             </Map>
         </div>

@@ -48,7 +48,7 @@ describe('OpacityMarker', () => {
 
 		const { rerender } = render(
 			<OpacityMarker
-				userPosition={null}
+
 				isFirstOpen={false}
 				{...initialProps}
 			/>
@@ -68,7 +68,7 @@ describe('OpacityMarker', () => {
 		};
 		rerender(
 			<OpacityMarker
-				userPosition={null}
+
 				isFirstOpen={false}
 				{...newProps}
 			/>
@@ -110,17 +110,15 @@ describe('OpacityMarker', () => {
 
 		const { rerender } = render(
 			<OpacityMarker
-				userPosition={null}
+
 				isFirstOpen={false}
 				{...initialProps}
 			/>
 		);
 
-		// Simulate userPosition change
-		const newUserPosition = { lat: 52.520008, lng: 13.404954 };
 		rerender(
 			<OpacityMarker
-				userPosition={newUserPosition}
+
 				isFirstOpen={false}
 				{...initialProps}
 			/>
@@ -164,7 +162,7 @@ describe('OpacityMarker', () => {
 
 			render(
 				<OpacityMarker
-					userPosition={null}
+
 					isFirstOpen={false}
 					{...initialProps}
 				/>

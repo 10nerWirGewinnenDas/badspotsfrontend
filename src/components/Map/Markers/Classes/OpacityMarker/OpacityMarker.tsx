@@ -3,8 +3,7 @@ import maplibregl from 'maplibre-gl';
 import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
-import { getStationDistance } from '../../../../../utils/dbUtils';
-import { getStationDistanceMessage, elapsedTimeMessage } from '../../../../../utils/mapUtils';
+import { elapsedTimeMessage } from '../../../../../utils/mapUtils';
 
 import './OpacityMarker.css';
 
@@ -12,19 +11,19 @@ interface OpacityMarkerProps {
     markerData: MarkerData;
     index: number;
     isFirstOpen: boolean;
-    userPosition: { lng: number; lat: number } | null;
 }
 
-export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen, userPosition }) => {
+export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen }) => {
 
     const [opacity, setOpacity] = useState(0);
     const { timestamp, station, line, direction, isHistoric } = markerData;
-    const [stationDistance, setStationDistance] = useState<number | null>(null);
+    const [now, setNow] = useState(new Date().getTime());
 
     // By using useMemo, we can avoid recalculating the timestamp on every render
     const Timestamp = useMemo(() => {
         const tempTimestamp = new Date(timestamp);
-        tempTimestamp.setHours(tempTimestamp.getHours() - 1); // Adjust for UTC to local
+        tempTimestamp.setHours(tempTimestamp.getHours() - 2); // Adjust for UTC to local
+
         return tempTimestamp;
     }, [timestamp]);
 
@@ -43,7 +42,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
                 };
                 calculateOpacity(); // Initial calculation
 
-                intervalId = setInterval(calculateOpacity, 1 * 1000); // every 5 seconds to avoid excessive rerenders
+                intervalId = setInterval(calculateOpacity, 5 * 1000); // every 5 seconds to avoid excessive rerenders
             } else {
                 setOpacity(1);
             }
@@ -52,21 +51,17 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
     }, [Timestamp, isHistoric, isFirstOpen]);
 
     useEffect(() => {
-        const getDistance = async () => {
-            const distance = await getStationDistance(userPosition?.lat, userPosition?.lng, station.coordinates.latitude, station.coordinates.longitude);
-            setStationDistance(distance);
-        };
-        getDistance();
-    }, [userPosition, station.coordinates]);
+        const intervalId = setInterval(() => {
+            setNow(new Date().getTime());
+        }, 60 * 1000); // Update every minute
+
+        return () => clearInterval(intervalId); // Clean up on unmount
+    }, []);
 
     const MarkerPopup = useMemo(() => new maplibregl.Popup().setHTML(`
         ${line} ${direction.name ? direction.name + ' - ' : ''} <strong>${station.name}</strong>
-
-        ${getStationDistanceMessage(stationDistance)}
-
-        <div>${elapsedTimeMessage(new Date().getTime() - Timestamp.getTime(), isHistoric)}</div>
-
-    `), [line, direction.name, station.name, Timestamp, isHistoric, stationDistance]);
+        <div>${elapsedTimeMessage(now - Timestamp.getTime(), isHistoric)}</div>
+      `), [line, direction.name, station.name, Timestamp, isHistoric, now]);
 
     if (opacity <= 0) {
         return null;
