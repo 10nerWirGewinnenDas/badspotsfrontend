@@ -41,12 +41,8 @@ export const watchPosition = async (
 };
 
 export const getStationDistanceMessage = (stationDistance: number | null) => {
-	if (!stationDistance) return '';
-	return `<div>${
-		stationDistance > 1
-			? `<strong>${stationDistance} Stationen`
-			: '<strong>eine Station'
-	}</strong> von dir entfernt</div>`;
+	if (!stationDistance || stationDistance === null || stationDistance < 1) return '';
+	return `<div>${(stationDistance > 1) ? `<strong>${stationDistance} Stationen`: '<strong>eine Station'}</strong> von dir entfernt</div>`;
 };
 
 export const elapsedTimeMessage = (

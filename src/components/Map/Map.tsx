@@ -51,7 +51,6 @@ const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
                 maxZoom={14}
                 minZoom={10}
 
-                maxPitch={0}
                 maxBounds={maxBounds}
 
                 mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}

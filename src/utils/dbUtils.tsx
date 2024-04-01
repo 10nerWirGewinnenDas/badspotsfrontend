@@ -97,9 +97,11 @@ export async function getStationDistance(userLat: number | undefined, userLon: n
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/distance?userLat=${userLat}&userLon=${userLon}&inspectorLat=${inspectorLat}&inspectorLon=${inspectorLon}`);
         const data = await response.json();
+        if (data.Includes('Error')) {
+            return null;
+        }
         return data;
     } catch (error) {
-        console.error('Error:', error);
         return 0;
     }
 }
