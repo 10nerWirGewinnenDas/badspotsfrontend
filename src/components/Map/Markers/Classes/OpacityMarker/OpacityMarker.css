@@ -1,4 +1,5 @@
 .inspector-marker {
+  cursor: pointer;
   background-color: var(--red);
   border-radius: 50%;
   width: 25px;
