@@ -1,5 +1,4 @@
 .inspector-marker {
-  animation: fade 1s  infinite alternate;
   background-color: var(--red);
   border-radius: 50%;
   width: 25px;
@@ -7,26 +6,23 @@
   box-shadow: var(--marker-box-shadow);
 }
 
-@keyframes fade { 
-  from { opacity: 0.7; } 
-}
-
-
 .live{
-  height:24px;
-  width:24px;
-  display:block;
-  border-radius:50%;
+  height: 24px;
+  width: 24px;
+  display: block;
+  border-radius: 50%;
   background-color: var(--red);
-  animation:pulse 1500ms infinite;
-  
+  animation:pulse 3500ms infinite;
 }
 
-@keyframes pulse{
-  0%{
-    box-shadow:var(--red) 0 0 0 0;
+@keyframes pulse {
+  0% {
+    box-shadow: var(--red) 0 0 0 0;
   }
-  75%{
-    box-shadow:var(--marker-pulse-shadow);
+  50% {
+    box-shadow: var(--red) 0 0 0 0;
+  }
+  75% {
+    box-shadow: var(--marker-pulse-shadow);
   }
 }
