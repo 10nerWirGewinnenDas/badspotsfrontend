@@ -31,10 +31,10 @@ const StatsPopUp: React.FC<StatsPopUpProps> = ({ className }) => {
     const timer = setTimeout(() => {
       updateMessageAndShowPopup().then(hidePopupAfterAnimation);
     }, timeForOneMessage);
-  
+
     return () => clearTimeout(timer);
   }, [hidePopupAfterAnimation, timeForOneMessage]);
-  
+
   useEffect(() => {
     if (popOut) {
       const timer = setTimeout(() => setPopOut(false), timeForPopOutAnimation);
@@ -46,7 +46,7 @@ const StatsPopUp: React.FC<StatsPopUpProps> = ({ className }) => {
     <div className={`
         stats-popup ${className} 
         ${popOut ? 'pop-out' : ''}
-        ${!isVisible ? 'fade-out' : ''}`} 
+        ${!isVisible ? 'fade-out' : ''}`}
         dangerouslySetInnerHTML={{ __html: message }} />
   );
 };
