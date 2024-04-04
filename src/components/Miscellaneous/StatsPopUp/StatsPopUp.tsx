@@ -1,5 +1,6 @@
+import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { getNumberOfReportsInLast24Hours } from 'src/utils/dbUtils';
+import { getNumberOfReportsInLast24Hours } from '../../../utils/dbUtils';
 import './StatsPopUp.css';
 
 interface StatsPopUpProps {
