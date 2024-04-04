@@ -26,3 +26,19 @@
 .stats-popup p strong {
     font-size: var(--medium-font-size);
 }
+
+@keyframes popout {
+    0% {
+      transform: translate3d(-50%, -50%, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(-50%, -50%, 0) scale(0.4);
+      opacity: 0;
+    }
+}
+  
+.pop-out {
+    animation: popout 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: transform, opacity;
+}
