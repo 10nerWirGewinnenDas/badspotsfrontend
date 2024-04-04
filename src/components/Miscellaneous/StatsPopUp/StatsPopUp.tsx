@@ -7,7 +7,7 @@ interface StatsPopUpProps {
 }
 
 const StatsPopUp: React.FC<StatsPopUpProps> = ({ className }) => {
-  const [message, setMessage] = useState('<p><strong>ca. 26000 Meldende</strong><br /> in Berlin</p>');
+  const [message, setMessage] = useState('<p><strong>Über 26000 Meldende</strong><br /> in Berlin</p>');
   const [popOut, setPopOut] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
