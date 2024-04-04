@@ -6,6 +6,7 @@ import ReportForm from '../../components/Form/ReportForm/ReportForm';
 import LegalDisclaimer from '../../components/Modals/LegalDisclaimer/LegalDisclaimer';
 import UtilButton from '../../components/Buttons/UtilButton/UtilButton';
 import UtilModal from '../../components/Modals/UtilModal/UtilModal';
+import StatsPopUp from 'src/components/Miscellaneous/StatsPopUp/StatsPopUp';
 import { highlightElement } from '../../utils/uiUtils';
 
 import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
@@ -16,6 +17,7 @@ type AppUIState = {
   formSubmitted: boolean;
   isUtilFormOpen: boolean;
   isFirstOpen: boolean;
+  isStatsPopUpOpen: boolean;
 };
 
 const initialAppUIState: AppUIState = {
@@ -23,6 +25,7 @@ const initialAppUIState: AppUIState = {
   formSubmitted: false,
   isUtilFormOpen: false,
   isFirstOpen: true,
+  isStatsPopUpOpen: false,
 };
 
 function App() {
@@ -34,7 +37,7 @@ function App() {
   }
 
   function closeLegalDisclaimer() {
-    setAppUIState({ ...appUIState, isFirstOpen: false });
+    setAppUIState({ ...appUIState, isFirstOpen: false, isStatsPopUpOpen: true });
   }
 
   return (
@@ -69,7 +72,7 @@ function App() {
         <Map isFirstOpen={appUIState.isFirstOpen} formSubmitted={appUIState.formSubmitted} userPosition={userPosition} setUserPosition={setUserPosition} />
         <UtilButton onClick={() => setAppUIState({ ...appUIState, isUtilFormOpen: !appUIState.isUtilFormOpen })} />
         <ReportButton onClick={() => setAppUIState({ ...appUIState, isReportFormOpen: !appUIState.isReportFormOpen })} />
-
+        {appUIState.isStatsPopUpOpen && <StatsPopUp className={'open'} />}
     </div>
   );
 }
