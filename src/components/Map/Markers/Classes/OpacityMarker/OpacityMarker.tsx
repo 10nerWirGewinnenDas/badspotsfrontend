@@ -33,7 +33,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
                 const calculateOpacity = () => {
                     const currentTime = new Date().getTime();
                     const elapsedTime = currentTime - Timestamp.getTime();
-                    const newOpacity = Math.max(0, 1 - (elapsedTime / (15 * 60 * 1000)));
+                    const newOpacity = Math.max(0, 1 - (elapsedTime / (2 * 60 * 1000)));
                     setOpacity(newOpacity);
                     if (newOpacity === 0) {
                         clearInterval(intervalId);
@@ -47,7 +47,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
             }
             return () => clearInterval(intervalId);
         }
-    }, [Timestamp, isHistoric, isFirstOpen]);
+    }, [Timestamp, isHistoric, isFirstOpen, opacity, station.name]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -74,7 +74,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
             latitude={station.coordinates.latitude}
             longitude={station.coordinates.longitude}
             popup={MarkerPopup}
-            style={{ opacity: opacity }}
+            opacity={opacity.toString()}
         >
             <span className='live' />
         </Marker>
