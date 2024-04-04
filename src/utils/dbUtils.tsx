@@ -105,3 +105,14 @@ export async function getStationDistance(userLat: number | undefined, userLon: n
         return 0;
     }
 }
+
+export async function getNumberOfReportsInLast24Hours(): Promise<number> {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/stats`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return 0;
+    }
+}
