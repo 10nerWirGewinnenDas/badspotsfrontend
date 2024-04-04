@@ -17,3 +17,12 @@
     border: none;
     cursor: pointer;
 }
+
+.stats-popup p {
+    margin: 0;
+    font-size: var(--small-font-size);
+}
+
+.stats-popup p strong {
+    font-size: var(--medium-font-size);
+}
