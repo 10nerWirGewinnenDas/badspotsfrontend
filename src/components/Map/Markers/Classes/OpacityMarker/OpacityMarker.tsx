@@ -14,7 +14,6 @@ interface OpacityMarkerProps {
 }
 
 export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index, isFirstOpen }) => {
-
     const [opacity, setOpacity] = useState(0);
     const { timestamp, station, line, direction, isHistoric } = markerData;
     const [now, setNow] = useState(new Date().getTime());
