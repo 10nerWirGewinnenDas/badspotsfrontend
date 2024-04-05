@@ -1,0 +1,73 @@
+.red-highlight {
+   color: var(--red);
+}
+
+.report-form div{
+    padding: 5px;
+}
+
+.report-form form > div:nth-child(2) {
+    position: relative; 
+}
+
+.report-form label {
+    border-radius: var(--standard-border-radius);
+    font-size: var(--standard-font-size);
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    position: relative;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.report-form input[type="checkbox"] {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: auto;
+    margin-right: 0.65rem;
+}
+
+.report-form label a {
+    color: var(--black);
+    margin: 0 2px;
+}
+
+#markerNote {
+    resize: none;
+    border-radius: 0.2rem;
+    width: 95%;
+    height: 6rem;
+    padding: 0.4rem;
+}
+
+#submitOrCleanButtons-container {
+    display: flex;
+    justify-content: space-between; /* This will put some space between the buttons */
+    
+}
+
+
+#submitOrCleanButtons-container button {
+    
+    height: 3rem;
+    border-radius: var(--standard-border-radius);
+    font-size: var(--standard-font-size);
+    cursor: pointer;
+}
+
+#cleanButton {
+    background-color: var(--red);
+    color: var(--white);
+}
+#submitButton {
+    background-color: var(--green);
+    color: var(--white);
+    width: 100% !important;
+}
+
+#popupSubmitButton {
+    background-color: var(--green);
+    color: var(--white);
+    width: 100% !important;
+}

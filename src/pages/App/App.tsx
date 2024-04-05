@@ -10,6 +10,8 @@ import { highlightElement } from '../../utils/uiUtils';
 
 import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
 import './App.css';
+import {GetBlackSpotDto} from "../../api/api";
+import BlackSpotDetail from "../../components/Form/BlackSpotDetail/BlackSpotDetail";
 
 type AppUIState = {
 	isReportFormOpen: boolean;
@@ -37,6 +39,7 @@ function App() {
 		lng: number;
 		lat: number;
 	} | null>(null);
+	const [currentDetailSpot, setCurrentDetailSpot] = useState<GetBlackSpotDto>()
 	
 
 	const handleFormSubmit = () => {
@@ -106,6 +109,29 @@ function App() {
 				</>
 			)}
 
+			{currentDetailSpot && (
+				<>
+					<BlackSpotDetail
+						closeModal={() => {
+							setCurrentDetailSpot(undefined);
+						}
+						}
+						className={'open'}
+						spot={currentDetailSpot}
+					/>
+					<Backdrop
+						onClick={() =>
+						{setAppUIState({
+							...appUIState,
+							isReportFormOpen: false,
+						})
+							setIsNewMarkerPopupOpen(true);
+						}
+						}
+					/>
+				</>
+			)}
+
 			<Map
 				isNewMarkerPopupOpen={isNewMarkerPopupOpen}
 				setIsNewMarkerPopupOpen={setIsNewMarkerPopupOpen}
@@ -121,6 +147,9 @@ function App() {
 				formSubmitted={appUIState.formSubmitted}
 				userPosition={userPosition}
 				setUserPosition={setUserPosition}
+				openDetailModal={(spot) => {
+					setCurrentDetailSpot(spot)
+				}}
 			/>
 
 			{/* <UtilButton
