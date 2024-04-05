@@ -18,6 +18,7 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "swagger-typescript-api": "^13.0.3",
     "testcafe": "^3.5.0",
     "typescript": "^4.9.5",
     "typescript-eslint": "^7.2.0",
@@ -28,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "api:generate": "sta -p https://api-test.jannis6023.de/api-json -o ./src/api/ -n api.ts --axios"
   },
   "eslintConfig": {
     "extends": [
