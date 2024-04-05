@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import maplibregl from 'maplibre-gl';
 import { Marker } from 'react-map-gl/maplibre';
 
 import { MarkerData } from '../../MarkerContainer';
-import { elapsedTimeMessage } from '../../../../../utils/mapUtils';
+import MarkerPopUp from './MarkerPopUp';
+import Backdrop from 'src/components/Miscellaneous/Backdrop/Backdrop';
 
 import './OpacityMarker.css';
 
@@ -17,6 +17,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
     const [opacity, setOpacity] = useState(0);
     const { timestamp, station, line, direction, isHistoric } = markerData;
     const [now, setNow] = useState(new Date().getTime());
+    const [isMarkerOpen, setIsMarkerOpen] = useState(false);
 
     // By using useMemo, we can avoid recalculating the timestamp on every render
     const Timestamp = useMemo(() => {
@@ -57,27 +58,29 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
         return () => clearInterval(intervalId); // Clean up on unmount
     }, []);
 
-    const MarkerPopup = useMemo(() => new maplibregl.Popup().setHTML(`
-        ${line} ${direction.name ? direction.name + ' - ' : ''} <strong>${station.name}</strong>
-        <div>${elapsedTimeMessage(now - Timestamp.getTime(), isHistoric)}</div>
-      `), [line, direction.name, station.name, Timestamp, isHistoric, now]);
-
     if (opacity <= 0) {
         return null;
     }
 
     return (
-
-        <Marker
-            key={`${line}-${index}`}
-            className='inspector-marker'
-            latitude={station.coordinates.latitude}
-            longitude={station.coordinates.longitude}
-            popup={MarkerPopup}
-            opacity={opacity.toString()}
-        >
-            <span className='live' />
-        </Marker>
+        <>
+            <Marker
+                key={`${line}-${index}`}
+                className='inspector-marker'
+                latitude={station.coordinates.latitude}
+                longitude={station.coordinates.longitude}
+                opacity={opacity.toString()}
+                onClick={() => setIsMarkerOpen(!isMarkerOpen)}
+            >
+                <span className='live' />
+            </Marker>
+            {isMarkerOpen && (
+                <>
+                <MarkerPopUp/>
+                <Backdrop onClick={() => setIsMarkerOpen(false)} />
+                </>
+            )}
+        </>
 
     );
 };
