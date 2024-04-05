@@ -52,7 +52,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
-
+	const [title, setTitle] = useState('');
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
 		const reader = new FileReader();
@@ -176,7 +176,9 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		(fileInput as any).current.click();
 	};
 
-
+	const handleTitleChange = (event: any) => {
+		setTitle(event.target.value);
+	}
 
 
 	return (
@@ -184,8 +186,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 			<form onSubmit={(event) => {
 				event.preventDefault();
 				handleSubmit();
-
-
 			}}>
 
 				<input
@@ -197,7 +197,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				/>
 
 					<div>
-					<textarea id="markerTitle" placeholder='Titel' value={markerNote} onChange={handleNoteChange} />
+					<textarea maxLength={31} id="markerTitle" placeholder='Titel' value={title} onChange={(e) =>  handleTitleChange(e)} />
 				</div>
 
 				<button
