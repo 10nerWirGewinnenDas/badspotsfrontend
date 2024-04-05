@@ -231,10 +231,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name BlackSpotsControllerFindAll
      * @request GET:/api/v2/blackspots
      */
-    blackSpotsControllerFindAll: (params: RequestParams = {}) =>
+    blackSpotsControllerFindAll: (
+      query?: {
+        topLeftLat?: number;
+        topLeftLng?: number;
+        bottomRightLat?: number;
+        bottomRightLng?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<GetBlackSpotDto, any>({
         path: `/api/v2/blackspots`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -307,19 +316,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CategoriesControllerFindAll
      * @request GET:/api/v2/categories
      */
-    categoriesControllerFindAll: (
-      query: {
-        topLeftLat: number;
-        topLeftLng: number;
-        bottomRightLat: number;
-        bottomRightLng: number;
-      },
-      params: RequestParams = {},
-    ) =>
+    categoriesControllerFindAll: (params: RequestParams = {}) =>
       this.request<GetCategoryDto[], any>({
         path: `/api/v2/categories`,
         method: "GET",
-        query: query,
         format: "json",
         ...params,
       }),

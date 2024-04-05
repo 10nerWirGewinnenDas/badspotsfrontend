@@ -111,7 +111,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
                         
                      >
                         <div id="">
-                            <button id="submitButton" onClick={handlePopupSubmit}>Melden</button>
+                            <button id="popupSubmitButton" onClick={handlePopupSubmit}>Melden</button>
                         </div>
                         </Popup>}
                         

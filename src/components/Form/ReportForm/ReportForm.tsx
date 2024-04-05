@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
-import { ActionMeta } from 'react-select/';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
-import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../utils/uiUtils';
+import ApiService from 'src/api/api.service';
+import { LinesList, StationList } from '../../../utils/dbUtils';
+import { highlightElement,  createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
 import Select from 'react-select'
@@ -23,38 +23,14 @@ export interface selectOption {
 }
 
 type reportFormState = {
-	lineInput: selectOption | undefined;
-	stationInput: selectOption | undefined;
-	directionInput: selectOption | undefined;
-	lineOptions: selectOption[];
-	stationOptions: selectOption[];
-	directionOptions: selectOption[];
-	stationsList: StationList;
-	linesList: LinesList;
-	isLoadingLines: boolean;
-	isLoadingStations: boolean;
+	categoryOptions: selectOption[];
 };
 
 const initialState: reportFormState = {
-	lineInput: undefined,
-	stationInput: undefined,
-	directionInput: undefined,
-	lineOptions: [],
-	stationOptions: [],
-	directionOptions: [],
-	stationsList: localStorage.getItem('stationsList') ? JSON.parse(localStorage.getItem('stationsList')!) : {} as StationList,
-	linesList: localStorage.getItem('linesList') ? JSON.parse(localStorage.getItem('linesList')!) : {} as LinesList,
-	isLoadingLines: true,
-	isLoadingStations: true,
-};
 
-const categoryOptions = [
-	{ value: 'category1', label: 'category1' },
-	{ value: 'category2', label: 'category2' },
-	{ value: 'category3', label: 'category3' },
-	{ value: 'category4', label: 'category4' },
-	{ value: 'category5', label: 'category5' },
-];
+
+	categoryOptions: [],
+};
 
 const redHighlight = (text: string) => {
 	return <>{text}<span className='red-highlight'>*</span></>
@@ -74,7 +50,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-
+	
 
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
@@ -93,55 +69,52 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const emptyOption = '' as unknown as selectOption;
 
-	const validateReportForm = async () => {
-		let hasError = false;
+	// const validateReportForm = async () => {
+	// 	let hasError = false;
 
-		// Check for last report time to prevent spamming
-		const lastReportTime = localStorage.getItem('lastReportTime');
+	// 	// Check for last report time to prevent spamming
+	// 	const lastReportTime = localStorage.getItem('lastReportTime');
 
-		if (lastReportTime && Date.now() - parseInt(lastReportTime) < 15 * 60 * 1000) {
+	// 	if (lastReportTime && Date.now() - parseInt(lastReportTime) < 15 * 60 * 1000) {
 
-			highlightElement('report-form');
-			createWarningSpan('station-select-div', 'Du kannst nur alle 15 Minuten eine Meldung abgeben!');
-			hasError = true;
-		}
+	// 		highlightElement('report-form');
+	// 		createWarningSpan('station-select-div', 'Du kannst nur alle 15 Minuten eine Meldung abgeben!');
+	// 		hasError = true;
+	// 	}
 
-		if (reportFormState.stationInput === undefined || reportFormState.stationInput === emptyOption) {
+	// 	if (reportFormState.stationInput === undefined || reportFormState.stationInput === emptyOption) {
 
-			highlightElement('station-select-component__control');
-			hasError = true;
-		}
+	// 		highlightElement('station-select-component__control');
+	// 		hasError = true;
+	// 	}
 
-		if (!(document.getElementById('privacy-checkbox') as HTMLInputElement).checked) {
-			highlightElement('privacy-label');
-			hasError = true;
-		}
+	// 	if (!(document.getElementById('privacy-checkbox') as HTMLInputElement).checked) {
+	// 		highlightElement('privacy-label');
+	// 		hasError = true;
+	// 	}
 
-		const locationError = await verifyUserLocation(reportFormState.stationInput, reportFormState.stationsList);
-		if (locationError) {
-			hasError = true;
-		}
+	// 	const locationError = await verifyUserLocation(reportFormState.stationInput, reportFormState.stationsList);
+	// 	if (locationError) {
+	// 		hasError = true;
+	// 	}
 
-		return hasError; // Return true if there's an error, false otherwise
-	};
+	// 	return hasError; // Return true if there's an error, false otherwise
+	// };
 
 	const handleSubmit = () => {
-		// event.preventDefault();
-
-		// const hasError = await validateReportForm();
-		// if (hasError) return; // Abort submission if there are validation errors
-
-		// const { lineInput, stationInput, directionInput } = reportFormState;
-		// await reportInspector(lineInput!, stationInput!, directionInput!);
-
-		// // Save the timestamp of the report to prevent spamming
-		// localStorage.setItem('lastReportTime', Date.now().toString());
-
-		// closeModal();
-		// onFormSubmit(); // Notify App component about the submission
+		
 
 	};
 
+	useEffect(() => {
+		ApiService.api.categoriesControllerFindAll().then((response) => {
+			const categories = response.data.map((category: any) => {
+				return { value: category.id, label: category.name };
+			});
+			setReportFormState({ ...reportFormState, categoryOptions: categories });
+		});
+		
+	}, []);
 	async function verifyUserLocation(
 		stationInput: selectOption | undefined,
 		stationsList: StationList
@@ -162,6 +135,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 		return false;
 	}
+
 
 	const setNewMarker = () => {
 		if (!userPosition) return 0;
@@ -187,6 +161,9 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		// trigger the file input click event
 		(fileInput as any).current.click();
 	};
+
+
+	
 	
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
@@ -208,7 +185,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				</div>
 
 				<Select options=
-					{categoryOptions}
+					{reportFormState.categoryOptions}
 					placeholder='Kategorie'
 				></Select>
 
@@ -233,7 +210,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				</button>
 
 				<div id="submitOrCleanButtons-container">
-					<button id="submitButton" type='submit'>✅</button>
+					<button id="submitButton" type='submit'>Meldung abgeben</button>
 				</div>
 			</form>
 		</div>
