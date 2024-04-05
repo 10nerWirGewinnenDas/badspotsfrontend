@@ -23,18 +23,34 @@
   padding: 0.4rem;
   width: 100%;
 }
+
 .popupSubmitForm {
-  display: flex;
-  top: 10%;
-}
-
-
-#popup-container {
+  width: 70vw;
   display: flex;
   flex-direction: column;
-  align-items: center; /* This will center the items horizontally */
+  top: 15%;
+  background-color: var(--black);
+  color: var(--white);
+  max-width: 250px;
 }
 
-#popup-container button {
-  margin: 0.5rem;
+#buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#buttons-container span button {
+  padding: 0.5rem;
+  min-width: 100px;
+}
+
+#popupExitButton {
+  background-color: var(--place-holder-color);
+  color: var(--white);
+}
+
+.popupSubmitForm h1 {
+  font-size: var(--almost-big-font-size);
+  text-align: center;
 }
