@@ -50,7 +50,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
         if (userPosition) {
             map.current?.flyTo({
                 center: [userPosition.lng, userPosition.lat],
-                zoom: 14,
+                zoom: 12,
             });
         }
     }, [userPosition])
@@ -73,7 +73,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
                     zoom: 15,
                 }}
                 maxZoom={18}
-                minZoom={14}
+                minZoom={12}
 
                 maxBounds={maxBounds}
 
