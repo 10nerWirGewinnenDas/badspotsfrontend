@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ActionMeta } from 'react-select/';
 
 import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
@@ -8,19 +8,19 @@ import './ReportForm.css';
 import Select from 'react-select'
 
 interface ReportFormProps {
-  closeModal: () => void;
-  openModal: () => void;
-  onFormSubmit: () => void;
-  newMarkerLocation: { lng: number | null, lat: number | null };
-  setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
-  className?: string;
-  userPosition?: {lat: number, lng: number} | null;
+	closeModal: () => void;
+	openModal: () => void;
+	onFormSubmit: () => void;
+	newMarkerLocation: { lng: number | null, lat: number | null };
+	setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
+	className?: string;
+	userPosition?: { lat: number, lng: number } | null;
 }
 
 export interface selectOption {
-	value: string ;
-	label: string ;
-  }
+	value: string;
+	label: string;
+}
 
 type reportFormState = {
 	lineInput: selectOption | undefined;
@@ -70,9 +70,27 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	userPosition
 }) => {
 
-	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
+	const [markerNote, setMarkerNote] = useState(''); // State variable for the marker note
 
-	
+	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
+	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+
+
+	const handleFileChange = (event: any) => {
+		const file = event.target.files[0];
+		const reader = new FileReader();
+		
+		reader.onloadend = () => {
+			setImage((reader.result));
+		};
+
+		if (file) {
+			reader.readAsDataURL(file);
+		} else {
+			setImage(null);
+		}
+	};
+
 	const emptyOption = '' as unknown as selectOption;
 
 	const validateReportForm = async () => {
@@ -133,7 +151,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		const station = stationsList[stationInput.value];
 		if (!station) return false;
 
-		const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude): 0;
+		const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude) : 0;
 
 		// Checks if the user is more than 1 km away from the station
 		if (distance > 1) {
@@ -152,17 +170,24 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		closeModal();
 		return 1;
 	}
-	
+
 	const resetNewMarker = () => {
 		setNewMarkerLocation({ lng: null, lat: null });
 	}
 
-	const [markerNote, setMarkerNote] = useState(''); // State variable for the marker note
 
 	const handleNoteChange = (event: any) => {
-	  setMarkerNote(event.target.value); // Update the note whenever the user types into the field
+		setMarkerNote(event.target.value); // Update the note whenever the user types into the field
 	};
 
+
+	const fileInput = useRef(null);
+
+	const handleButtonClick = () => {
+		// trigger the file input click event
+		(fileInput as any).current.click();
+	};
+	
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
 			<h1>Neue Meldung</h1>
@@ -172,23 +197,43 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					<button disabled={
 						!userPosition
 					}
-					 onClick={(event) =>
-					{
-						event.preventDefault();
-						setNewMarker();
-					}}>{(newMarkerLocation.lat && newMarkerLocation.lng) ? 'Spot neusetzen 🔎' : 'Spot setzen  🔎' }</button>
+						onClick={(event) => {
+							event.preventDefault();
+							setNewMarker();
+						}}>{(newMarkerLocation.lat && newMarkerLocation.lng) ? 'Spot neusetzen 🔎' : 'Spot setzen  🔎'}</button>
 
 				</div>
 				<div>
-      				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
+					<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
 				</div>
 
 				<Select options=
 					{categoryOptions}
 					placeholder='Kategorie'
 				></Select>
+
+				<input
+					type="file"
+					name="image"
+					ref={fileInput}
+					style={{ display: 'none' }} // hide the default file input
+					onChange={handleFileChange}
+				/>
+				<button
+					type="button"
+					onClick={handleButtonClick}
+					style={{
+						backgroundImage: `url(${image})`,
+						backgroundSize: 'cover',
+						width: '100%',
+						height: '20rem',
+					}}
+				>
+					{image ? ' ' : 'Upload Image'}
+				</button>
+
 				<div id="submitOrCleanButtons-container">
-				   	<button id="cleanButton"onClick={() => resetNewMarker()}>❌</button>
+					<button id="cleanButton" onClick={() => resetNewMarker()}>❌</button>
 					<button id="submitButton" type='submit'>✅</button>
 				</div>
 			</form>
