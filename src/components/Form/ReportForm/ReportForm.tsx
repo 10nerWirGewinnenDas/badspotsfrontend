@@ -229,7 +229,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 						height: '20rem',
 					}}
 				>
-					{image ? ' ' : 'Upload Image'}
+					{image ? ' ' : '📷'}
 				</button>
 
 				<div id="submitOrCleanButtons-container">
