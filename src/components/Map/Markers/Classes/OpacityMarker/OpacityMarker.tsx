@@ -77,7 +77,7 @@ export const OpacityMarker: React.FC<OpacityMarkerProps> = ({ markerData, index,
             {isMarkerOpen && (
                 <>
                 <MarkerPopUp 
-                    className={'.open'}
+                    className={'open'}
                     title={'Title'}
                     note={'This is a random note about the repoort'}
                     category={'This is the category'}/>
