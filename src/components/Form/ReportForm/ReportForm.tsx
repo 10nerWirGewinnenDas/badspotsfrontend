@@ -116,12 +116,20 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				categoryId: reportFormState.categorySelectedOption.value,
 				name: '',
 				archived: false
-			}).then(() => {
-				onFormSubmit();
+			}).then((response) => {
+				console.log(response.headers);
+				ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
+					file: fileInput.current!.files![0]
+				}, {
+					headers: {
+						'x-upload-token': response.headers['x-upload-token']
+					}
+				}).then(() => {
+					onFormSubmit();
+				})
+
 			});
 		}
-
-
 	};
 
 	useEffect(() => {
@@ -173,7 +181,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	};
 
 
-	const fileInput = useRef(null);
+	const fileInput = useRef<HTMLInputElement>(null);
 
 	const handleButtonClick = () => {
 		// trigger the file input click event
