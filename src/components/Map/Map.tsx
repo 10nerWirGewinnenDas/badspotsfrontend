@@ -44,7 +44,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const map = useRef<MapRef>(null);  
     
-    const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(false);
+    const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(true);
 
     useMemo(() => {
         if (userPosition) {
@@ -102,7 +102,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
                    >
                    </Marker> 
                    
-                     <div className='container open' id='popupSubmitForm'>
+                     <div className={`container ${isNewMarkerPopupOpen ? 'open': ''}`} id='popupSubmitForm'>
                         <h1>Spot Standort melden?</h1>
                         <button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button>
                     </div>

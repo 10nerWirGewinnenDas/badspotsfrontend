@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import ApiService from 'src/api/api.service';
 import { LinesList, StationList } from '../../../utils/dbUtils';
-import { highlightElement,  createWarningSpan } from '../../../utils/uiUtils';
+import { highlightElement, createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
 import Select from 'react-select'
@@ -51,12 +51,12 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-	
+
 
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
 		const reader = new FileReader();
-		
+
 		reader.onloadend = () => {
 			setImage((reader.result));
 		};
@@ -116,7 +116,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				onFormSubmit();
 			});
 		}
-		
+
 
 	};
 
@@ -127,7 +127,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 			});
 			setReportFormState({ ...reportFormState, categoryOptions: categories });
 		});
-		
+
 	}, []);
 	// async function verifyUserLocation(
 	// 	stationInput: selectOption | undefined,
@@ -153,9 +153,9 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const setNewMarker = () => {
 		if (!userPosition) return 0;
-			const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
-			setNewMarkerLocation(newMarkerLocation);
-			closeModal();
+		const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
+		setNewMarkerLocation(newMarkerLocation);
+		closeModal();
 		return 1;
 	}
 
@@ -177,17 +177,41 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	};
 
 
-	
-	
+
+
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
-			<h1>Neue Meldung</h1>
 			<form onSubmit={(event) => {
 				event.preventDefault();
 				handleSubmit();
-				
-			
+
+
 			}}>
+
+				<input
+					type="file"
+					name="image"
+					ref={fileInput}
+					style={{ display: 'none' }} // hide the default file input
+					onChange={handleFileChange}
+				/>
+
+					<div>
+					<textarea id="markerTitle" placeholder='Titel' value={markerNote} onChange={handleNoteChange} />
+				</div>
+
+				<button
+					type="button"
+					onClick={handleButtonClick}
+					style={{
+						backgroundImage: `url(${image})`,
+						backgroundSize: 'cover',
+						width: '100%',
+						height: '20rem',
+					}}
+				>
+					<p>{image ? ' ' : '📷'}</p>
+				</button>
 
 				<div id='setNewMarkerButton'>
 					<button disabled={
@@ -207,28 +231,10 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					{reportFormState.categoryOptions}
 					placeholder='Kategorie'
 					value={reportFormState.categorySelectedOption}
-					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string} })}
+					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string } })}
 				></Select>
 
-				<input
-					type="file"
-					name="image"
-					ref={fileInput}
-					style={{ display: 'none' }} // hide the default file input
-					onChange={handleFileChange}
-				/>
-				<button
-					type="button"
-					onClick={handleButtonClick}
-					style={{
-						backgroundImage: `url(${image})`,
-						backgroundSize: 'cover',
-						width: '100%',
-						height: '20rem',
-					}}
-				>
-					<p>{image ? ' ' : '📷'}</p>
-				</button>
+
 
 				<div id="submitOrCleanButtons-container">
 					<button id="submitButton" type='submit'>Meldung abgeben</button>
