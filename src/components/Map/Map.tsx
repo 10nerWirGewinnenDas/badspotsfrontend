@@ -13,7 +13,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 const Map = lazy(() => import('react-map-gl/maplibre'));
 
-interface FreifahrenMapProps {
+interface MapsProps {
     formSubmitted: boolean;
     userPosition: { lng: number, lat: number } | null | null;
     setUserPosition: (position: { lng: number, lat: number } | null) => void;
@@ -22,7 +22,7 @@ interface FreifahrenMapProps {
 
 export const berlinViewPosition: { lng: number, lat: number } = { lng: 13.388, lat: 52.5162 };
 
-const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
+const BadspotsMap: React.FC<MapsProps> = ({
     formSubmitted,
     userPosition,
     setUserPosition,
@@ -53,7 +53,7 @@ const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
 
                 maxBounds={maxBounds}
 
-                mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
+                mapStyle={`https://api.jawg.io/styles/f3354f40-2334-41b6-a537-c72decb830b2.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
             >
                 <Suspense fallback={<div>Loading...</div>}>
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
@@ -64,4 +64,4 @@ const FreifahrenMap: React.FC<FreifahrenMapProps> = ({
     );
 };
 
-export default FreifahrenMap;
+export default BadspotsMap;
