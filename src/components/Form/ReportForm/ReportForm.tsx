@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select/';
 
-import AutocompleteInputForm, { selectOption } from '../AutocompleteInputForm/AutocompleteInputForm';
-
 import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
 import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
@@ -10,10 +8,16 @@ import './ReportForm.css';
 
 interface ReportFormProps {
   closeModal: () => void;
+  openModal: () => void;
   onFormSubmit: () => void;
   className?: string;
   userPosition?: {lat: number, lng: number} | null;
 }
+
+export interface selectOption {
+	value: string ;
+	label: string ;
+  }
 
 type reportFormState = {
 	lineInput: selectOption | undefined;
@@ -88,20 +92,21 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		return hasError; // Return true if there's an error, false otherwise
 	};
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
+	const handleSubmit = () => {
+		// event.preventDefault();
 
-		const hasError = await validateReportForm();
-		if (hasError) return; // Abort submission if there are validation errors
+		// const hasError = await validateReportForm();
+		// if (hasError) return; // Abort submission if there are validation errors
 
-		const { lineInput, stationInput, directionInput } = reportFormState;
-		await reportInspector(lineInput!, stationInput!, directionInput!);
+		// const { lineInput, stationInput, directionInput } = reportFormState;
+		// await reportInspector(lineInput!, stationInput!, directionInput!);
 
-		// Save the timestamp of the report to prevent spamming
-		localStorage.setItem('lastReportTime', Date.now().toString());
+		// // Save the timestamp of the report to prevent spamming
+		// localStorage.setItem('lastReportTime', Date.now().toString());
 
-		closeModal();
-		onFormSubmit(); // Notify App component about the submission
+		// closeModal();
+		// onFormSubmit(); // Notify App component about the submission
+
 	};
 
 	async function verifyUserLocation(
@@ -123,6 +128,11 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		}
 
 		return false;
+	}
+
+	const setNewMarker = () => {
+		console.log('setNewMarker');
+		return 1;
 	}
 
 	const refreshOptions = async (type: 'lines' | 'stations') => {
@@ -192,59 +202,24 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		setReportFormState(prevState => ({ ...prevState, stationInput: option, lineOptions: redefineLineOptions(option, reportFormState.stationsList) }));
 	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			await refreshOptions('stations');
-			await refreshOptions('lines');
-		}
 
-		fetchData();
-	}, []);
 
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
 			<h1>Neue Meldung</h1>
 			<form onSubmit={handleSubmit}>
 
-				<div id='station-select-div'>
-					<AutocompleteInputForm
-						className='station-select'
-						classNamePrefix='station-select-component'
-						options={reportFormState.stationOptions}
-						placeholder={redHighlight('Station')}
-						defaultInputValue={reportFormState.stationInput}
-						onChange={(value, action) => handleOnStationChange(value as selectOption, action)}
-						isDisabled={reportFormState.isLoadingStations}
-
-					/>
+				<div id='setNewMarkerButton'>
+					<button onClick={(event) =>
+					{
+						event.preventDefault();
+						setNewMarker();
+					}}>Spot setzen  🔎</button>
 
 				</div>
-				<div className='line-direction-container'>
-					<div className='line-select-container'>
-						<AutocompleteInputForm
-							className='line-select'
-							options={reportFormState.lineOptions}
-							defaultInputValue={reportFormState.lineInput}
-							placeholder='Linie'
-							onChange={(value, action) => handleOnLineChange(value as selectOption, action)}
-							isDropdownIndicator={false}
-							isIndicatorSeparator={false}
-							isDisabled={reportFormState.isLoadingLines}
-						/>
-					</div>
-					<div className='direction-select-container'>
-						<AutocompleteInputForm
-							className='direction-select'
-							options={reportFormState.directionOptions}
-							placeholder='Richtung'
-							defaultInputValue={reportFormState.directionInput}
-							onChange={(option) => setReportFormState(prevState => ({ ...prevState, directionInput: option as selectOption }))}
-							isDropdownIndicator={false}
-							isIndicatorSeparator={false}
-							isDisabled={reportFormState.isLoadingStations}
-						/>
-					</div>
-				</div>
+				
+		
+				
 				<div>
 					<label htmlFor='privacy-checkbox' id='privacy-label'>
 						<input
