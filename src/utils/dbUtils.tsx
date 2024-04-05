@@ -26,6 +26,7 @@ export async function getRecentTicketInspectorInfo(lastUpdateTimestamp: string |
         }
 
         // Make the request with optional If-Modified-Since header
+        /*
         const response = await fetch(`${process.env.REACT_APP_API_URL}/recent`, {
             method: 'GET',
             headers: headers,
@@ -37,7 +38,8 @@ export async function getRecentTicketInspectorInfo(lastUpdateTimestamp: string |
         }
 
         const data = await response.json();
-        return data;
+         */
+        return null;
     } catch (error) {
         console.error('Error:', error);
         return []; // Return an empty array in case of error
