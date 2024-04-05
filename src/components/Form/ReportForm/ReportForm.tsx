@@ -201,7 +201,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				/>
 
 					<div>
-					<textarea maxLength={31} id="markerTitle" placeholder='Titel' value={title} onChange={(e) =>  handleTitleChange(e)} />
+					<textarea maxLength={30} id="markerTitle" placeholder='Titel' value={title} onChange={(e) =>  handleTitleChange(e)} />
 				</div>
 
 				<button
@@ -212,21 +212,11 @@ const ReportForm: React.FC<ReportFormProps> = ({
 						backgroundSize: 'cover',
 						width: '100%',
 						height: '20rem',
+						backgroundColor: '#D9D9D9',
 					}}
 				>
-					<p>{image ? ' ' : '📷'}</p>
+					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
-
-				<div id='setNewMarkerButton'>
-					<button disabled={
-						!userPosition
-					}
-						onClick={(event) => {
-							event.preventDefault();
-							setNewMarker();
-						}}>{(newMarkerLocation.lat && newMarkerLocation.lng) ? 'Spot neusetzen 🔎' : 'Spot setzen  🔎'}</button>
-
-				</div>
 				<div>
 					<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
 				</div>

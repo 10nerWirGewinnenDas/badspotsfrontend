@@ -59,6 +59,11 @@ export interface BlackSpotCreatedDto {
   city: string;
 }
 
+export interface FileUploadDto {
+  /** @format binary */
+  file: File;
+}
+
 export interface CreateVoteDto {
   voterId?: string;
   type: "UP" | "DOWN";
@@ -260,6 +265,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name BlackSpotsControllerUploadImage
+     * @request POST:/api/v2/blackspots/{id}/image
+     */
+    blackSpotsControllerUploadImage: (id: string, data: FileUploadDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/v2/blackspots/${id}/image`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name BlackSpotsControllerGetImage
+     * @request GET:/api/v2/blackspots/{id}/image
+     */
+    blackSpotsControllerGetImage: (id: string, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/v2/blackspots/${id}/image`,
+        method: "GET",
         format: "json",
         ...params,
       }),
