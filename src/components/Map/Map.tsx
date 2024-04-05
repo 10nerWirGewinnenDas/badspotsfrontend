@@ -45,6 +45,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const map = useRef<MapRef>(null);  
     
     const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(false);
+
     useMemo(() => {
         if (userPosition) {
             map.current?.flyTo({
