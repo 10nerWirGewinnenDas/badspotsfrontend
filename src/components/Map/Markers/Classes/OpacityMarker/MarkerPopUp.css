@@ -46,3 +46,9 @@
     filter: brightness(1.2);
     cursor: pointer;
 }
+
+.upvoted {
+    border-radius: 12px;
+    background-color: var(--place-holder-color);
+    filter: brightness(1.2);
+}

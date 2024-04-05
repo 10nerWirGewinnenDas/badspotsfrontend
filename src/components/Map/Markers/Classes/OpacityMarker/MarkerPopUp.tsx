@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import useState for the upvote functionality
+import React, { useState } from 'react';
 import './MarkerPopUp.css';
 
 interface MarkerPopUpProps {
@@ -8,12 +8,18 @@ interface MarkerPopUpProps {
     category: string;
 }
 
-const MarkerPopUp: React.FC<MarkerPopUpProps> = ({className, title, note, category}) => {
+const MarkerPopUp: React.FC<MarkerPopUpProps> = ({ className, title, note, category }) => {
     const [upvotes, setUpvotes] = useState(0);
+    const [isUpvoted, setIsUpvoted] = useState(false);
 
     // Function to handle upvote click
     const handleUpvote = () => {
         setUpvotes(prevUpvotes => prevUpvotes + 1);
+        setIsUpvoted(prevState => !prevState);
+        
+        if (isUpvoted) {
+            setUpvotes(prevUpvotes => prevUpvotes - 2);
+        }
     };
 
     return (
@@ -28,7 +34,7 @@ const MarkerPopUp: React.FC<MarkerPopUpProps> = ({className, title, note, catego
                 <p>Category: {category}</p>
             </div>
             <div>
-                <span onClick={handleUpvote}>👍</span>
+                <span onClick={handleUpvote} className={isUpvoted ? 'upvoted' : ''} >👍</span>
                 <span>{upvotes}</span>
             </div>
         </div>
