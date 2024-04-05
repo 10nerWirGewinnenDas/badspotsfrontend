@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Map from '../../components/Map/Map';
 import ReportButton from '../../components/Buttons/ReportButton/ReportButton';
@@ -23,7 +23,7 @@ const initialAppUIState: AppUIState = {
 	isReportFormOpen: false,
 	formSubmitted: false,
 	isUtilFormOpen: false,
-	isFirstOpen: true,
+	isFirstOpen: false,
 	isStatsPopUpOpen: false,
 };
 
@@ -42,6 +42,7 @@ function App() {
 		}));
 	};
 
+	
 	function closeLegalDisclaimer() {
 		setAppUIState({
 			...appUIState,
@@ -68,6 +69,8 @@ function App() {
 			{appUIState.isReportFormOpen && (
 				<>
 					<ReportForm
+						newMarkerLocation={newMarkerId}
+						setNewMarkerLocation={setNewMarkerId}
 						closeModal={() =>
 							setAppUIState({
 								...appUIState,
@@ -96,6 +99,14 @@ function App() {
 			)}
 
 			<Map
+				openModal={() =>
+					setAppUIState({
+						...appUIState,
+						isReportFormOpen: true,
+					})
+				}
+				newMarkerLocation={newMarkerId}
+				setNewMarkerLocation={setNewMarkerId}
 				isFirstOpen={appUIState.isFirstOpen}
 				formSubmitted={appUIState.formSubmitted}
 				userPosition={userPosition}

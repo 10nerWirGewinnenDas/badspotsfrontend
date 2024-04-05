@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, useRef } from 'react';
+import React, { Suspense, lazy, useMemo, useRef, useState } from 'react';
 import {
     LngLatBoundsLike,
     LngLatLike,
     MapRef,
+    Marker,
 } from 'react-map-gl/maplibre';
 
 import MarkerContainer from './Markers/MarkerContainer';
@@ -14,19 +15,25 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 const Map = lazy(() => import('react-map-gl/maplibre'));
 
 interface MapsProps {
+    openModal: () => void;
     formSubmitted: boolean;
     userPosition: { lng: number, lat: number } | null | null;
     setUserPosition: (position: { lng: number, lat: number } | null) => void;
     isFirstOpen: boolean;
+    newMarkerLocation: { lng: number | null, lat: number | null };
+    setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
 }
 
 export const berlinViewPosition: { lng: number, lat: number } = { lng: 13.388, lat: 52.5162 };
 
 const BadspotsMap: React.FC<MapsProps> = ({
+    openModal,
     formSubmitted,
     userPosition,
     setUserPosition,
-    isFirstOpen
+    isFirstOpen,
+    newMarkerLocation,
+    setNewMarkerLocation
 }) => {
 
     const SouthWestBounds: LngLatLike = { lng: 12.8364646484805, lat: 52.23115511676795 }
@@ -34,7 +41,16 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const maxBounds: LngLatBoundsLike = [SouthWestBounds, NorthEastBounds];
 
-    const map = useRef<MapRef>(null);
+    const map = useRef<MapRef>(null);    
+    
+    useMemo(() => {
+        if (userPosition) {
+            map.current?.flyTo({
+                center: [userPosition.lng, userPosition.lat],
+                zoom: 14,
+            });
+        }
+    }, [userPosition])
 
     return (
         <div id='map-container' data-testid='map-container'>
@@ -44,8 +60,8 @@ const BadspotsMap: React.FC<MapsProps> = ({
                 ref={map}
                 id='map'
                 initialViewState={{
-                    longitude: berlinViewPosition.lng,
-                    latitude: berlinViewPosition.lat,
+                    longitude: (userPosition?.lng) ? userPosition.lng  : berlinViewPosition.lng ,
+                    latitude:  (userPosition?.lat) ? userPosition.lat  : berlinViewPosition.lat ,
                     zoom: 11,
                 }}
                 maxZoom={14}
@@ -59,6 +75,24 @@ const BadspotsMap: React.FC<MapsProps> = ({
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
                     <MarkerContainer  isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
                 </Suspense>
+
+
+                
+                {(newMarkerLocation.lat != null && newMarkerLocation.lng != null) && 
+                   ( <Marker 
+                        latitude={newMarkerLocation.lat as number} 
+                        longitude={newMarkerLocation.lng as number}
+                        draggable={true}
+                        onDragEnd={(event) => {
+                            setNewMarkerLocation({ lat: event.lngLat.lat, lng: event.lngLat.lng});
+                            openModal();
+                        }}
+                   
+                   >
+
+                   </Marker>)}
+
+                    
             </Map>
         </div>
     );

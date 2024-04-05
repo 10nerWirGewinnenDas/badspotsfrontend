@@ -10,6 +10,8 @@ interface ReportFormProps {
   closeModal: () => void;
   openModal: () => void;
   onFormSubmit: () => void;
+  newMarkerLocation: { lng: number | null, lat: number | null };
+  setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
   className?: string;
   userPosition?: {lat: number, lng: number} | null;
 }
@@ -51,7 +53,10 @@ const redHighlight = (text: string) => {
 
 const ReportForm: React.FC<ReportFormProps> = ({
 	closeModal,
+	openModal,
 	onFormSubmit,
+	newMarkerLocation,
+	setNewMarkerLocation,
 	className,
 	userPosition
 }) => {
@@ -131,7 +136,10 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	}
 
 	const setNewMarker = () => {
-		console.log('setNewMarker');
+		if (!userPosition) return 0;
+		const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
+		setNewMarkerLocation(newMarkerLocation);
+		closeModal();
 		return 1;
 	}
 
@@ -210,11 +218,14 @@ const ReportForm: React.FC<ReportFormProps> = ({
 			<form onSubmit={handleSubmit}>
 
 				<div id='setNewMarkerButton'>
-					<button onClick={(event) =>
+					<button disabled={
+						!userPosition
+					}
+					 onClick={(event) =>
 					{
 						event.preventDefault();
 						setNewMarker();
-					}}>Spot setzen  🔎</button>
+					}}>{(newMarkerLocation.lat && newMarkerLocation.lng) ? 'Spot neusetzen 🔎' : 'Spot setzen  🔎' }</button>
 
 				</div>
 				
