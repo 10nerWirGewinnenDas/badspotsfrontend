@@ -24,10 +24,14 @@ const ReportButton: React.FC<ReportButtonProps> = ({ onClick, newMarkerLocation,
         <button className='report-button' disabled={
             !userPosition
         }
-            onClick={(event) => {
-                event.preventDefault();
-                setNewMarker();
-            }} aria-label='report ticketinspector' > 
+                onClick={(event) => {
+                    event.preventDefault();
+                    setNewMarker();
+
+                }} 
+                
+                aria-label='report ticketinspector' 
+            > 
             
             <span role='img' aria-label='warning'>+</span>
         </button>

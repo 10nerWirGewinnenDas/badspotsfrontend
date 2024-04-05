@@ -88,34 +88,27 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
                 
                 {(newMarkerLocation.lat != null && newMarkerLocation.lng != null) && 
-                   ( <Marker 
+                   (<>
+                    <Marker 
                         latitude={newMarkerLocation.lat as number} 
                         longitude={newMarkerLocation.lng as number}
                         
                         draggable={true}
                         onDragEnd={(event) => {
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
-                            setIsNewMarkerPopupOpen(true);
 
                             // openModal();
                         }}
-                        onDrag={() => setIsNewMarkerPopupOpen(false)}
                    >
-                    {isNewMarkerPopupOpen && 
-                    <Popup 
-                        offset={20}
-                        latitude={newMarkerLocation.lat as number} 
-                        longitude={newMarkerLocation.lng as number}
-                        closeButton={false}
-                        closeOnClick={false}
-                        
-                     >
-                        <div id="">
-                            <button id="popupSubmitButton" onClick={handlePopupSubmit}>Melden</button>
-                        </div>
-                        </Popup>}
-                        
-                   </Marker>)}
+                   </Marker> 
+                   
+                     <div className='container open' >
+                        <p>hooo</p>
+                        <button id="popupSubmitButton" onClick={handlePopupSubmit}>Melden</button>
+                    </div>
+                    </>)}
+
+                   
 
                     
             </Map>

@@ -17,6 +17,7 @@ type AppUIState = {
 	isUtilFormOpen: boolean;
 	isFirstOpen: boolean;
 	isStatsPopUpOpen: boolean;
+	isSettingMarker: boolean;
 };
 
 const initialAppUIState: AppUIState = {
@@ -25,6 +26,7 @@ const initialAppUIState: AppUIState = {
 	isUtilFormOpen: false,
 	isFirstOpen: false,
 	isStatsPopUpOpen: false,
+	isSettingMarker: false,
 };
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
 		lng: number;
 		lat: number;
 	} | null>(null);
+	
 
 	const handleFormSubmit = () => {
 		setAppUIState((appUIState) => ({
@@ -99,6 +102,7 @@ function App() {
 			)}
 
 			<Map
+				
 				openModal={() =>
 					setAppUIState({
 						...appUIState,
@@ -112,6 +116,7 @@ function App() {
 				userPosition={userPosition}
 				setUserPosition={setUserPosition}
 			/>
+
 			<UtilButton
 				onClick={() =>
 					setAppUIState({

@@ -23,12 +23,13 @@ export interface selectOption {
 }
 
 type reportFormState = {
+	categorySelectedOption: selectOption;
 	categoryOptions: selectOption[];
 };
 
 const initialState: reportFormState = {
 
-
+	categorySelectedOption: '' as unknown as selectOption,
 	categoryOptions: [],
 };
 
@@ -102,14 +103,20 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	// };
 
 	const handleSubmit = () => {
-		// ApiService.api.blackSpotsControllerCreate({
-		// 	description: markerNote,
-		// 	latitude: newMarkerLocation.lat!,
-		// 	longitude: newMarkerLocation.lng!
 
-		// }).then(() => {
-		// 	onFormSubmit();
-		// });
+		if (newMarkerLocation.lat && newMarkerLocation.lng) {
+			ApiService.api.blackSpotsControllerCreate({
+				description: markerNote,
+				latitude: newMarkerLocation.lat,
+				longitude: newMarkerLocation.lng,
+				categoryId: reportFormState.categorySelectedOption.value,
+				name: '',
+				archived: false
+			}).then(() => {
+				onFormSubmit();
+			});
+		}
+		
 
 	};
 
@@ -199,6 +206,8 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				<Select options=
 					{reportFormState.categoryOptions}
 					placeholder='Kategorie'
+					value={reportFormState.categorySelectedOption}
+					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string} })}
 				></Select>
 
 				<input
