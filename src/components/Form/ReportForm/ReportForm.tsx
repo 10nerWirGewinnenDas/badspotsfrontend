@@ -102,7 +102,14 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	// };
 
 	const handleSubmit = () => {
-		
+		// ApiService.api.blackSpotsControllerCreate({
+		// 	description: markerNote,
+		// 	latitude: newMarkerLocation.lat!,
+		// 	longitude: newMarkerLocation.lng!
+
+		// }).then(() => {
+		// 	onFormSubmit();
+		// });
 
 	};
 
@@ -115,26 +122,26 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		});
 		
 	}, []);
-	async function verifyUserLocation(
-		stationInput: selectOption | undefined,
-		stationsList: StationList
-	): Promise<boolean> {
-		if (!stationInput) return false;
+	// async function verifyUserLocation(
+	// 	stationInput: selectOption | undefined,
+	// 	stationsList: StationList
+	// ): Promise<boolean> {
+	// 	if (!stationInput) return false;
 
-		const station = stationsList[stationInput.value];
-		if (!station) return false;
+	// 	const station = stationsList[stationInput.value];
+	// 	if (!station) return false;
 
-		const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude) : 0;
+	// 	const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude) : 0;
 
-		// Checks if the user is more than 1 km away from the station
-		if (distance > 1) {
-			highlightElement('report-form');
-			createWarningSpan('station-select-div', 'Du bist zu weit von der Station entfernt. Bitte wähle die richtige Station!');
-			return true; // Indicates an error
-		}
+	// 	// Checks if the user is more than 1 km away from the station
+	// 	if (distance > 1) {
+	// 		highlightElement('report-form');
+	// 		createWarningSpan('station-select-div', 'Du bist zu weit von der Station entfernt. Bitte wähle die richtige Station!');
+	// 		return true; // Indicates an error
+	// 	}
 
-		return false;
-	}
+	// 	return false;
+	// }
 
 
 	const setNewMarker = () => {
@@ -168,7 +175,12 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
 			<h1>Neue Meldung</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={(event) => {
+				event.preventDefault();
+				handleSubmit();
+				
+			
+			}}>
 
 				<div id='setNewMarkerButton'>
 					<button disabled={
