@@ -70,3 +70,27 @@
     color: var(--white);
     width: 100% !important;
 }
+
+button p {
+    font-size: var(--almost-big-font-size);
+}
+
+button p:first-child {
+    font-size: var(--huge-font-size);
+}
+
+#markerTitle {
+    height: 2.5rem; 
+    width: 100%;
+}
+
+.report-form textarea {
+    margin-top: 1rem;
+    resize: none;
+    border-radius: 5px;
+    height: 2rem;
+    font-size: var(--button-font-size);
+    padding: 0 0.5rem;
+    border-color: var(--gray-outlines);
+    padding-top: 0.25rem; /* Adjust the value as needed */
+}

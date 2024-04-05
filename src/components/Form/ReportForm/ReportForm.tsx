@@ -179,11 +179,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					style={{ display: 'none' }} // hide the default file input
 					onChange={handleFileChange}
 				/>
-
-					<div>
-					<textarea maxLength={30} id="markerTitle" placeholder='Titel' value={title} onChange={(e) =>  handleTitleChange(e)} />
-				</div>
-
 				<button
 					type="button"
 					onClick={handleButtonClick}
@@ -191,15 +186,15 @@ const ReportForm: React.FC<ReportFormProps> = ({
 						backgroundImage: `url(${image})`,
 						backgroundSize: 'cover',
 						width: '100%',
-						height: '20rem',
+						height: '15rem',
 						backgroundColor: '#D9D9D9',
 					}}
-				>
+				>	
+					<p>{image ? '': '+'}</p>
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
-				<div>
-					<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
-				</div>
+				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} />
+				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
 
 				<Select options=
 					{reportFormState.categoryOptions}
