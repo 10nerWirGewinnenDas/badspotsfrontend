@@ -32,6 +32,7 @@ const initialAppUIState: AppUIState = {
 function App() {
 	const [appUIState, setAppUIState] = useState<AppUIState>(initialAppUIState);
 	const [newMarkerId, setNewMarkerId] = useState<{lng: number | null , lat: number | null;}>({lng: null, lat: null});
+	const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(true);
 	const [userPosition, setUserPosition] = useState<{
 		lng: number;
 		lat: number;
@@ -72,6 +73,8 @@ function App() {
 			{appUIState.isReportFormOpen && (
 				<>
 					<ReportForm
+						isNewMarkerPopupOpen={isNewMarkerPopupOpen}
+						setIsNewMarkerPopupOpen={setIsNewMarkerPopupOpen}
 						newMarkerLocation={newMarkerId}
 						setNewMarkerLocation={setNewMarkerId}
 						closeModal={() =>
@@ -102,7 +105,8 @@ function App() {
 			)}
 
 			<Map
-				
+				isNewMarkerPopupOpen={isNewMarkerPopupOpen}
+				setIsNewMarkerPopupOpen={setIsNewMarkerPopupOpen}
 				openModal={() =>
 					setAppUIState({
 						...appUIState,

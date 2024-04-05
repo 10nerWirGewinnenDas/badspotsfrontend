@@ -15,6 +15,8 @@ interface ReportFormProps {
 	setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
 	className?: string;
 	userPosition?: { lat: number, lng: number } | null;
+	isNewMarkerPopupOpen: boolean;
+	setIsNewMarkerPopupOpen: (isOpen: boolean) => void;
 }
 
 export interface selectOption {
@@ -44,7 +46,9 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	newMarkerLocation,
 	setNewMarkerLocation,
 	className,
-	userPosition
+	userPosition,
+	isNewMarkerPopupOpen,
+	setIsNewMarkerPopupOpen
 }) => {
 
 	const [markerNote, setMarkerNote] = useState(''); // State variable for the marker note

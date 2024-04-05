@@ -23,6 +23,8 @@ interface MapsProps {
     isFirstOpen: boolean;
     newMarkerLocation: { lng: number | null, lat: number | null };
     setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
+    isNewMarkerPopupOpen: boolean;
+    setIsNewMarkerPopupOpen: (isOpen: boolean) => void;
 }
 
 export const berlinViewPosition: { lng: number, lat: number } = {lng: 13.124869779929298, lat: 52.39252123352503}
@@ -34,7 +36,9 @@ const BadspotsMap: React.FC<MapsProps> = ({
     setUserPosition,
     isFirstOpen,
     newMarkerLocation,
-    setNewMarkerLocation
+    setNewMarkerLocation,
+    isNewMarkerPopupOpen,
+    setIsNewMarkerPopupOpen
 }) => {
 
     const SouthWestBounds: LngLatLike = { lng: 12.8364646484805, lat: 52.23115511676795 }
@@ -44,7 +48,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const map = useRef<MapRef>(null);  
     
-    const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(true);
+   
 
     useMemo(() => {
         if (userPosition) {

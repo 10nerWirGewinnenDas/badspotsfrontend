@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src",
-    "api:generate": "sta -p https://api-test.jannis6023.de/api-json -o ./src/api/ -n api.ts --axios"
+    "api:generate": "sta -p https://api.blackspots.de/api-json -o ./src/api/ -n api.ts --axios"
   },
   "eslintConfig": {
     "extends": [
