@@ -105,8 +105,6 @@ const BadspotsMap: React.FC<MapsProps> = ({
                         draggable={true}
                         onDragEnd={(event) => {
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
-
-                            // openModal();
                         }}
                    >
                    </Marker> 
@@ -114,8 +112,8 @@ const BadspotsMap: React.FC<MapsProps> = ({
                    <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
                     <h1>Spot Standort melden?</h1>
                     <div id="buttons-container">
-                        <button id="popupExitButton" onClick={handlePopupExit}>Nein</button>
-                        <button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button>
+                        <span><button id="popupExitButton" onClick={handlePopupExit}>Nein</button></span>
+                        <span><button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button></span>
                     </div>
                     </div>
 

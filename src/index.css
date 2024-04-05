@@ -6,7 +6,7 @@
   --white: #fff;
   --black: #293133;
   --red: #740000;
-  --green: #07b307;
+  --green: #00AF12;
   --standard-border-radius: 8px;
 
   --button-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
@@ -22,6 +22,7 @@
   --standard-font-size: 0.9em;
   --medium-font-size: 1em;
   --button-font-size: 1.1em;
+  --almost-big-font-size: 1.3em;
   --big-font-size: 1.5em;
   
 }
