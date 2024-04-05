@@ -1,9 +1,10 @@
-import React, { Suspense, lazy, useMemo, useRef } from 'react';
+import React, {lazy, useMemo, useRef } from 'react';
 import {
     LngLatBoundsLike,
     LngLatLike,
     MapRef,
     Marker,
+    Popup
 } from 'react-map-gl/maplibre';
 
 import MarkerContainer from './Markers/MarkerContainer';
@@ -24,7 +25,7 @@ interface MapsProps {
     setNewMarkerLocation: (position: { lng: number | null, lat: number | null }) => void;
 }
 
-export const berlinViewPosition: { lng: number, lat: number } = { lng: 13.388, lat: 52.5162 };
+export const berlinViewPosition: { lng: number, lat: number } = {lng: 13.124869779929298, lat: 52.39252123352503}
 
 const BadspotsMap: React.FC<MapsProps> = ({
     openModal,
@@ -41,8 +42,10 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const maxBounds: LngLatBoundsLike = [SouthWestBounds, NorthEastBounds];
 
-    const map = useRef<MapRef>(null);    
+    const map = useRef<MapRef>(null);  
     
+    const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(false);
+
     useMemo(() => {
         if (userPosition) {
             map.current?.flyTo({
@@ -51,6 +54,11 @@ const BadspotsMap: React.FC<MapsProps> = ({
             });
         }
     }, [userPosition])
+
+    const handlePopupSubmit = () => {
+        openModal();
+        setIsNewMarkerPopupOpen(false);
+    }
 
     return (
         <div id='map-container' data-testid='map-container'>
@@ -62,19 +70,20 @@ const BadspotsMap: React.FC<MapsProps> = ({
                 initialViewState={{
                     longitude: (userPosition?.lng) ? userPosition.lng  : berlinViewPosition.lng ,
                     latitude:  (userPosition?.lat) ? userPosition.lat  : berlinViewPosition.lat ,
-                    zoom: 11,
+                    zoom: 15,
                 }}
-                maxZoom={14}
-                minZoom={10}
+                maxZoom={18}
+                minZoom={14}
 
                 maxBounds={maxBounds}
 
-                mapStyle={`https://api.jawg.io/styles/f3354f40-2334-41b6-a537-c72decb830b2.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
-            >
-                <Suspense fallback={<div>Loading...</div>}>
+                mapStyle={`https://api.jawg.io/styles/jawg-streets.json?access-token=${process.env.REACT_APP_JAWG_ACCESS_TOKEN}`}
+            >   
+
+               
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
                     <MarkerContainer  isFirstOpen={isFirstOpen} formSubmitted={formSubmitted} />
-                </Suspense>
+                
 
 
                 
@@ -82,14 +91,30 @@ const BadspotsMap: React.FC<MapsProps> = ({
                    ( <Marker 
                         latitude={newMarkerLocation.lat as number} 
                         longitude={newMarkerLocation.lng as number}
+                        
                         draggable={true}
                         onDragEnd={(event) => {
-                            setNewMarkerLocation({ lat: event.lngLat.lat, lng: event.lngLat.lng});
-                            openModal();
-                        }}
-                   
-                   >
+                            setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
+                            setIsNewMarkerPopupOpen(true);
 
+                            // openModal();
+                        }}
+                        onDrag={() => setIsNewMarkerPopupOpen(false)}
+                   >
+                    {isNewMarkerPopupOpen && 
+                    <Popup 
+                        offset={20}
+                        latitude={newMarkerLocation.lat as number} 
+                        longitude={newMarkerLocation.lng as number}
+                        closeButton={false}
+                        closeOnClick={false}
+                        
+                     >
+                        <div id="">
+                            <button id="submitButton" onClick={handlePopupSubmit}>Melden</button>
+                        </div>
+                        </Popup>}
+                        
                    </Marker>)}
 
                     

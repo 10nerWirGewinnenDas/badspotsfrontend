@@ -165,9 +165,9 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const setNewMarker = () => {
 		if (!userPosition) return 0;
-		const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
-		setNewMarkerLocation(newMarkerLocation);
-		closeModal();
+			const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
+			setNewMarkerLocation(newMarkerLocation);
+			closeModal();
 		return 1;
 	}
 
@@ -229,11 +229,10 @@ const ReportForm: React.FC<ReportFormProps> = ({
 						height: '20rem',
 					}}
 				>
-					{image ? ' ' : '📷'}
+					<p>{image ? ' ' : '📷'}</p>
 				</button>
 
 				<div id="submitOrCleanButtons-container">
-					<button id="cleanButton" onClick={() => resetNewMarker()}>❌</button>
 					<button id="submitButton" type='submit'>✅</button>
 				</div>
 			</form>

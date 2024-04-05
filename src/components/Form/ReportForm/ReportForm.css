@@ -47,9 +47,9 @@
     
 }
 
+
 #submitOrCleanButtons-container button {
-    font-size: 1.5rem !important;
-    width: 48%;
+    
     height: 3rem;
     border-radius: var(--standard-border-radius);
     font-size: var(--standard-font-size);
@@ -64,4 +64,5 @@
 #submitButton {
     background-color: var(--green);
     color: var(--white);
+    width: 100% !important;
 }

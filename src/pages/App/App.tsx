@@ -121,6 +121,9 @@ function App() {
 				}
 			/>
 			<ReportButton
+				newMarkerLocation={newMarkerId}
+				setNewMarkerLocation={setNewMarkerId}
+				userPosition={userPosition}
 				onClick={() =>
 					setAppUIState({
 						...appUIState,
