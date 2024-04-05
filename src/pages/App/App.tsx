@@ -132,6 +132,8 @@ function App() {
 				}
 			/> */}
 			<ReportButton
+				isNewMarkerPopupOpen={isNewMarkerPopupOpen}
+				setIsNewMarkerPopupOpen={setIsNewMarkerPopupOpen}
 				newMarkerLocation={newMarkerId}
 				setNewMarkerLocation={setNewMarkerId}
 				userPosition={userPosition}

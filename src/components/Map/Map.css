@@ -23,3 +23,18 @@
   padding: 0.4rem;
   width: 100%;
 }
+.popupSubmitForm {
+  display: flex;
+  top: 10%;
+}
+
+
+#popup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center the items horizontally */
+}
+
+#popup-container button {
+  margin: 0.5rem;
+}

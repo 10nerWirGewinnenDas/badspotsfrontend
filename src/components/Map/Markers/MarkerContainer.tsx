@@ -34,25 +34,25 @@ const MarkerContainer: React.FC<MarkersProps> = ({ formSubmitted, isFirstOpen })
 	const [ticketInspectorList, setTicketInspectorList] = useState<MarkerData[]>([]);
 	const lastReceivedInspectorTimestamp = useRef<string | null>(null);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const newTicketInspectorList = await getRecentTicketInspectorInfo(lastReceivedInspectorTimestamp.current) || [];
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		const newTicketInspectorList = await getRecentTicketInspectorInfo(lastReceivedInspectorTimestamp.current) || [];
 
-			// Check if the new array is not empty, then update the state
-			if (Array.isArray(newTicketInspectorList) && newTicketInspectorList.length > 0) {
+	// 		// Check if the new array is not empty, then update the state
+	// 		if (Array.isArray(newTicketInspectorList) && newTicketInspectorList.length > 0) {
 
-				setTicketInspectorList(newTicketInspectorList);
+	// 			setTicketInspectorList(newTicketInspectorList);
 
-				// Update lastUpdateTime in local storage with the most recent timestamp
-				lastReceivedInspectorTimestamp.current = newTicketInspectorList[0].timestamp;
-			}
-		};
+	// 			// Update lastUpdateTime in local storage with the most recent timestamp
+	// 			lastReceivedInspectorTimestamp.current = newTicketInspectorList[0].timestamp;
+	// 		}
+	// 	};
 
-		fetchData();
-		const interval = setInterval(fetchData, 5000);
+	// 	fetchData();
+	// 	const interval = setInterval(fetchData, 5000);
 
-		return () => clearInterval(interval);
-	}, [formSubmitted, ticketInspectorList]);
+	// 	return () => clearInterval(interval);
+	// }, [formSubmitted, ticketInspectorList]);
 
 	return (
 		<div >

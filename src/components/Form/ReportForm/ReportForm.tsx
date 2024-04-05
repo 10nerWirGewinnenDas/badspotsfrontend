@@ -74,38 +74,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const emptyOption = '' as unknown as selectOption;
 
-	// const validateReportForm = async () => {
-	// 	let hasError = false;
-
-	// 	// Check for last report time to prevent spamming
-	// 	const lastReportTime = localStorage.getItem('lastReportTime');
-
-	// 	if (lastReportTime && Date.now() - parseInt(lastReportTime) < 15 * 60 * 1000) {
-
-	// 		highlightElement('report-form');
-	// 		createWarningSpan('station-select-div', 'Du kannst nur alle 15 Minuten eine Meldung abgeben!');
-	// 		hasError = true;
-	// 	}
-
-	// 	if (reportFormState.stationInput === undefined || reportFormState.stationInput === emptyOption) {
-
-	// 		highlightElement('station-select-component__control');
-	// 		hasError = true;
-	// 	}
-
-	// 	if (!(document.getElementById('privacy-checkbox') as HTMLInputElement).checked) {
-	// 		highlightElement('privacy-label');
-	// 		hasError = true;
-	// 	}
-
-	// 	const locationError = await verifyUserLocation(reportFormState.stationInput, reportFormState.stationsList);
-	// 	if (locationError) {
-	// 		hasError = true;
-	// 	}
-
-	// 	return hasError; // Return true if there's an error, false otherwise
-	// };
-
 	const handleSubmit = () => {
 
 		if (newMarkerLocation.lat && newMarkerLocation.lng) {
@@ -130,16 +98,20 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 			});
 		}
+		setIsNewMarkerPopupOpen(false);
+
+		closeModal();
 	};
 
-	useEffect(() => {
+
+	useEffect( () => {
 		ApiService.api.categoriesControllerFindAll().then((response) => {
 			const categories = response.data.map((category: any) => {
 				return { value: category.id, label: category.name };
 			});
 			setReportFormState({ ...reportFormState, categoryOptions: categories });
-		});
-
+		})
+		
 	}, []);
 	// async function verifyUserLocation(
 	// 	stationInput: selectOption | undefined,
