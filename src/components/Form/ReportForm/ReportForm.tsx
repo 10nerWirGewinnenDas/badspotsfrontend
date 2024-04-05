@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ActionMeta } from 'react-select/';
 
 import { LinesList, StationList, StationProperty, getAllLinesList, getAllStationsList, reportInspector } from '../../../utils/dbUtils';
 import { highlightElement, redefineDirectionOptions, redefineLineOptions, redefineStationOptions, createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
+import Select from 'react-select'
 
 interface ReportFormProps {
   closeModal: () => void;
@@ -47,6 +48,14 @@ const initialState: reportFormState = {
 	isLoadingStations: true,
 };
 
+const categoryOptions = [
+	{ value: 'category1', label: 'category1' },
+	{ value: 'category2', label: 'category2' },
+	{ value: 'category3', label: 'category3' },
+	{ value: 'category4', label: 'category4' },
+	{ value: 'category5', label: 'category5' },
+];
+
 const redHighlight = (text: string) => {
 	return <>{text}<span className='red-highlight'>*</span></>
 }
@@ -63,6 +72,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 
+	
 	const emptyOption = '' as unknown as selectOption;
 
 	const validateReportForm = async () => {
@@ -142,75 +152,16 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		closeModal();
 		return 1;
 	}
-
-	const refreshOptions = async (type: 'lines' | 'stations') => {
-		try {
-			setReportFormState(prevState => ({ ...prevState, [type === 'lines' ? 'isLoadingLines' : 'isLoadingStations']: true }));
-			let list = (type === 'lines') ? {} as LinesList : {} as StationList;
-
-			const storedList = JSON.parse(localStorage.getItem(`${type}List`) || 'null');
-
-			if (storedList === null || (Date.now() - storedList.timestamp) > 24 * 60 * 60 * 1000) {
-				const fetchedList = (type === 'lines') ? await getAllLinesList() : await getAllStationsList();
-				if (JSON.stringify(storedList?.list) !== JSON.stringify(fetchedList)) {
-					list = fetchedList;
-					localStorage.setItem(`${type}List`, JSON.stringify({ list, timestamp: Date.now() }));
-				} else {
-					list = storedList.list;
-				}
-			} else {
-				list = storedList.list;
-			}
-
-			const options = Object.keys(list).map(key => ({ value: key, label: type === 'lines' ? key : (list[key] as StationProperty).name }));
-
-			setReportFormState(prevState => ({
-				...prevState, [type === 'lines' ? 'linesList' : 'stationsList']: list,
-				[type === 'lines' ? 'lineOptions' : 'stationOptions']: options
-			}));
-
-		} catch (error) {
-			console.error(`Failed to fetch ${type}:`, error);
-		} finally {
-			setReportFormState(prevState => ({ ...prevState, [type === 'lines' ? 'isLoadingLines' : 'isLoadingStations']: false }));
-		}
-	};
-
-	const handleOnLineChange = (option: selectOption, action: ActionMeta<unknown>) => {
-		if (action.action === 'clear') {
-			setReportFormState(prevState => ({ ...prevState, lineInput: emptyOption, directionInput: emptyOption, directionOptions: [] }));
-			refreshOptions('stations');
-			return;
-		}
-
-		setReportFormState(prevState =>
-		({
-			...prevState,
-			lineInput: option,
-			directionOptions: redefineDirectionOptions(option, reportFormState.linesList, reportFormState.stationsList),
-			stationOptions: redefineStationOptions(option, reportFormState.linesList, reportFormState.stationsList)
-		}));
-
+	
+	const resetNewMarker = () => {
+		setNewMarkerLocation({ lng: null, lat: null });
 	}
 
-	const handleOnStationChange = (option: selectOption, action: ActionMeta<unknown>) => {
-		if (action.action === 'clear') {
-			setReportFormState(prevState => ({ ...prevState, stationInput: emptyOption, lineInput: emptyOption, directionInput: emptyOption }));
-			refreshOptions('stations');
-			refreshOptions('lines');
-			return;
-		}
+	const [markerNote, setMarkerNote] = useState(''); // State variable for the marker note
 
-		// Remove the warning span if a new station is selected
-		const warningSpan = document.getElementById('warning-span');
-		if (warningSpan) {
-			warningSpan.remove(); // This will remove the warning span from the DOM
-		}
-
-		setReportFormState(prevState => ({ ...prevState, stationInput: option, lineOptions: redefineLineOptions(option, reportFormState.stationsList) }));
+	const handleNoteChange = (event: any) => {
+	  setMarkerNote(event.target.value); // Update the note whenever the user types into the field
 	};
-
-
 
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
@@ -228,23 +179,17 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					}}>{(newMarkerLocation.lat && newMarkerLocation.lng) ? 'Spot neusetzen 🔎' : 'Spot setzen  🔎' }</button>
 
 				</div>
-				
-		
-				
 				<div>
-					<label htmlFor='privacy-checkbox' id='privacy-label'>
-						<input
-							type='checkbox'
-							id='privacy-checkbox'
-							name='privacy-checkbox'
-						/>
-						Ich stimme der{' '}
-						<a href='/datenschutz'> Datenschutzerklärung </a> zu.{' '}
-						{redHighlight('')}
-					</label>
+      				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
 				</div>
-				<div>
-					<button type='submit'>Melden</button>
+
+				<Select options=
+					{categoryOptions}
+					placeholder='Kategorie'
+				></Select>
+				<div id="submitOrCleanButtons-container">
+				   	<button id="cleanButton"onClick={() => resetNewMarker()}>❌</button>
+					<button id="submitButton" type='submit'>✅</button>
 				</div>
 			</form>
 		</div>

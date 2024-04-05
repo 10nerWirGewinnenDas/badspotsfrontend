@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useMemo, useRef, useState } from 'react';
+import React, { Suspense, lazy, useMemo, useRef } from 'react';
 import {
     LngLatBoundsLike,
     LngLatLike,

@@ -4,8 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './index.css';
 import App from './pages/App/App';
-import Impressum from './pages/Impressum/Impressum';
-import Datenschutz from './pages/Datenschutz/Datenschutz';
+
 import reportWebVitals from './reportWebVitals';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
@@ -20,8 +19,6 @@ root.render(
       <Analytics />
       <Routes>
         <Route path='/' element={<App />} />
-        <Route path='/impressum' element={<Impressum />} />
-        <Route path='/datenschutz' element={<Datenschutz />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
