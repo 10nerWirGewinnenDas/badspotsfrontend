@@ -9,7 +9,10 @@
 }
 
 
-
+#popupSubmitForm {
+  position: fixed;
+  top: 10%;
+}
 .maplibregl-ctrl-bottom-right  {
   display: none;
 }

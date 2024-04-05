@@ -117,14 +117,14 @@ function App() {
 				setUserPosition={setUserPosition}
 			/>
 
-			<UtilButton
+			{/* <UtilButton
 				onClick={() =>
 					setAppUIState({
 						...appUIState,
 						isUtilFormOpen: !appUIState.isUtilFormOpen,
 					})
 				}
-			/>
+			/> */}
 			<ReportButton
 				newMarkerLocation={newMarkerId}
 				setNewMarkerLocation={setNewMarkerId}

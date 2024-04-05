@@ -102,10 +102,11 @@ const BadspotsMap: React.FC<MapsProps> = ({
                    >
                    </Marker> 
                    
-                     <div className='container open' >
-                        <p>hooo</p>
-                        <button id="popupSubmitButton" onClick={handlePopupSubmit}>Melden</button>
+                     <div className='container open' id='popupSubmitForm'>
+                        <h1>Spot Standort melden?</h1>
+                        <button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button>
                     </div>
+
                     </>)}
 
                    
