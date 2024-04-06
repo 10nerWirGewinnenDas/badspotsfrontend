@@ -51,6 +51,7 @@
 .blackSpotDescription  {
     font-size: var(--standard-font-size);
     text-align: left;
+    color: var(--black);
 
 }
 
