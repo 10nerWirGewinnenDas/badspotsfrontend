@@ -50,14 +50,15 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	isNewMarkerPopupOpen,
 	setIsNewMarkerPopupOpen
 }) => {
-
 	const [markerNote, setMarkerNote] = useState(''); // State variable for the marker note
 
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 	const [file, setFile] = useState<File | null>(null);
 	
-	const [title, setTitle] = useState(null);
+	const [title, setTitle] = useState('');
+
+	const fileInput = useRef<HTMLInputElement>(null);
 
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
@@ -89,8 +90,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				name: title,
 				archived: false
 			}).then( (response) => {
-				
-				
+					
 					ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
 						file: file as File
 					}, {
@@ -99,13 +99,18 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					}}
 				
 					).then(() => {
+						
+				
 					onFormSubmit();
 				})
 
 			});
 		}
 		setIsNewMarkerPopupOpen(false);
+		setNewMarkerLocation({ lng: null, lat: null });
 
+		// console.log('voterId')
+		// console.log(voterId)
 		closeModal();
 	};
 
@@ -121,26 +126,11 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		// DO NOT USE DEPENDENCY ARRAY
 	}, []);
 
-
-	const setNewMarker = () => {
-		if (!userPosition) return 0;
-		const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
-		setNewMarkerLocation(newMarkerLocation);
-		closeModal();
-		return 1;
-	}
-
-	const resetNewMarker = () => {
-		setNewMarkerLocation({ lng: null, lat: null });
-	}
-
-
 	const handleNoteChange = (event: any) => {
 		setMarkerNote(event.target.value); // Update the note whenever the user types into the field
 	};
 
-
-	const fileInput = useRef<HTMLInputElement>(null);
+	
 
 	const handleButtonClick = () => {
 		// trigger the file input click event
@@ -152,7 +142,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	}
 
 	const handleOnValueChange = (event: any, action: ActionMeta<unknown>) => {
-		if(action.action == 'clear') {
+		if(action.action === 'clear') {
 			setReportFormState({ ...reportFormState, categorySelectedOption: emptyOption });
 		}
 	}

@@ -18,7 +18,7 @@
     width: fit-content;
     position: relative;
     margin: auto;
-    margin-bottom: 1rem;
+  
 }
 
 .blackSpotDescription input[type="checkbox"] {
@@ -38,10 +38,36 @@
     height: 100%;
     object-fit: cover;
     border-radius: var(--standard-border-radius);
+    
+}
+
+.blackSpotDescription h2 {
+    font-size: xx-large;
+    font-weight: bold;
+    padding-top: 1rem;
+    text-align: left;
+}
+
+.blackSpotDescription  {
+    font-size: var(--standard-font-size);
+    text-align: left;
 
 }
 
-#markerNote {
+.votingSection  {
+    display: flex;
+    justify-content: space-between;
+}
+
+.votingSection button{
+    background-color: #7C7C7C;
+    width: 5rem;
+    
+}
+
+
+
+/* #markerNote {
     resize: none;
     border-radius: 0.2rem;
     width: 95%;
@@ -51,7 +77,7 @@
 
 #submitOrCleanButtons-container {
     display: flex;
-    justify-content: space-between; /* This will put some space between the buttons */
+    justify-content: space-between;
     
 }
 
@@ -78,4 +104,4 @@
     background-color: var(--green);
     color: var(--white);
     width: 100% !important;
-}
+} */

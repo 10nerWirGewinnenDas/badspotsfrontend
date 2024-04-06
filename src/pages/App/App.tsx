@@ -69,7 +69,7 @@ function App() {
 						<div key={spot.id} className="spot">
 							<div>{index + 1}</div>
 							<div>{spot.name}</div>
-							<div>{spot._count.votes}</div>
+							{/* <div>{spot._count.votes}</div> */}
 						</div>
 					))}
 				</div>
@@ -126,6 +126,7 @@ function App() {
 			{currentDetailSpot && (
 				<>
 					<BlackSpotDetail
+						onFormSubmit={handleFormSubmit}
 						closeModal={() => {
 							setCurrentDetailSpot(undefined);
 						}}

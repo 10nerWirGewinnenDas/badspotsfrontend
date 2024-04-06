@@ -59,7 +59,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
         (async () => {
             setBlackSpots((await ApiService.api.blackSpotsControllerFindAll()).data)
         })()
-    }, [])
+    }, [formSubmitted])
 
     useMemo(() => {
         if (userPosition) {
