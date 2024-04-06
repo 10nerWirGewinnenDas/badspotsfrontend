@@ -57,36 +57,40 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const [markerSizes, setMarkerSizes] = useState<[number, number][]>([]);
 
     useEffect(() => {
-        try {
-            (async () => {
-                const spots = (await ApiService.api.blackSpotsControllerFindAll({
-                    voterId: window.localStorage.getItem('voterId') ?? undefined
-                })).data;
-                setBlackSpots(spots)
+        const fetchSpots = async () => {
+          try {
+            const spots = (await ApiService.api.blackSpotsControllerFindAll({
+              voterId: window.localStorage.getItem('voterId') ?? undefined
+            })).data;
+            setBlackSpots(spots)
+                            // map over blackspots ordered by vote counts
 
-                // map over blackspots ordered by vote counts
-                setMarkerSizes(spots.map(bs => {
-                    // first element (highest vote count) is 100% of the max width
+            setMarkerSizes(spots.map(bs => {
+                 // first element (highest vote count) is 100% of the max width
                     // last element (lowest vote count) is 10% of the max width
                     // size of medium is relation of 41px height, 27px width
                     // max element has 150% of medium size, minimum is 50% of medium
 
-                    // calculate the percentage of the max width
-                    const percentage = (bs._count.votes / spots[0]._count.votes) * 100;
-                    // calculate the percentage of the medium size
-                    const mediumSize = 27;
-                    const mediumHeight = 41;
-                    const mediumPercentage = (mediumSize / mediumHeight) * 100;
-                    // calculate the size of the marker
-                    const width = (percentage / 100) * mediumSize;
-                    const height = (percentage / 100) * mediumHeight;
-                    return [height, width];
-                }))
-            })()
-        }catch (e) {
+              const percentage = (bs._count.votes / spots[0]._count.votes) * 100;
+              const mediumSize = 27;
+              const mediumHeight = 41;
+              const mediumPercentage = (mediumSize / mediumHeight) * 100;
+              const width = (percentage / 100) * mediumSize;
+              const height = (percentage / 100) * mediumHeight;
+              return [height, width];
+            }))
+          } catch (e) {
             console.error(e)
-        }
-    }, [formSubmitted])
+          }
+        };
+      
+        fetchSpots(); // Fetch spots immediately when the component mounts
+      
+        const intervalId = setInterval(fetchSpots, 5000); // Fetch spots every 5 seconds
+      
+        return () => clearInterval(intervalId); // Clean up the interval when the component unmounts
+      }, [formSubmitted]);
+
 
     /*
     useMemo(() => {
@@ -155,10 +159,10 @@ const BadspotsMap: React.FC<MapsProps> = ({
                     </Marker>
 
                    <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
-                    <h1>Report spot location?</h1>
+                    <h1>Please move your marker</h1>
                     <div id="buttons-container">
-                        <span><button id="popupExitButton" onClick={handlePopupExit}>No</button></span>
-                        <span><button id="popupSubmitButton" onClick={handlePopupSubmit}>Yes</button></span>
+                        <span><button id="popupExitButton" onClick={handlePopupExit}>Cancel</button></span>
+                        <span><button id="popupSubmitButton" onClick={handlePopupSubmit}>Done</button></span>
                     </div>
                     </div>
 

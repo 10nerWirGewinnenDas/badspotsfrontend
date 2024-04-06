@@ -15,7 +15,6 @@ interface ReportButtonProps {
 const ReportButton: React.FC<ReportButtonProps> = ({ onClick, newMarkerLocation, setNewMarkerLocation, userPosition , isNewMarkerPopupOpen, setIsNewMarkerPopupOpen}) => {
 
     const setNewMarker = () => {
-      console.log("lol")
 		if (!userPosition) {
       const newMarkerLocation = { lng: berlinViewPosition.lng, lat: berlinViewPosition.lat };
       setIsNewMarkerPopupOpen(true);
