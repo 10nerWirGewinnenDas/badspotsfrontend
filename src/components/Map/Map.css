@@ -49,3 +49,7 @@
   font-size: var(--almost-big-font-size);
   text-align: center;
 }
+
+.maplibregl-marker {
+  filter: brightness(0%);
+}
