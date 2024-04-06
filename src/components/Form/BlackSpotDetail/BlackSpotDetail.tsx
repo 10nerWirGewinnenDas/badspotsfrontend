@@ -10,6 +10,7 @@ interface ReportFormProps {
 	className?: string;
 	spot?: GetBlackSpotDto;
 	onFormSubmit: () => void;
+	setCurrentDetailSpot: (spot: GetBlackSpotDto) => void;
 }
 
 type BlackSpotDetailState = {
@@ -24,7 +25,8 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	closeModal,
 	className,
 	spot,
-	onFormSubmit
+	onFormSubmit,
+	setCurrentDetailSpot
 }) => {
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [votes, setVotes] = useState(0)
@@ -60,6 +62,8 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 			}
 
 			setVotes(votes + 1);
+			spot!._count.votes++;
+			setCurrentDetailSpot(spot!);
 			setVoted(true);
 		} catch (error) {
 			
@@ -74,6 +78,8 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 					})
 								
 					setVotes(votes - 1);
+					spot!._count.votes--;
+					setCurrentDetailSpot(spot!)
 					setVoted(false);
 				}
 			}

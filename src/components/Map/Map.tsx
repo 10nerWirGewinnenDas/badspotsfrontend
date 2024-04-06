@@ -105,7 +105,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
                     latitude:  userPosition?.lat ?? berlinViewPosition.lat,
                     zoom: 15,
                 }}
-                maxZoom={18}
+                maxZoom={19}
                 minZoom={12}
 
                 maxBounds={maxBounds}

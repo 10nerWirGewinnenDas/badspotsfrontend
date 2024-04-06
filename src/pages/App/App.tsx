@@ -41,7 +41,7 @@ function App() {
 	} | null>(null);
 	const [currentDetailSpot, setCurrentDetailSpot] = useState<GetBlackSpotDto>()
 	const [leaderboard, setLeaderboard] = useState<GetBlackSpotDto[]>();
-
+	
 
 	const handleFormSubmit = () => {
 		setAppUIState((appUIState) => ({
@@ -107,6 +107,8 @@ function App() {
 			{currentDetailSpot && (
 				<>
 					<BlackSpotDetail
+						
+					    setCurrentDetailSpot={setCurrentDetailSpot}
 						onFormSubmit={handleFormSubmit}
 						closeModal={() => {
 							setCurrentDetailSpot(undefined);
