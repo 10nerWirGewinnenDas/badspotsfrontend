@@ -13,7 +13,6 @@ const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard, isNewMarkerPopup
 
     const toggleModal = () => {setIsExpanded(!isExpanded)};
 
-    console.log(isNewMarkerPopupOpen)
     const renderLeaderElement = (element: GetBlackSpotDto, position: number) => (
         <LeaderElement
             key={element.id}
