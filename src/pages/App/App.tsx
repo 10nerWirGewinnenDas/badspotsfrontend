@@ -7,6 +7,7 @@ import UtilButton from '../../components/Buttons/UtilButton/UtilButton';
 import UtilModal from '../../components/Modals/UtilModal/UtilModal';
 import StatsPopUp from '../../components/Miscellaneous/StatsPopUp/StatsPopUp';
 import { highlightElement } from '../../utils/uiUtils';
+import LeaderBoard from 'src/components/LeaderBoard';
 
 import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
 import './App.css';
@@ -62,18 +63,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<div className="leaderboard">
-				<div className="leaderboard-inner">
-					<h1>Leaderboard</h1>
-					{leaderboard?.map((spot, index) => (
-						<div key={spot.id} className="spot">
-							<div>{index + 1}</div>
-							<div>{spot.name}</div>
-							<div>{spot._count.votes}</div>
-						</div>
-					))}
-				</div>
-			</div>
+			{leaderboard && <LeaderBoard leaderboard={leaderboard} />}
 			{appUIState.isUtilFormOpen && (
 				<>
 					<UtilModal className={'open'} />
@@ -126,6 +116,7 @@ function App() {
 			{currentDetailSpot && (
 				<>
 					<BlackSpotDetail
+						onFormSubmit={handleFormSubmit}
 						closeModal={() => {
 							setCurrentDetailSpot(undefined);
 						}}

@@ -23,7 +23,7 @@
   width: 70vw;
   display: flex;
   flex-direction: column;
-  top: 15%;
+  top: 50%;
   background-color: var(--black);
   color: var(--white);
   max-width: 250px;
@@ -48,4 +48,8 @@
 .popupSubmitForm h1 {
   font-size: var(--almost-big-font-size);
   text-align: center;
+}
+
+.maplibregl-marker {
+  filter: brightness(0%);
 }

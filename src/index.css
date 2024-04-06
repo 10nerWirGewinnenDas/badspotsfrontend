@@ -4,6 +4,7 @@
 
 :root {
   --action-color: #2E2EFF;
+  --very-light-gray: #f5f5f5;
   --gray-outlines: #c4c4c4;
   --place-holder-color: #646363;
   --place-holder-color2: rgba(100, 99, 99, 0.5);

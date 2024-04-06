@@ -12,6 +12,7 @@ import './Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {GetBlackSpotDto} from "../../api/api";
 import ApiService from "../../api/api.service";
+import { Style } from 'maplibre-gl';
 
 const Map = lazy(() => import('react-map-gl/maplibre'));
 
@@ -46,6 +47,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const SouthWestBounds: LngLatLike = { lng: 12.8364646484805, lat: 52.23115511676795 }
     const NorthEastBounds: LngLatLike = { lng: 13.88044556529124, lat: 52.77063424239867 }
     const [blackSpots, setBlackSpots] = useState<GetBlackSpotDto[]>();
+    const [isDragging, setIsDragging] = useState(false);
 
     const onMapViewportChanged = (ev: any) => {
        
@@ -59,7 +61,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
         (async () => {
             setBlackSpots((await ApiService.api.blackSpotsControllerFindAll()).data)
         })()
-    }, [])
+    }, [formSubmitted])
 
     useMemo(() => {
         if (userPosition) {
@@ -79,6 +81,12 @@ const BadspotsMap: React.FC<MapsProps> = ({
         setNewMarkerLocation({ lng: null, lat: null });
         setIsNewMarkerPopupOpen(false);
     }
+
+    useEffect(() => {
+        if (newMarkerLocation.lat != null && newMarkerLocation.lng != null) {
+          setIsDragging(true);
+        }
+      }, [newMarkerLocation]);
 
     return (
         <div id='map-container' data-testid='map-container'>
@@ -111,13 +119,16 @@ const BadspotsMap: React.FC<MapsProps> = ({
                     <Marker
                         latitude={newMarkerLocation.lat as number}
                         longitude={newMarkerLocation.lng as number}
-
                         draggable={true}
+                        onDragStart={() => setIsDragging(true)}
                         onDragEnd={(event) => {
+                            setIsDragging(false);
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
                         }}
-                   >
-                   </Marker>
+                        style={{ filter: isDragging ? 'hue-rotate(360deg) brightness(100%)' : undefined }}
+                        
+                        >
+                    </Marker>
 
                    <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
                     <h1>Spot Standort melden?</h1>
