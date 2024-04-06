@@ -368,10 +368,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<GetBlackSpotDto[], any>({
         path: `/api/v2/blackspots/stats/in10km`,
         method: "GET",
         query: query,
+        format: "json",
         ...params,
       }),
 

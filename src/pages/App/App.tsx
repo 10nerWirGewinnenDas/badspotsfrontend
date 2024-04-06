@@ -12,6 +12,7 @@ import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
 import './App.css';
 import {GetBlackSpotDto} from "../../api/api";
 import BlackSpotDetail from "../../components/Form/BlackSpotDetail/BlackSpotDetail";
+import ApiService from "../../api/api.service";
 
 type AppUIState = {
 	isReportFormOpen: boolean;
@@ -40,7 +41,11 @@ function App() {
 		lat: number;
 	} | null>(null);
 	const [currentDetailSpot, setCurrentDetailSpot] = useState<GetBlackSpotDto>()
-	
+	const [leaderboard, setLeaderboard] = useState<GetBlackSpotDto[]>();
+
+	useEffect(() => {
+		console.log("asdf", userPosition)
+	}, [userPosition]);
 
 	const handleFormSubmit = () => {
 		setAppUIState((appUIState) => ({
@@ -60,6 +65,18 @@ function App() {
 
 	return (
 		<div className="App">
+			<div className="leaderboard">
+				<div className="leaderboard-inner">
+					<h1>Leaderboard</h1>
+					{leaderboard?.map((spot, index) => (
+						<div key={spot.id} className="spot">
+							<div>{index + 1}</div>
+							<div>{spot.name}</div>
+							<div>{spot._count.votes}</div>
+						</div>
+					))}
+				</div>
+			</div>
 			{appUIState.isUtilFormOpen && (
 				<>
 					<UtilModal className={'open'} />
@@ -114,8 +131,7 @@ function App() {
 					<BlackSpotDetail
 						closeModal={() => {
 							setCurrentDetailSpot(undefined);
-						}
-						}
+						}}
 						className={'open'}
 						spot={currentDetailSpot}
 					/>
@@ -126,8 +142,7 @@ function App() {
 							isReportFormOpen: false,
 						})
 							setIsNewMarkerPopupOpen(true);
-						}
-						}
+						}}
 					/>
 				</>
 			)}

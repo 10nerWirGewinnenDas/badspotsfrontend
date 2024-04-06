@@ -117,8 +117,8 @@ const BadspotsMap: React.FC<MapsProps> = ({
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
                         }}
                    >
-                   </Marker> 
-                    
+                   </Marker>
+
                    <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
                     <h1>Spot Standort melden?</h1>
                     <div id="buttons-container">

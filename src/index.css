@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --action-color: #2E2EFF;
   --gray-outlines: #c4c4c4;
