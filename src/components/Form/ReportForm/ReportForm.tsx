@@ -5,7 +5,7 @@ import { LinesList, StationList } from '../../../utils/dbUtils';
 import { highlightElement, createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
-import Select from 'react-select'
+import Select, { ActionMeta } from 'react-select'
 
 interface ReportFormProps {
 	closeModal: () => void;
@@ -164,6 +164,11 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		setTitle(event.target.value);
 	}
 
+	const handleOnValueChange = (event: any, action: ActionMeta<unknown>) => {
+		if(action.action == 'clear') {
+			setReportFormState({ ...reportFormState, categorySelectedOption: emptyOption });
+		}
+	}
 
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
@@ -179,11 +184,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					style={{ display: 'none' }} // hide the default file input
 					onChange={handleFileChange}
 				/>
-
-					<div>
-					<textarea maxLength={30} id="markerTitle" placeholder='Titel' value={title} onChange={(e) =>  handleTitleChange(e)} />
-				</div>
-
 				<button
 					type="button"
 					onClick={handleButtonClick}
@@ -191,25 +191,26 @@ const ReportForm: React.FC<ReportFormProps> = ({
 						backgroundImage: `url(${image})`,
 						backgroundSize: 'cover',
 						width: '100%',
-						height: '20rem',
+						height: '15rem',
 						backgroundColor: '#D9D9D9',
 					}}
-				>
+				>	
+					<p>{image ? '': '+'}</p>
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
-				<div>
-					<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
-				</div>
+				
+				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} required/>
+				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} required/>
 
 				<Select options=
 					{reportFormState.categoryOptions}
 					placeholder='Kategorie'
+					isClearable={true}
+					onInputChange={(inputValue, action) => {handleOnValueChange(inputValue, action as unknown as ActionMeta<unknown>)}}
 					value={reportFormState.categorySelectedOption}
 					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string } })}
+					required={true}
 				></Select>
-
-
-
 				<div id="submitOrCleanButtons-container">
 					<button id="submitButton" type='submit'>Meldung abgeben</button>
 				</div>
