@@ -134,12 +134,8 @@ function App() {
 					/>
 					<Backdrop
 						onClick={() =>
-						{setAppUIState({
-							...appUIState,
-							isReportFormOpen: false,
-						})
-							setIsNewMarkerPopupOpen(true);
-						}}
+						{setCurrentDetailSpot(undefined)}
+						}
 					/>
 				</>
 			)}

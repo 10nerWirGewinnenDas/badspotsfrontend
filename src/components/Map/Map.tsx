@@ -48,7 +48,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const [blackSpots, setBlackSpots] = useState<GetBlackSpotDto[]>();
 
     const onMapViewportChanged = (ev: any) => {
-        console.log(ev);
+       
     }
 
     const maxBounds: LngLatBoundsLike = [SouthWestBounds, NorthEastBounds];
