@@ -177,7 +177,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
 				
-				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title!} onChange={(e) =>  handleTitleChange(e)} required/>
+				<textarea maxLength={128} id="markerTitle" placeholder='Titel hinzufügen' value={title!} onChange={(e) =>  handleTitleChange(e)} required/>
 				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} required/>
 
 				<Select options=
