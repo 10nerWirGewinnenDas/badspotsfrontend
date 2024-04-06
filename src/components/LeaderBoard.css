@@ -8,19 +8,24 @@
     z-index: 3;
     padding: 0.5rem;
     border-radius: 8px;
-    width: 80%;
     box-shadow: var(--marker-box-shadow);
-    max-width: 500px;
+    max-width: 300px;
     height: 75px;
     overflow: hidden;
     transition: height 0.25s ease-out;
+    text-align: block;
 }   
 
 .leaderboard span {
-    font-size: var(--standard-font-size);
-    font-weight: 600;
-    margin: 0.5rem;
+    font-size: var(--button-font-size);
+    font-weight: 500;
+    width: fit-content;
 }
+
+.leaderboard span:first-child {
+    margin-right: 0.5rem;
+}
+
 
 .leaderboard svg {
     padding: 5px;
