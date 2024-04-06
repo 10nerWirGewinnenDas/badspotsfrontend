@@ -80,27 +80,28 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	const emptyOption = '' as unknown as selectOption;
 
 	const handleSubmit = () => {
-		
 		if (newMarkerLocation.lat && newMarkerLocation.lng) {
+			const existingVoterId = window.localStorage.getItem('voterId');
 			ApiService.api.blackSpotsControllerCreate({
 				description: markerNote,
 				latitude: newMarkerLocation.lat,
 				longitude: newMarkerLocation.lng,
 				categoryId: reportFormState.categorySelectedOption.value,
 				name: title!,
-				archived: false
+				archived: false,
+				voterId: existingVoterId ?? undefined
 			}).then( (response) => {
-					
+				if(!existingVoterId){
+					window.localStorage.setItem('voterId', response.data.voterId);
+				}
 					ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
 						file: file as File
 					}, {
-					headers: {
-						'x-upload-token': response.headers['x-upload-token']
-					}}
+						headers: {
+							'x-upload-token': response.headers['x-upload-token']
+						}}
 				
-					).then(() => {
-						
-				
+				).then(() => {
 					onFormSubmit();
 				})
 

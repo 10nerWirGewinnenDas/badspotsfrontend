@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ApiService from 'src/api/api.service';
 import './BlackSpotDetail.css';
 import {GetBlackSpotDto} from "../../../api/api";
+import {AxiosError} from "axios";
 
 interface ReportFormProps {
 	closeModal: () => void;
@@ -43,14 +44,30 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	}
 
 	const handleUpvote = async () => {
-		console.log(spot!.id)
+		const voterId = window.localStorage.getItem('voterId');
 		try {
-			await ApiService.api.blackSpotsControllerVote(spot!.id, {
+			const vote = await ApiService.api.blackSpotsControllerVote(spot!.id, {
 				type: 'UP',
-				blackSpotId: ''
-			},)
+				blackSpotId: spot!.id,
+				voterId: voterId ?? undefined
+			})
+			spot!._count.votes++;
+			if(!voterId){
+				window.localStorage.setItem('voterId', vote.data.voterId);
+			}
 			loadSpot()
 		} catch (error) {
+			if(error instanceof AxiosError){
+				if(error.response!.status === 400){
+					// unvote
+					await ApiService.api.blackSpotsControllerUnVote(spot!.id, {
+						type: 'UP',
+						blackSpotId: spot!.id,
+						voterId: voterId ?? undefined
+					})
+					spot!._count.votes--;
+				}
+			}
 			console.error('Error upvoting:', error);
 		}
 	}
