@@ -11,7 +11,10 @@
     width: 80%;
     box-shadow: var(--marker-box-shadow);
     max-width: 500px;
-}
+    height: 75px;
+    overflow: hidden;
+    transition: height 0.25s ease-out;
+}   
 
 .leaderboard span {
     font-size: var(--standard-font-size);
@@ -29,4 +32,9 @@
     cursor: pointer;
     background-color: var(--very-light-gray);
     border-radius: 5px;
+}
+
+.expanded {
+    overflow: scroll;
+    height: 150px;
 }
