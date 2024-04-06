@@ -29,10 +29,12 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [comments, setComments] = useState()
 	const [votes, setVotes] = useState(0)
+	const [voted, setVoted] = useState(false)
 
 	const loadSpot = async () => {
 		try {
 			setVotes(spot!._count.votes)
+			setVoted((spot!.votes?.length ?? 0) !== 0)
 			const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
 			  format: 'blob'
 			});
@@ -48,19 +50,18 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 		const voterId = window.localStorage.getItem('voterId');
 	
 		try {
-			
 			const vote = await ApiService.api.blackSpotsControllerVote(spot!.id, {
 					type: 'UP',
 				blackSpotId: spot!.id,
 				voterId: voterId ?? undefined
 			})	
-			
-			
+
 			if(!voterId){
 				window.localStorage.setItem('voterId', vote.data.voterId);
 			}
+
 			setVotes(votes + 1);
-			loadSpot()
+			setVoted(true);
 		} catch (error) {
 			
 			if(error instanceof AxiosError){
@@ -74,6 +75,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 					})
 								
 					setVotes(votes - 1);
+					setVoted(false);
 				}
 			}
 			console.error('Error upvoting:', error);
@@ -96,7 +98,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 			<div className='votingSection'>
 				<b>Votes</b>
-				<button onClick={handleUpvote}>{votes}</button>
+				<button onClick={handleUpvote}>{votes}  - {voted ? 'Vote entfernen' : 'Vote hinzufügen'}</button>
 			</div>
 			<ul>
 				{spot!.comments.map((comment, index) => <li>{comment.text}</li>)}
