@@ -1,5 +1,6 @@
 import { selectOption } from 'src/components/Form/ReportForm/ReportForm';
-import { MarkerData } from '../components/Map/Markers/MarkerContainer';
+import BlackSpotDetail from "../components/Form/BlackSpotDetail/BlackSpotDetail";
+import {GetBlackSpotDto} from "../api/api";
 
 export interface StationProperty {
 	name: string;
@@ -17,7 +18,7 @@ export type LineProperty = {
 export type StationList = Record<string, StationProperty>;
 export type LinesList = Record<string, string[]>;
 
-export async function getRecentTicketInspectorInfo(lastUpdateTimestamp: string | null): Promise<MarkerData[] | null> {
+export async function getRecentTicketInspectorInfo(lastUpdateTimestamp: string | null): Promise<GetBlackSpotDto[] | null> {
     try {
         const headers = new Headers();
         // Include the If-Modified-Since header only if lastUpdateTimestamp is available

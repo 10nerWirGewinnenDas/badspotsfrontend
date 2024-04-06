@@ -2,6 +2,10 @@
    color: var(--red);
 }
 
+.report-form div{
+    padding: 5px;
+}
+
 .report-form form > div:nth-child(2) {
     position: relative; 
 }
@@ -30,12 +34,14 @@
 }
 
 #markerNote {
-    height: 4rem; 
-    width: 100%;
+    resize: none;
+    border-radius: 0.2rem;
+    width: 95%;
+    height: 6rem;
+    padding: 0.4rem;
 }
 
 #submitOrCleanButtons-container {
-    margin-top: 1rem;
     display: flex;
     justify-content: space-between; /* This will put some space between the buttons */
     
@@ -43,7 +49,7 @@
 
 
 #submitOrCleanButtons-container button {
-    display: flex;
+    
     height: 3rem;
     border-radius: var(--standard-border-radius);
     font-size: var(--standard-font-size);
@@ -55,51 +61,13 @@
     color: var(--white);
 }
 #submitButton {
-    display: block !important;
-    text-align: center;
-    font-size: var(--button-font-size) !important;
     background-color: var(--green);
     color: var(--white);
     width: 100% !important;
 }
+
 #popupSubmitButton {
     background-color: var(--green);
     color: var(--white);
     width: 100% !important;
-}
-
-button p {
-    font-size: var(--almost-big-font-size);
-}
-
-button p:first-child {
-    font-size: var(--huge-font-size);
-}
-
-#markerTitle {
-    height: 2.5rem; 
-    width: 100%;
-}
-
-.report-form textarea {
-    margin-top: 1rem;
-    resize: none;
-    border-radius: 5px;
-    height: 2rem;
-    font-size: var(--button-font-size);
-    padding: 0 0.5rem;
-    border-color: var(--gray-outlines);
-    padding-top: 0.25rem;
-}
-
-.css-t3ipsp-control {
-    color: var(--place-holder-color);
-    text-align: left;
-    margin-top: 1rem;
-}
-
-.css-13cymwt-control {
-    text-align: left;
-    color: var(--place-holder-color);
-    margin-top: 1rem;
 }

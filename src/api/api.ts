@@ -9,6 +9,15 @@
  * ---------------------------------------------------------------
  */
 
+export interface Comment {
+  id: string;
+  authorName?: string;
+  spotId: string;
+  text: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
 export interface BlackSpotCounts {
   votes: number;
   comments: number;
@@ -24,6 +33,7 @@ export interface GetBlackSpotDto {
   finished: boolean;
   archived: boolean;
   city: string;
+  comments: Comment[];
   _count: BlackSpotCounts;
 }
 
@@ -82,6 +92,7 @@ export interface GetVoteDto {
 export interface CreateCommentDto {
   authorName?: string;
   spotId: string;
+  text: string;
 }
 
 export interface GetCategoryDto {
@@ -245,7 +256,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<GetBlackSpotDto, any>({
+      this.request<GetBlackSpotDto[], any>({
         path: `/api/v2/blackspots`,
         method: "GET",
         query: query,
@@ -341,6 +352,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name BlackSpotStatsControllerIn10Km
+     * @request GET:/api/v2/blackspots/stats/in10km
+     */
+    blackSpotStatsControllerIn10Km: (
+      query: {
+        longitude: number;
+        latitude: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/v2/blackspots/stats/in10km`,
+        method: "GET",
+        query: query,
         ...params,
       }),
 
