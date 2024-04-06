@@ -34,7 +34,7 @@ const initialAppUIState: AppUIState = {
 function App() {
 	const [appUIState, setAppUIState] = useState<AppUIState>(initialAppUIState);
 	const [newMarkerId, setNewMarkerId] = useState<{lng: number | null , lat: number | null;}>({lng: null, lat: null});
-	const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(true);
+	const [isNewMarkerPopupOpen, setIsNewMarkerPopupOpen] = React.useState<boolean>(false);
 	const [userPosition, setUserPosition] = useState<{
 		lng: number;
 		lat: number;
@@ -51,17 +51,10 @@ function App() {
 	};
 
 	
-	function closeLegalDisclaimer() {
-		setAppUIState({
-			...appUIState,
-			isFirstOpen: false,
-			isStatsPopUpOpen: true,
-		});
-	}
 
 	return (
 		<div className="App">
-			{leaderboard && <LeaderBoard leaderboard={leaderboard} />}
+			{leaderboard && <LeaderBoard isNewMarkerPopupOpen={isNewMarkerPopupOpen	} leaderboard={leaderboard} />}
 			{appUIState.isUtilFormOpen && (
 				<>
 					<UtilModal className={'open'} />
