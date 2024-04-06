@@ -329,12 +329,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @name BlackSpotsControllerUnVote
-     * @request GET:/api/v2/blackspots/{id}/unVote
+     * @request POST:/api/v2/blackspots/{id}/unVote
      */
     blackSpotsControllerUnVote: (id: string, data: CreateVoteDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/v2/blackspots/${id}/unVote`,
-        method: "GET",
+        method: "POST",
         body: data,
         type: ContentType.Json,
         ...params,

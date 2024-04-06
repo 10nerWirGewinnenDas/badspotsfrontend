@@ -29,9 +29,11 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 }) => {
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [comments, setComments] = useState()
+	const [votes, setVotes] = useState(0)
 
 	const loadSpot = async () => {
 		try {
+			setVotes(spot!._count.votes)
 			const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
 			  format: 'blob'
 			});
@@ -51,7 +53,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 				blackSpotId: spot!.id,
 				voterId: voterId ?? undefined
 			})
-			spot!._count.votes++;
+			setVotes(votes + 1);
 			if(!voterId){
 				window.localStorage.setItem('voterId', vote.data.voterId);
 			}
@@ -65,7 +67,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 						blackSpotId: spot!.id,
 						voterId: voterId ?? undefined
 					})
-					spot!._count.votes--;
+					setVotes(votes - 1);
 				}
 			}
 			console.error('Error upvoting:', error);
@@ -88,7 +90,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 			<div className='votingSection'>
 				<b>Votes</b>
-				<button onClick={handleUpvote}>{spot!._count.votes}</button>
+				<button onClick={handleUpvote}>{votes}</button>
 			</div>
 			<ul>
 				{spot!.comments.map((comment, index) => <li>{comment.text}</li>)}
