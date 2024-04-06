@@ -86,7 +86,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				latitude: newMarkerLocation.lat,
 				longitude: newMarkerLocation.lng,
 				categoryId: reportFormState.categorySelectedOption.value,
-				name: title,
+				name: title!,
 				archived: false
 			}).then( (response) => {
 				
@@ -186,7 +186,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
 				
-				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} required/>
+				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title!} onChange={(e) =>  handleTitleChange(e)} required/>
 				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} required/>
 
 				<Select options=
