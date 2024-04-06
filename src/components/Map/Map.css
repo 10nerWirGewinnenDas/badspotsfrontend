@@ -23,7 +23,7 @@
   width: 70vw;
   display: flex;
   flex-direction: column;
-  top: 15%;
+  top: 50%;
   background-color: var(--black);
   color: var(--white);
   max-width: 250px;
