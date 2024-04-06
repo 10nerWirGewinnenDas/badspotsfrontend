@@ -90,9 +90,9 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 	return (
 		<div className={`blackSpotDescription container ${className}`} id='report-form'>
-			{imageUrl ? <img alt='bild von meldung' src={imageUrl}/> : <p></p>}
+			{imageUrl ? <img alt='picture of spot report' src={imageUrl}/> : <p></p>}
 			<h2>{spot!.name}</h2>
-			 <b>Beschreibung</b>
+			 <b>Description</b>
 			<p>{spot!.description}</p>
 
 			<div className='votingSection'>

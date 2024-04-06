@@ -10,9 +10,9 @@ const LeaderElement: React.FC<LeaderElementProps> = ({ position, title, score })
     return (
         <div className='leader-element'>
             <div>
-                <span>Nr. {position}</span>
+                <span>No. {position}</span>
                 <span>{title}</span>
-                <span> - {score} Stimmen</span>
+                <span> - {score} votes</span>
             </div>
         </div>
     );
