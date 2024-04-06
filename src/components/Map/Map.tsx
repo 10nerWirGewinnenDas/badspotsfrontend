@@ -114,7 +114,9 @@ const BadspotsMap: React.FC<MapsProps> = ({
             >
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
                 {blackSpots?.map((value, index) => (
-                  <Marker longitude={value.longitude} latitude={value.latitude} key={value.id} onClick={() => openDetailModal(value)}/>
+                  <div className="green-marker">
+                      <Marker className={value.finished ? 'green-marker' : 'black-marker'} longitude={value.longitude} latitude={value.latitude} key={value.id} onClick={() => openDetailModal(value)}/>
+                  </div>
                 ))}
 
                 {(newMarkerLocation.lat != null && newMarkerLocation.lng != null) &&
@@ -129,7 +131,6 @@ const BadspotsMap: React.FC<MapsProps> = ({
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
                         }}
                         style={{ filter: isDragging ? 'hue-rotate(360deg) brightness(100%)' : undefined }}
-                        
                         >
                     </Marker>
 

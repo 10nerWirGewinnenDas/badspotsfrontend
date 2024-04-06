@@ -50,6 +50,19 @@
   text-align: center;
 }
 
+/*
 .maplibregl-marker {
   filter: brightness(0%);
+}
+ */
+
+/* modify this only if any parent has class 'green-marker' */
+.maplibregl-marker > svg > g > g:nth-child(2) {
+  fill: black !important;
+}
+.green-marker > svg > g > g:nth-child(5) > circle:nth-child(2) {
+  fill: #2acc3a !important;
+}
+.black-marker > svg > g > g:nth-child(5) > circle:nth-child(2) {
+  fill: white !important;
 }
