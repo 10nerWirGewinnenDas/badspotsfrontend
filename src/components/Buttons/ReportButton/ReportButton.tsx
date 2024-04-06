@@ -36,7 +36,7 @@ const ReportButton: React.FC<ReportButtonProps> = ({ onClick, newMarkerLocation,
                 aria-label='report ticketinspector' 
             > 
             
-            <span role='img' aria-label='warning'>+</span>
+            <span aria-label='warning' className='cross'></span>
         </button>
     );
 };
