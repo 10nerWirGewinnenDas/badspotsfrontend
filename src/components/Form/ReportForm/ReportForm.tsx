@@ -55,19 +55,23 @@ const ReportForm: React.FC<ReportFormProps> = ({
 
 	const [reportFormState, setReportFormState] = useState<reportFormState>(initialState);
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
-
+	const [file, setFile] = useState<File | null>(null);
+	
 	const [title, setTitle] = useState('');
+
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
 		const reader = new FileReader();
 
+		setFile(file);
 		reader.onloadend = () => {
-			setImage((reader.result));
+			setImage(reader.result);
 		};
 
 		if (file) {
 			reader.readAsDataURL(file);
 		} else {
+			console.log('no file')
 			setImage(null);
 		}
 	};
@@ -75,6 +79,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	const emptyOption = '' as unknown as selectOption;
 
 	const handleSubmit = () => {
+		
 		if (newMarkerLocation.lat && newMarkerLocation.lng) {
 			ApiService.api.blackSpotsControllerCreate({
 				description: markerNote,
@@ -83,14 +88,17 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				categoryId: reportFormState.categorySelectedOption.value,
 				name: '',
 				archived: false
-			}).then((response) => {
-				ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
-					file: fileInput.current!.files![0]
-				}, {
+			}).then( (response) => {
+				
+				
+					ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
+						file: file as File
+					}, {
 					headers: {
 						'x-upload-token': response.headers['x-upload-token']
-					}
-				}).then(() => {
+					}}
+				
+					).then(() => {
 					onFormSubmit();
 				})
 

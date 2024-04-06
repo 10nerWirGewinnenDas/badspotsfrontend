@@ -27,16 +27,16 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [comments, setComments] = useState()
 
-	
+	const loadSpot = async () => {
+		const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
+			format: 'blob'
+		});
+
+		setImageUrl(URL.createObjectURL(imageRes.data))
+	}
 
 	useEffect(() => {
-		const loadSpot = async () => {
-			const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
-				format: 'blob'
-			});
-	
-			setImageUrl(URL.createObjectURL(imageRes.data))
-		}
+		
 		loadSpot()
 	})
 
