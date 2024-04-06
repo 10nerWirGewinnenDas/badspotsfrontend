@@ -17,4 +17,22 @@
   width: 100%;
   border-radius: 10px;
   background: white;
+  padding: 1rem
+}
+
+.spot-leaderboard {
+  font-size: larger;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem
+}
+
+.leaderboard-counter {
+  width: 14%;
+}
+
+.leaderboard-name {
+  width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

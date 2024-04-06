@@ -52,13 +52,6 @@ function App() {
 	};
 
 	
-	function closeLegalDisclaimer() {
-		setAppUIState({
-			...appUIState,
-			isFirstOpen: false,
-			isStatsPopUpOpen: true,
-		});
-	}
 
 	return (
 		<div className="App">
@@ -66,11 +59,12 @@ function App() {
 				<div className="leaderboard-inner">
 					<h1>Leaderboard</h1>
 					{leaderboard?.map((spot, index) => (
-						<div key={spot.id} className="spot">
-							<div>{index + 1}</div>
-							<div>{spot.name}</div>
-							{/* <div>{spot._count.votes}</div> */}
-						</div>
+						console.log(spot),
+					<div key={spot.id} className="spot-leaderboard">
+						<div className='leaderboard-counter'>{index + 1}</div>
+						<div className='leaderboard-name'>{spot.name}</div>
+						{/* <div>{spot._count.votes}</div> */}
+					</div>
 					))}
 				</div>
 			</div>
