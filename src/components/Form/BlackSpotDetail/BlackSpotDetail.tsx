@@ -47,28 +47,33 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 	const handleUpvote = async () => {
 		const voterId = window.localStorage.getItem('voterId');
-		console.log(voterId)
+	
 		try {
+			setVotes(votes + 1);
 			const vote = await ApiService.api.blackSpotsControllerVote(spot!.id, {
-				type: 'UP',
+					type: 'UP',
 				blackSpotId: spot!.id,
 				voterId: voterId ?? undefined
-			})
-			setVotes(votes + 1);
+			})	
+			
+			
 			if(!voterId){
 				window.localStorage.setItem('voterId', vote.data.voterId);
 			}
 			loadSpot()
 		} catch (error) {
+			
 			if(error instanceof AxiosError){
 				if(error.response!.status === 400){
+					setVotes(votes - 1);
 					// unvote
 					await ApiService.api.blackSpotsControllerUnVote(spot!.id, {
 						type: 'UP',
 						blackSpotId: spot!.id,
 						voterId: voterId ?? undefined
 					})
-					setVotes(votes - 1);
+								
+
 				}
 			}
 			console.error('Error upvoting:', error);
@@ -84,7 +89,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 	return (
 		<div className={`blackSpotDescription container ${className}`} id='report-form'>
-			{imageUrl ? <img alt='bild von meldung' src={imageUrl}/> : <p>Loading...</p>}
+			{imageUrl ? <img alt='bild von meldung' src={imageUrl}/> : <p></p>}
 			<h2>{spot!.name}</h2>
 			 <b>Beschreibung</b>
 			<p>{spot!.description}</p>
