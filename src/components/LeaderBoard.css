@@ -1,0 +1,45 @@
+.leaderboard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 1rem auto;
+    background-color: var(--white);
+    z-index: 3;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: var(--marker-box-shadow);
+    max-width: 300px;
+    height: 75px;
+    overflow: hidden;
+    transition: height 0.25s ease-out;
+    text-align: block;
+}   
+
+.leaderboard span {
+    font-size: var(--button-font-size);
+    font-weight: 500;
+    width: fit-content;
+}
+
+.leaderboard span:first-child {
+    margin-right: 0.5rem;
+}
+
+
+.leaderboard svg {
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.leaderboard svg:hover {
+    cursor: pointer;
+    background-color: var(--very-light-gray);
+    border-radius: 5px;
+}
+
+.expanded {
+    overflow: scroll;
+    height: 125px;
+}
