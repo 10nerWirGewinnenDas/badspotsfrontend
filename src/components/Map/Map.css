@@ -18,12 +18,6 @@
   display: none;
 }
 
-#markerTitle {
-  height: 2.5rem; 
-  padding: 0.4rem;
-  width: 100%;
-}
-
 .popupSubmitForm {
   width: 70vw;
   display: flex;
