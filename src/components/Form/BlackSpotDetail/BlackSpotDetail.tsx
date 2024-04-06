@@ -28,21 +28,30 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	const [comments, setComments] = useState()
 
 	const loadSpot = async () => {
-		const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
-			format: 'blob'
-		});
-
-		setImageUrl(URL.createObjectURL(imageRes.data))
+		try {
+			const imageRes = await ApiService.api.blackSpotsControllerGetImage(spot!.id, {
+			  format: 'blob'
+			});
+		  
+			setImageUrl(URL.createObjectURL(imageRes.data));
+		  } catch (error) {
+			console.error('Error getting image:', error);
+		  }
+		console.log(spot?.description + " description")
+		console.log(spot?.name + " name")
 	}
 
 	useEffect(() => {
 		
 		loadSpot()
-	})
+
+		// DO NOT CHANGE DEPENDECNCYS!!!
+	}, [])
 
 	return (
-		<div className={`report-form container ${className}`} id='report-form'>
-			{imageUrl ? <img src={imageUrl}/> : <p>Loading...</p>}
+		<div className={`blackSpotDescription container ${className}`} id='report-form'>
+			{imageUrl ? <img alt='bild von meldung' src={imageUrl}/> : <p>Loading...</p>}
+			<h2>{spot!.name}</h2>
 			<ul>
 				{spot!.comments.map((comment, index) => <li>{comment.text}</li>)}
 			</ul>
