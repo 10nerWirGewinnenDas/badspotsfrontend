@@ -2,10 +2,6 @@
    color: var(--red);
 }
 
-.blackSpotDescription div{
-    padding: 5px;
-}
-
 .blackSpotDescription form > div:nth-child(2) {
     position: relative; 
 }
@@ -60,14 +56,6 @@
     justify-content: space-between;
 }
 
-.votingSection button{
-    background-color: #7C7C7C;
-    width: 5rem;
-    
-}
-
-
-
 /* #markerNote {
     resize: none;
     border-radius: 0.2rem;
@@ -106,3 +94,32 @@
     color: var(--white);
     width: 100% !important;
 } */
+
+.votingSection {
+    background-color: var(--place-holder-color);
+    border-radius: 8px;
+    width: fit-content;
+    padding: 0.5rem;
+    color: white;
+    margin-left: auto;
+}
+
+.votingSection p {
+    margin-left: 10px;
+    font-size: var( --almost-big-font-size);
+    font-weight: 500;
+}
+
+.votingSection svg {
+    margin-top: 2.5px;
+    cursor: pointer;
+    transform: rotate(-90deg);
+    background-color: var(--gray-outlines);
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.votingSection svg:hover {
+    transition: 0.3s all ease;
+    filter: brightness(1.1);
+}

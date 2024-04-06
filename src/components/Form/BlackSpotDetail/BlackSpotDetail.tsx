@@ -97,8 +97,8 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 			<p>{spot!.description}</p>
 
 			<div className='votingSection'>
-				<b>Votes</b>
-				<button onClick={handleUpvote}>{votes}  - {voted ? 'Vote entfernen' : 'Vote hinzufügen'}</button>
+			<svg onClick={handleUpvote} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 12l-10-10v7h-14v6h14v7z"/></svg>
+			<p>{votes}</p>
 			</div>
 			<ul>
 				{spot!.comments.map((comment, index) => <li>{comment.text}</li>)}
