@@ -75,7 +75,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	const emptyOption = '' as unknown as selectOption;
 
 	const handleSubmit = () => {
-
 		if (newMarkerLocation.lat && newMarkerLocation.lng) {
 			ApiService.api.blackSpotsControllerCreate({
 				description: markerNote,
@@ -85,7 +84,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				name: '',
 				archived: false
 			}).then((response) => {
-				console.log(response.headers);
 				ApiService.api.blackSpotsControllerUploadImage(response.data.id, {
 					file: fileInput.current!.files![0]
 				}, {
@@ -113,26 +111,6 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		})
 		
 	}, []);
-	// async function verifyUserLocation(
-	// 	stationInput: selectOption | undefined,
-	// 	stationsList: StationList
-	// ): Promise<boolean> {
-	// 	if (!stationInput) return false;
-
-	// 	const station = stationsList[stationInput.value];
-	// 	if (!station) return false;
-
-	// 	const distance = userPosition ? calculateDistance(userPosition.lat, userPosition.lng, station.coordinates.latitude, station.coordinates.longitude) : 0;
-
-	// 	// Checks if the user is more than 1 km away from the station
-	// 	if (distance > 1) {
-	// 		highlightElement('report-form');
-	// 		createWarningSpan('station-select-div', 'Du bist zu weit von der Station entfernt. Bitte wähle die richtige Station!');
-	// 		return true; // Indicates an error
-	// 	}
-
-	// 	return false;
-	// }
 
 
 	const setNewMarker = () => {
