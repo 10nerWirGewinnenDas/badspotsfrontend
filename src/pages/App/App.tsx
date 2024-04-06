@@ -63,7 +63,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<LeaderBoard leaderboard={leaderboard} />
+			{leaderboard && <LeaderBoard leaderboard={leaderboard} />}
 			{appUIState.isUtilFormOpen && (
 				<>
 					<UtilModal className={'open'} />
