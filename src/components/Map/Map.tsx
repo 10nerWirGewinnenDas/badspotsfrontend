@@ -60,7 +60,9 @@ const BadspotsMap: React.FC<MapsProps> = ({
     useEffect(() => {
         try {
             (async () => {
-                setBlackSpots((await ApiService.api.blackSpotsControllerFindAll()).data)
+                setBlackSpots((await ApiService.api.blackSpotsControllerFindAll({
+                    voterId: window.localStorage.getItem('voterId') ?? undefined
+                })).data)
             })()
         }catch (e) {
             console.error(e)
