@@ -3,10 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Map from '../../components/Map/Map';
 import ReportButton from '../../components/Buttons/ReportButton/ReportButton';
 import ReportForm from '../../components/Form/ReportForm/ReportForm';
-import UtilButton from '../../components/Buttons/UtilButton/UtilButton';
 import UtilModal from '../../components/Modals/UtilModal/UtilModal';
 import StatsPopUp from '../../components/Miscellaneous/StatsPopUp/StatsPopUp';
-import { highlightElement } from '../../utils/uiUtils';
 import LeaderBoard from 'src/components/LeaderBoard';
 
 import Backdrop from '../../components/Miscellaneous/Backdrop/Backdrop';
@@ -146,24 +144,19 @@ function App() {
 				formSubmitted={appUIState.formSubmitted}
 				userPosition={userPosition}
 				setUserPosition={(pos) => {
-					console.log(pos)
-					setUserPosition(pos);
-					ApiService.api.blackSpotStatsControllerIn10Km({longitude: pos!.lng, latitude: pos!.lat})
+					try {					
+						setUserPosition(pos);
+						ApiService.api.blackSpotStatsControllerIn10Km({longitude: pos!.lng, latitude: pos!.lat})
 						.then(r => setLeaderboard(r.data))
+					} catch (error) {
+						console.error('Error getting locations:', error);
+					}
 				}}
 				openDetailModal={(spot) => {
 					setCurrentDetailSpot(spot)
 				}}
 			/>
 
-			{/* <UtilButton
-				onClick={() =>
-					setAppUIState({
-						...appUIState,
-						isUtilFormOpen: !appUIState.isUtilFormOpen,
-					})
-				}
-			/> */}
 			<ReportButton
 				isNewMarkerPopupOpen={isNewMarkerPopupOpen}
 				setIsNewMarkerPopupOpen={setIsNewMarkerPopupOpen}

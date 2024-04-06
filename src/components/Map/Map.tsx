@@ -58,9 +58,13 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const map = useRef<MapRef>(null);
 
     useEffect(() => {
-        (async () => {
-            setBlackSpots((await ApiService.api.blackSpotsControllerFindAll()).data)
-        })()
+        try {
+            (async () => {
+                setBlackSpots((await ApiService.api.blackSpotsControllerFindAll()).data)
+            })()
+        }catch (e) {
+            console.error(e)
+        }
     }, [formSubmitted])
 
     useMemo(() => {
