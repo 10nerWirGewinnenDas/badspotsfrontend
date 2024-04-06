@@ -57,7 +57,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 	const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 	const [file, setFile] = useState<File | null>(null);
 	
-	const [title, setTitle] = useState('');
+	const [title, setTitle] = useState(null);
 
 	const handleFileChange = (event: any) => {
 		const file = event.target.files[0];
@@ -86,7 +86,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				latitude: newMarkerLocation.lat,
 				longitude: newMarkerLocation.lng,
 				categoryId: reportFormState.categorySelectedOption.value,
-				name: '',
+				name: title,
 				archived: false
 			}).then( (response) => {
 				
@@ -118,6 +118,7 @@ const ReportForm: React.FC<ReportFormProps> = ({
 			setReportFormState({ ...reportFormState, categoryOptions: categories });
 		})
 		
+		// DO NOT USE DEPENDENCY ARRAY
 	}, []);
 
 

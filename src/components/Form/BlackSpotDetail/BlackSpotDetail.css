@@ -2,15 +2,15 @@
    color: var(--red);
 }
 
-.report-form div{
+.blackSpotDescription div{
     padding: 5px;
 }
 
-.report-form form > div:nth-child(2) {
+.blackSpotDescription form > div:nth-child(2) {
     position: relative; 
 }
 
-.report-form label {
+.blackSpotDescription label {
     border-radius: var(--standard-border-radius);
     font-size: var(--standard-font-size);
     display: flex;
@@ -21,16 +21,24 @@
     margin-bottom: 1rem;
 }
 
-.report-form input[type="checkbox"] {
+.blackSpotDescription input[type="checkbox"] {
     height: 1.5rem;
     width: 1.5rem;
     margin: auto;
     margin-right: 0.65rem;
 }
 
-.report-form label a {
+.blackSpotDescription label a {
     color: var(--black);
     margin: 0 2px;
+}
+
+.blackSpotDescription img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--standard-border-radius);
+
 }
 
 #markerNote {
