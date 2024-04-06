@@ -57,6 +57,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const map = useRef<MapRef>(null);
 
+
     useEffect(() => {
         try {
             (async () => {
@@ -69,6 +70,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
         }
     }, [formSubmitted])
 
+    /*
     useMemo(() => {
         if (userPosition) {
             map.current?.flyTo({
@@ -77,6 +79,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
             });
         }
     }, [userPosition])
+     */
 
     const handlePopupSubmit = () => {
         openModal();
@@ -102,8 +105,8 @@ const BadspotsMap: React.FC<MapsProps> = ({
                 ref={map}
                 id='map'
                 initialViewState={{
-                    longitude: (userPosition?.lng) ? userPosition.lng  : berlinViewPosition.lng ,
-                    latitude:  (userPosition?.lat) ? userPosition.lat  : berlinViewPosition.lat ,
+                    longitude: userPosition?.lng ?? berlinViewPosition.lng,
+                    latitude:  userPosition?.lat ?? berlinViewPosition.lat,
                     zoom: 15,
                 }}
                 maxZoom={18}
