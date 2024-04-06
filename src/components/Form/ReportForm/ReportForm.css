@@ -34,11 +34,8 @@
 }
 
 #markerNote {
-    resize: none;
-    border-radius: 0.2rem;
-    width: 95%;
-    height: 6rem;
-    padding: 0.4rem;
+    height: 4rem; 
+    width: 100%;
 }
 
 #submitOrCleanButtons-container {
@@ -92,5 +89,5 @@ button p:first-child {
     font-size: var(--button-font-size);
     padding: 0 0.5rem;
     border-color: var(--gray-outlines);
-    padding-top: 0.25rem; /* Adjust the value as needed */
+    padding-top: 0.25rem;
 }

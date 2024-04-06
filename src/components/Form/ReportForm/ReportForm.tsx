@@ -5,7 +5,7 @@ import { LinesList, StationList } from '../../../utils/dbUtils';
 import { highlightElement, createWarningSpan } from '../../../utils/uiUtils';
 import { calculateDistance } from '../../../utils/mapUtils';
 import './ReportForm.css';
-import Select from 'react-select'
+import Select, { ActionMeta } from 'react-select'
 
 interface ReportFormProps {
 	closeModal: () => void;
@@ -164,6 +164,11 @@ const ReportForm: React.FC<ReportFormProps> = ({
 		setTitle(event.target.value);
 	}
 
+	const handleOnValueChange = (event: any, action: ActionMeta<unknown>) => {
+		if(action.action == 'clear') {
+			setReportFormState({ ...reportFormState, categorySelectedOption: emptyOption });
+		}
+	}
 
 	return (
 		<div className={`report-form container ${className}`} id='report-form'>
@@ -193,12 +198,15 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					<p>{image ? '': '+'}</p>
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
+				
 				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} />
 				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
 
 				<Select options=
 					{reportFormState.categoryOptions}
 					placeholder='Kategorie'
+					isClearable={true}
+					onInputChange={(inputValue, action) => {handleOnValueChange(inputValue, action as unknown as ActionMeta<unknown>)}}
 					value={reportFormState.categorySelectedOption}
 					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string } })}
 				></Select>
