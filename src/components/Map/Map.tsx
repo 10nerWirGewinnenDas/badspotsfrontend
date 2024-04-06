@@ -108,7 +108,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
                         }}
                    >
                    </Marker> 
-                   
+                    
                    <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
                     <h1>Spot Standort melden?</h1>
                     <div id="buttons-container">
