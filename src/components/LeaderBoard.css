@@ -1,0 +1,32 @@
+.leaderboard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 1rem auto;
+    background-color: var(--white);
+    z-index: 3;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 80%;
+    box-shadow: var(--marker-box-shadow);
+    max-width: 500px;
+}
+
+.leaderboard span {
+    font-size: var(--standard-font-size);
+    font-weight: 600;
+    margin: 0.5rem;
+}
+
+.leaderboard svg {
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.leaderboard svg:hover {
+    cursor: pointer;
+    background-color: var(--very-light-gray);
+    border-radius: 5px;
+}
