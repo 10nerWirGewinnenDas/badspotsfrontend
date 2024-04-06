@@ -43,9 +43,6 @@ function App() {
 	const [currentDetailSpot, setCurrentDetailSpot] = useState<GetBlackSpotDto>()
 	const [leaderboard, setLeaderboard] = useState<GetBlackSpotDto[]>();
 
-	useEffect(() => {
-		console.log("asdf", userPosition)
-	}, [userPosition]);
 
 	const handleFormSubmit = () => {
 		setAppUIState((appUIState) => ({
@@ -161,7 +158,12 @@ function App() {
 				isFirstOpen={appUIState.isFirstOpen}
 				formSubmitted={appUIState.formSubmitted}
 				userPosition={userPosition}
-				setUserPosition={setUserPosition}
+				setUserPosition={(pos) => {
+					console.log(pos)
+					setUserPosition(pos);
+					ApiService.api.blackSpotStatsControllerIn10Km({longitude: pos!.lng, latitude: pos!.lat})
+						.then(r => setLeaderboard(r.data))
+				}}
 				openDetailModal={(spot) => {
 					setCurrentDetailSpot(spot)
 				}}
