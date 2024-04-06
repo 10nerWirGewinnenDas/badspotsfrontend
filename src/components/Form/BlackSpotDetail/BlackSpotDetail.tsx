@@ -12,7 +12,6 @@ interface ReportFormProps {
 	onFormSubmit: () => void;
 }
 
-
 type BlackSpotDetailState = {
 	blackSpotDetail: GetBlackSpotDto | undefined;
 };

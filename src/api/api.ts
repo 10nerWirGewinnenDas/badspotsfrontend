@@ -9,6 +9,20 @@
  * ---------------------------------------------------------------
  */
 
+export enum VoteType {
+  UP = "UP",
+  DOWN = "DOWN",
+}
+
+export interface Vote {
+  id: string;
+  type: VoteType;
+  spotId: string;
+  /** @format date-time */
+  createdAt: string;
+  voterId: string;
+}
+
 export interface Comment {
   id: string;
   authorName?: string;
@@ -33,6 +47,7 @@ export interface GetBlackSpotDto {
   finished: boolean;
   archived: boolean;
   city: string;
+  votes: Vote[];
   comments: Comment[];
   _count: BlackSpotCounts;
 }
@@ -45,11 +60,6 @@ export interface CreateBlackSpotDto {
   longitude: number;
   archived: boolean;
   voterId?: string;
-}
-
-export enum VoteType {
-  UP = "UP",
-  DOWN = "DOWN",
 }
 
 export interface BlackSpotCreatedDto {
@@ -253,6 +263,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         topLeftLng?: number;
         bottomRightLat?: number;
         bottomRightLng?: number;
+        voterId?: string;
       },
       params: RequestParams = {},
     ) =>
