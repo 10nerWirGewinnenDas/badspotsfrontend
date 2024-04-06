@@ -27,7 +27,6 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 	onFormSubmit
 }) => {
 	const [imageUrl, setImageUrl] = useState<string>();
-	const [comments, setComments] = useState()
 	const [votes, setVotes] = useState(0)
 	const [voted, setVoted] = useState(false)
 

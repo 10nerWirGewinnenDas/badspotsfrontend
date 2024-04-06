@@ -11,8 +11,9 @@ interface LeaderBoardProps {
 const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard, isNewMarkerPopupOpen }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const toggleModal = () => setIsExpanded(!isExpanded);
+    const toggleModal = () => {setIsExpanded(!isExpanded)};
 
+    console.log(isNewMarkerPopupOpen)
     const renderLeaderElement = (element: GetBlackSpotDto, position: number) => (
         <LeaderElement
             key={element.id}
@@ -23,10 +24,10 @@ const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard, isNewMarkerPopup
     );
 
     return (
-        <div className={`leaderboard ${(isExpanded && !isNewMarkerPopupOpen )? 'expanded' : ''}`}>
+        <div className={`leaderboard ${(isExpanded && !isNewMarkerPopupOpen ) ? 'expanded' : ''}`}>
             {leaderboard.length > 0 && renderLeaderElement(leaderboard[0], 1)}
             
-            {isExpanded && (
+            {(isExpanded && !isNewMarkerPopupOpen ) && (
                 <div className='leaderboard-modal'>
                     {leaderboard.slice(1).map((element, index) =>
                         renderLeaderElement(element, index + 2)

@@ -10,7 +10,7 @@
     border-radius: 8px;
     box-shadow: var(--marker-box-shadow);
     max-width: 300px;
-    height: 75px;
+    height: 100px;
     overflow: hidden;
     transition: height 0.25s ease-out;
     text-align: block;

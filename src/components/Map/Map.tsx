@@ -49,10 +49,6 @@ const BadspotsMap: React.FC<MapsProps> = ({
     const [blackSpots, setBlackSpots] = useState<GetBlackSpotDto[]>();
     const [isDragging, setIsDragging] = useState(false);
 
-    const onMapViewportChanged = (ev: any) => {
-       
-    }
-
     const maxBounds: LngLatBoundsLike = [SouthWestBounds, NorthEastBounds];
 
     const map = useRef<MapRef>(null);
@@ -111,8 +107,6 @@ const BadspotsMap: React.FC<MapsProps> = ({
                 }}
                 maxZoom={18}
                 minZoom={12}
-                onZoomEnd={onMapViewportChanged}
-                onDragEnd={onMapViewportChanged}
 
                 maxBounds={maxBounds}
 
