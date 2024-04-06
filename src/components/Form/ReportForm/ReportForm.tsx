@@ -199,8 +199,8 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					<p>{image ? ' ' : `Bild hinzufügen`}</p>
 				</button>
 				
-				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} />
-				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} />
+				<textarea maxLength={30} id="markerTitle" placeholder='Titel hinzufügen' value={title} onChange={(e) =>  handleTitleChange(e)} required/>
+				<textarea id="markerNote" placeholder='Beschreibung' value={markerNote} onChange={handleNoteChange} required/>
 
 				<Select options=
 					{reportFormState.categoryOptions}
@@ -209,10 +209,8 @@ const ReportForm: React.FC<ReportFormProps> = ({
 					onInputChange={(inputValue, action) => {handleOnValueChange(inputValue, action as unknown as ActionMeta<unknown>)}}
 					value={reportFormState.categorySelectedOption}
 					onChange={(selectedOption) => setReportFormState({ ...reportFormState, categorySelectedOption: { label: selectedOption?.label as unknown as string, value: selectedOption?.value as unknown as string } })}
+					required={true}
 				></Select>
-
-
-
 				<div id="submitOrCleanButtons-container">
 					<button id="submitButton" type='submit'>Meldung abgeben</button>
 				</div>

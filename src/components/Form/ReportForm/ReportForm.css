@@ -93,6 +93,8 @@ button p:first-child {
 }
 
 .css-t3ipsp-control {
+    color: var(--place-holder-color);
+    text-align: left;
     margin-top: 1rem;
 }
 
