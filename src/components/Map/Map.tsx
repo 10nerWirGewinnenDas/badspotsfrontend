@@ -53,13 +53,35 @@ const BadspotsMap: React.FC<MapsProps> = ({
 
     const map = useRef<MapRef>(null);
 
+    // [height, width]
+    const [markerSizes, setMarkerSizes] = useState<[number, number][]>([]);
 
     useEffect(() => {
         try {
             (async () => {
-                setBlackSpots((await ApiService.api.blackSpotsControllerFindAll({
+                const spots = (await ApiService.api.blackSpotsControllerFindAll({
                     voterId: window.localStorage.getItem('voterId') ?? undefined
-                })).data)
+                })).data;
+                setBlackSpots(spots)
+
+                // map over blackspots ordered by vote counts
+                setMarkerSizes(spots.map(bs => {
+                    // first element (highest vote count) is 100% of the max width
+                    // last element (lowest vote count) is 10% of the max width
+                    // size of medium is relation of 41px height, 27px width
+                    // max element has 150% of medium size, minimum is 50% of medium
+
+                    // calculate the percentage of the max width
+                    const percentage = (bs._count.votes / spots[0]._count.votes) * 100;
+                    // calculate the percentage of the medium size
+                    const mediumSize = 27;
+                    const mediumHeight = 41;
+                    const mediumPercentage = (mediumSize / mediumHeight) * 100;
+                    // calculate the size of the marker
+                    const width = (percentage / 100) * mediumSize;
+                    const height = (percentage / 100) * mediumHeight;
+                    return [height, width];
+                }))
             })()
         }catch (e) {
             console.error(e)
@@ -114,9 +136,7 @@ const BadspotsMap: React.FC<MapsProps> = ({
             >
                     {!isFirstOpen && <LocationMarker userPosition={userPosition} setUserPosition={setUserPosition} />}
                 {blackSpots?.map((value, index) => (
-                  <div className="green-marker">
-                      <Marker className={value.finished ? 'green-marker' : 'black-marker'} longitude={value.longitude} latitude={value.latitude} key={value.id} onClick={() => openDetailModal(value)}/>
-                  </div>
+                  <Marker className={"blackspot " + (value.finished ? 'green-marker' : 'black-marker')} style={{height: markerSizes[index][0], width: markerSizes[index][1]}} longitude={value.longitude} latitude={value.latitude} key={value.id} onClick={() => openDetailModal(value)}/>
                 ))}
 
                 {(newMarkerLocation.lat != null && newMarkerLocation.lng != null) &&
