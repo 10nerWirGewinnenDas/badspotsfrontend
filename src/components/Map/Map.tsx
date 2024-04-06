@@ -75,6 +75,11 @@ const BadspotsMap: React.FC<MapsProps> = ({
         setIsNewMarkerPopupOpen(false);
     }
 
+    function handlePopupExit() {
+        setNewMarkerLocation({ lng: null, lat: null });
+        setIsNewMarkerPopupOpen(false);
+    }
+
     return (
         <div id='map-container' data-testid='map-container'>
             <Map
@@ -112,11 +117,14 @@ const BadspotsMap: React.FC<MapsProps> = ({
                             setNewMarkerLocation({ lng: event.lngLat.lng, lat: event.lngLat.lat });
                         }}
                    >
-                   </Marker>
-
-                     <div className={`container ${isNewMarkerPopupOpen ? 'open': ''}`} id='popupSubmitForm'>
-                        <h1>Spot Standort melden?</h1>
-                        <button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button>
+                   </Marker> 
+                    
+                   <div className={isNewMarkerPopupOpen ? 'popupSubmitForm container open' : ''}>
+                    <h1>Spot Standort melden?</h1>
+                    <div id="buttons-container">
+                        <span><button id="popupExitButton" onClick={handlePopupExit}>Nein</button></span>
+                        <span><button id="popupSubmitButton" onClick={handlePopupSubmit}>Ja</button></span>
+                    </div>
                     </div>
 
                     </>)}
