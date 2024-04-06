@@ -5,9 +5,10 @@ import { GetBlackSpotDto } from 'src/api/api';
 
 interface LeaderBoardProps {
     leaderboard: GetBlackSpotDto[];
+    isNewMarkerPopupOpen: boolean;
 }
 
-const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard }) => {
+const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard, isNewMarkerPopupOpen }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleModal = () => setIsExpanded(!isExpanded);
@@ -22,7 +23,7 @@ const LeaderBoard: React.FC<LeaderBoardProps> = ({ leaderboard }) => {
     );
 
     return (
-        <div className={`leaderboard ${isExpanded ? 'expanded' : ''}`}>
+        <div className={`leaderboard ${(isExpanded && !isNewMarkerPopupOpen )? 'expanded' : ''}`}>
             {leaderboard.length > 0 && renderLeaderElement(leaderboard[0], 1)}
             
             {isExpanded && (

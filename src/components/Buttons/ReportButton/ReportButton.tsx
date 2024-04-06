@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 
 import './ReportButton.css';
+import {berlinViewPosition} from "../../Map/Map";
 
 interface ReportButtonProps {
     onClick: MouseEventHandler<HTMLButtonElement>;
@@ -14,19 +15,22 @@ interface ReportButtonProps {
 const ReportButton: React.FC<ReportButtonProps> = ({ onClick, newMarkerLocation, setNewMarkerLocation, userPosition , isNewMarkerPopupOpen, setIsNewMarkerPopupOpen}) => {
 
     const setNewMarker = () => {
-		if (!userPosition) return 0;
-            const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
-            setIsNewMarkerPopupOpen(true);
-            setNewMarkerLocation(newMarkerLocation);
-            
+      console.log("lol")
+		if (!userPosition) {
+      const newMarkerLocation = { lng: berlinViewPosition.lng, lat: berlinViewPosition.lat };
+      setIsNewMarkerPopupOpen(true);
+      setNewMarkerLocation(newMarkerLocation);
+    }else{
+      const newMarkerLocation = { lng: userPosition!.lng, lat: userPosition!.lat };
+      setIsNewMarkerPopupOpen(true);
+      setNewMarkerLocation(newMarkerLocation);
+    }
 		return 1;
 	}
 
 
     return (
-        <button className='report-button' disabled={
-            !userPosition
-        }
+        <button className='report-button'
                 onClick={(event) => {
                     event.preventDefault();
                     setNewMarker();

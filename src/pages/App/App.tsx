@@ -61,7 +61,7 @@ function App() {
 
 	return (
 		<div className="App">
-			{leaderboard && <LeaderBoard leaderboard={leaderboard} />}
+			{leaderboard && <LeaderBoard isNewMarkerPopupOpen={isNewMarkerPopupOpen} leaderboard={leaderboard} />}
 			{appUIState.isUtilFormOpen && (
 				<>
 					<UtilModal className={'open'} />
