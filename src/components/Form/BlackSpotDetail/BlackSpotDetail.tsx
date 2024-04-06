@@ -47,6 +47,7 @@ const BlackSpotDetail: React.FC<ReportFormProps> = ({
 
 	const handleUpvote = async () => {
 		const voterId = window.localStorage.getItem('voterId');
+		console.log(voterId)
 		try {
 			const vote = await ApiService.api.blackSpotsControllerVote(spot!.id, {
 				type: 'UP',
